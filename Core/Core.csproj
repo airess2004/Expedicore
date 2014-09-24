@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FF4DB749-11CA-49C8-A917-8F2E56ED7D72}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="DomainModel\Master\CityLocation.cs" />
+    <Compile Include="DomainModel\Master\Contact.cs" />
+    <Compile Include="DomainModel\Master\Airport.cs" />
+    <Compile Include="DomainModel\Master\ContactType.cs" />
+    <Compile Include="DomainModel\Master\Airline.cs" />
+    <Compile Include="DomainModel\Master\Vessel.cs" />
+    <Compile Include="DomainModel\Master\Job.cs" />
+    <Compile Include="DomainModel\Master\Port.cs" />
+    <Compile Include="DomainModel\Master\GroupContact.cs" />
+    <Compile Include="DomainModel\Master\Continent.cs" />
+    <Compile Include="DomainModel\Master\MstBillOfLading.cs" />
+    <Compile Include="DomainModel\Master\Cost.cs" />
+    <Compile Include="DomainModel\Master\CountryLocation.cs" />
+    <Compile Include="DomainModel\Master\Group.cs" />
+    <Compile Include="DomainModel\Master\Office.cs" />
+    <Compile Include="DomainModel\Transaction\BillOfLading.cs" />
+    <Compile Include="DomainModel\Transaction\NoticeOfArrival.cs" />
+    <Compile Include="DomainModel\Transaction\SeaContainer.cs" />
+    <Compile Include="DomainModel\Transaction\EstimateProfitLossDetail.cs" />
+    <Compile Include="DomainModel\Transaction\EstimateProfitLoss.cs" />
+    <Compile Include="DomainModel\Transaction\ShipmentOrderRouting.cs" />
+    <Compile Include="DomainModel\Transaction\DeliveryOrder.cs" />
+    <Compile Include="DomainModel\Transaction\TelexRelease.cs" />
+    <Compile Include="DomainModel\Transaction\ShipmentInstruction.cs" />
+    <Compile Include="DomainModel\Transaction\ShipmentAdvice.cs" />
+    <Compile Include="DomainModel\Transaction\ShipmentOrder.cs" />
+    <Compile Include="DomainModel\UserRole\AccessUser.cs" />
+    <Compile Include="DomainModel\UserRole\AccountUser.cs" />
+    <Compile Include="DomainModel\UserRole\MenuUser.cs" />
+    <Compile Include="Interface\Repository\Master\IVesselRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IPortRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IOfficeRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IMstBillOfLadingRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IJobRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IGroupContactRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IGroupRepository.cs" />
+    <Compile Include="Interface\Repository\Master\ICountryLocationRepository.cs" />
+    <Compile Include="Interface\Repository\Master\ICostRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IContinentRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IContactTypeRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IContactRepository.cs" />
+    <Compile Include="Interface\Repository\Master\ICityLocationRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IAirportRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IAirlineRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IRepository.cs" />
+    <Compile Include="Interface\Service\Master\IAirlineService.cs" />
+    <Compile Include="Interface\Validation\IAirlineValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
