@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        Airline CreateObject(Airline model);
        Airline UpdateObject(Airline model);
        Airline SoftDeleteObject(Airline model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Airline model);
+       int GetFirstMasterCode(int officeId);
     }
 }

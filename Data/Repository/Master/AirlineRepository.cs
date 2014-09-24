@@ -31,6 +31,19 @@ namespace Data.Repository
             return data;
         }
 
+        public int GetFirstMasterCode(int officeId)
+        {
+            Airline data = Find(x => x.OfficeId == officeId);
+            if (data != null)
+            {
+                return data.OfficeId;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
         public Airline CreateObject(Airline model)
         {
             model.IsDeleted = false;
@@ -58,5 +71,12 @@ namespace Data.Repository
             Airline data = Find(x => x.Id == Id);
             return (Delete(data) == 1) ? true : false;
         }
+
+        public bool IsNameDuplicated(Airline model)
+        { 
+            IQueryable<Airline> items = FindAll(x => x.Name == model.Name && !x.IsDeleted && x.Id != model.Id);
+            return (items.Count() > 0 ? true : false);
+        }
+
     }
 }

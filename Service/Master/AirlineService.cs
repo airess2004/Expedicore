@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 namespace Service.Master
 {
     public class AirlineService : IAirlineService 
-    { 
+    {  
         private IAirlineRepository _repository;
-        private IAirlineValidator _validator;
+        private IAirlineValidation _validator;
 
-        public AirlineService(IAirlineRepository _airlineRepository, IAirlineValidator _airlineValidator)
+        public AirlineService(IAirlineRepository _airlineRepository, IAirlineValidation _airlineValidation)
         {
             _repository = _airlineRepository;
-            _validator = _airlineValidator;
+            _validator = _airlineValidation;
         }
 
         public IQueryable<Airline> GetQueryable()
@@ -34,14 +34,39 @@ namespace Service.Master
         public Airline CreateObject(Airline airline)
         {
             airline.Errors = new Dictionary<String, String>();
-            airline = _repository.CreateObject(airline);
+            if (!isValid(_validator.VCreateObject(airline,this)))
+            {
+                airline.MasterCode = (_repository.GetFirstMasterCode(airline.OfficeId) + 1).ToString();
+                airline = _repository.CreateObject(airline);
+            }
+            return airline;
+        }
+         
+        public Airline UpdateObject(Airline airline)
+        {
+            if (!isValid(_validator.VUpdateObject(airline, this)))
+            {
+                airline = _repository.UpdateObject(airline);
+            }
+            return airline;
+        }
+         
+        public Airline SoftDeleteObject(Airline airline)
+        {
+            airline = _repository.SoftDeleteObject(airline);
             return airline;
         }
 
-        //public Airline UpdateObject(Airline contact, IContactGroupService _contactGroupService)
-        //{
-        //    return (contact = _validator.ValidUpdateObject(contact, this, _contactGroupService) ? _repository.UpdateObject(contact) : contact);
-        //}
+        public bool IsNameDuplicated(Airline airline)
+        {
+            return _repository.IsNameDuplicated(airline);
+        }
 
+
+        public bool isValid(Airline obj)
+        {
+            bool isValid = !obj.Errors.Any();
+            return isValid;
+        }
     }
 }

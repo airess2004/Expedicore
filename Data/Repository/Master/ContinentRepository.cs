@@ -30,6 +30,19 @@ namespace Data.Repository
             if (data != null) { data.Errors = new Dictionary<string, string>(); }
             return data;
         }
+         
+        public int GetFirstMasterCode(int officeId) 
+        { 
+            Continent data = Find(x => x.OfficeId == officeId);
+            if (data != null)
+            {
+                return data.OfficeId;
+            }
+            else
+            {
+                return 1;
+            }
+        }
 
         public Continent CreateObject(Continent model)
         {
@@ -58,5 +71,13 @@ namespace Data.Repository
             Continent data = Find(x => x.Id == Id);
             return (Delete(data) == 1) ? true : false;
         }
+
+        public bool IsNameDuplicated(Continent model)
+        {
+            IQueryable<Continent> items = FindAll(x => x.Name == model.Name && !x.IsDeleted && x.Id != model.Id);
+            return (items.Count() > 0 ? true : false);
+        }
+
+
     }
 }

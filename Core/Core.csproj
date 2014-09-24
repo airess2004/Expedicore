@@ -84,7 +84,9 @@
     <Compile Include="Interface\Repository\Master\IAirportRepository.cs" />
     <Compile Include="Interface\Repository\Master\IAirlineRepository.cs" />
     <Compile Include="Interface\Repository\Master\IRepository.cs" />
+    <Compile Include="Interface\Service\Master\IContinentService.cs" />
     <Compile Include="Interface\Service\Master\IAirlineService.cs" />
+    <Compile Include="Interface\Validation\IContinentValidator.cs" />
     <Compile Include="Interface\Validation\IAirlineValidator.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        Continent CreateObject(Continent model);
        Continent UpdateObject(Continent model);
        Continent SoftDeleteObject(Continent model);
-       bool DeleteObject(int Id);  
+       int GetFirstMasterCode(int officeId);
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Continent model);
     }
 }
