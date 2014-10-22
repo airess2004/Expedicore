@@ -1,4 +1,3 @@
-C:\Users\Willy\Documents\GitHub\Expedicore\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\bin\Debug\Data.dll.config
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\bin\Debug\Data.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\bin\Debug\Data.pdb
@@ -6,5 +5,6 @@ C:\Users\Willy\Documents\GitHub\Expedicore\Data\bin\Debug\Core.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\bin\Debug\EntityFramework.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\bin\Debug\Core.pdb
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\bin\Debug\EntityFramework.xml
+C:\Users\Willy\Documents\GitHub\Expedicore\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\obj\Debug\Data.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Data\obj\Debug\Data.pdb

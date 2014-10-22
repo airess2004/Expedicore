@@ -36,7 +36,7 @@ namespace Service.Master
             airline.Errors = new Dictionary<String, String>();
             if (!isValid(_validator.VCreateObject(airline,this)))
             {
-                airline.MasterCode = (_repository.GetFirstMasterCode(airline.OfficeId) + 1).ToString();
+                airline.MasterCode = _repository.GetLastMasterCode(airline.OfficeId) + 1;
                 airline = _repository.CreateObject(airline);
             }
             return airline;

@@ -14,7 +14,7 @@ namespace Core.DomainModel
         public string Abbrevation { get; set; } 
         public int CountryLocationId { get; set; }
         public int OfficeId { get; set; }
-        public string MasterCode { get; set; }
+        public int MasterCode { get; set; }
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }

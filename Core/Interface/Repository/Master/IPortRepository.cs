@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        Port CreateObject(Port model);
        Port UpdateObject(Port model);
        Port SoftDeleteObject(Port model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Port model);
+       int GetLastMasterCode(int officeId);
     }
 }

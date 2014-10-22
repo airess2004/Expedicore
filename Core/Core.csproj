@@ -37,8 +37,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Folder Include="Interface\Repository\Finance\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constant\MasterConstant.cs" />
+    <Compile Include="DomainModel\Finance\CashBank.cs" />
+    <Compile Include="DomainModel\Finance\CashBankAdjustment.cs" />
+    <Compile Include="DomainModel\Finance\CashBankMutation.cs" />
+    <Compile Include="DomainModel\Finance\CashMutation.cs" />
     <Compile Include="DomainModel\Master\CityLocation.cs" />
     <Compile Include="DomainModel\Master\Contact.cs" />
     <Compile Include="DomainModel\Master\Airport.cs" />
@@ -55,6 +62,20 @@
     <Compile Include="DomainModel\Master\Group.cs" />
     <Compile Include="DomainModel\Master\Office.cs" />
     <Compile Include="DomainModel\Transaction\BillOfLading.cs" />
+    <Compile Include="DomainModel\Transaction\CashAdvance.cs" />
+    <Compile Include="DomainModel\Transaction\CashAdvanceDetail.cs" />
+    <Compile Include="DomainModel\Transaction\OfficialReceiptDetailBank.cs" />
+    <Compile Include="DomainModel\Transaction\OfficialReceiptDetailInvoice.cs" />
+    <Compile Include="DomainModel\Transaction\OfficialReceipt.cs" />
+    <Compile Include="DomainModel\Transaction\TemporaryPayment.cs" />
+    <Compile Include="DomainModel\Transaction\ReceiveVoucherDetail.cs" />
+    <Compile Include="DomainModel\Transaction\ReceiveVoucher.cs" />
+    <Compile Include="DomainModel\Transaction\PaymentVoucherDetail.cs" />
+    <Compile Include="DomainModel\Transaction\PaymentVoucher.cs" />
+    <Compile Include="DomainModel\Transaction\Payable.cs" />
+    <Compile Include="DomainModel\Transaction\Receivable.cs" />
+    <Compile Include="DomainModel\Transaction\InvoiceDetail.cs" />
+    <Compile Include="DomainModel\Transaction\Invoice.cs" />
     <Compile Include="DomainModel\Transaction\NoticeOfArrival.cs" />
     <Compile Include="DomainModel\Transaction\SeaContainer.cs" />
     <Compile Include="DomainModel\Transaction\EstimateProfitLossDetail.cs" />
@@ -84,10 +105,68 @@
     <Compile Include="Interface\Repository\Master\IAirportRepository.cs" />
     <Compile Include="Interface\Repository\Master\IAirlineRepository.cs" />
     <Compile Include="Interface\Repository\Master\IRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IInvoiceDetailRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IInvoiceRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IEstimateProfitLossDetailRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IEstimateProfitLossRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\ISeaContainerRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IShipmentOrderRoutingRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\ITelexReleaseRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IShipmentInstructionRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IBillOfLadingRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IShipmentAdviceRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IShipmentOrderRepository.cs" />
+    <Compile Include="Interface\Service\Master\IContactTypeService.cs" />
+    <Compile Include="Interface\Service\Master\IOfficeService.cs" />
+    <Compile Include="Interface\Service\Master\IMstBillOfLadingService.cs" />
+    <Compile Include="Interface\Service\Master\IGroupService.cs" />
+    <Compile Include="Interface\Service\Master\IJobService.cs" />
+    <Compile Include="Interface\Service\Master\IGroupContactService.cs" />
+    <Compile Include="Interface\Service\Master\IContactService.cs" />
+    <Compile Include="Interface\Service\Master\ICostService.cs" />
+    <Compile Include="Interface\Service\Master\IAirportService.cs" />
+    <Compile Include="Interface\Service\Master\IVesselService.cs" />
+    <Compile Include="Interface\Service\Master\IPortService.cs" />
     <Compile Include="Interface\Service\Master\IContinentService.cs" />
+    <Compile Include="Interface\Service\Master\ICityLocationService.cs" />
+    <Compile Include="Interface\Service\Master\ICountryLocationService.cs" />
     <Compile Include="Interface\Service\Master\IAirlineService.cs" />
-    <Compile Include="Interface\Validation\IContinentValidator.cs" />
-    <Compile Include="Interface\Validation\IAirlineValidator.cs" />
+    <Compile Include="Interface\Service\Transaction\IInvoiceDetailService.cs" />
+    <Compile Include="Interface\Service\Transaction\IInvoiceService.cs" />
+    <Compile Include="Interface\Service\Transaction\IEstimateProfitLossDetailService.cs" />
+    <Compile Include="Interface\Service\Transaction\IEstimateProfitLossService.cs" />
+    <Compile Include="Interface\Service\Transaction\ISeaContainerService.cs" />
+    <Compile Include="Interface\Service\Transaction\IShipmentOrderRoutingService.cs" />
+    <Compile Include="Interface\Service\Transaction\ITelexReleaseService.cs" />
+    <Compile Include="Interface\Service\Transaction\IShipmentAdviceService.cs" />
+    <Compile Include="Interface\Service\Transaction\IShipmentInstructionService.cs" />
+    <Compile Include="Interface\Service\Transaction\IBillOfLadingService.cs" />
+    <Compile Include="Interface\Service\Transaction\IShipmentOrderService.cs" />
+    <Compile Include="Interface\Validation\Master\IContactTypeValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IOfficeValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IMstBillOfLadingValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IJobValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IGroupContactValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IGroupValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IContactValidator.cs" />
+    <Compile Include="Interface\Validation\Master\ICostValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IAirportValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IVesselValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IPortValidator.cs" />
+    <Compile Include="Interface\Validation\Master\ICountryLocationValidator.cs" />
+    <Compile Include="Interface\Validation\Master\ICityLocationValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IContinentValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IAirlineValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IInvoiceValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IEstimateProfiLossDetailValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IEstimateProfiLossValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\ISeaContainerValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IShipmentOrderRoutingValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\ITelexReleaseValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IShipmentAdviceValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IShipmentInstructionValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IBillOfLadingValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IShipmentOrderValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

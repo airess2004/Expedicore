@@ -13,6 +13,16 @@ namespace Core.Interface.Repository
        Contact CreateObject(Contact model);
        Contact UpdateObject(Contact model);
        Contact SoftDeleteObject(Contact model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Contact model);
+       int GetLastMasterCode(int officeId);
+       int GetLastAgentCode(int officeId);
+       int GetLastShipperCode(int officeId);
+       int GetLastConsigneeCode(int officeId);
+       int GetLastIATACode(int officeId);
+       int GetLastSSLineCode(int officeId);
+       int GetLastDepoCode(int officeId);
+       int GetLastEMKLCode(int officeId);
+
     }
 }

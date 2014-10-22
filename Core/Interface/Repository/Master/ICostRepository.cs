@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        Cost CreateObject(Cost model);
        Cost UpdateObject(Cost model);
        Cost SoftDeleteObject(Cost model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Cost model);
+       int GetLastMasterCode(int officeId);
     }
 }

@@ -14,6 +14,6 @@ namespace Core.Interface.Service
         Continent CreateObject(Continent continent);
         Continent UpdateObject(Continent continent);
         Continent SoftDeleteObject(Continent continent);
-        bool IsNameDuplicate(Continent continent);
+        bool IsNameDuplicated(Continent continent);
     }
 }

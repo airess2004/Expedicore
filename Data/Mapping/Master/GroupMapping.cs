@@ -20,11 +20,11 @@ namespace Data.Mapping
                 .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.CreatedById)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.UpdatedBy)
+            HasOptional(u => u.UpdatedBy)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);
             Ignore(u => u.Errors);
         }

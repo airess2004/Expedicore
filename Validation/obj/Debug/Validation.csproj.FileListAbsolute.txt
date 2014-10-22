@@ -1,4 +1,3 @@
-C:\Users\Willy\Documents\GitHub\Expedicore\Validation\obj\Debug\Validation.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\Validation.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\Validation.pdb
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\Core.dll
@@ -7,5 +6,6 @@ C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\EntityFramework.
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\Core.pdb
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\Data.pdb
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\EntityFramework.xml
+C:\Users\Willy\Documents\GitHub\Expedicore\Validation\obj\Debug\Validation.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\obj\Debug\Validation.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\obj\Debug\Validation.pdb

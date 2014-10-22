@@ -36,9 +36,14 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Repository\Transaction\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ExpedicoEntities.cs" />
+    <Compile Include="Mapping\Finance\CashBankMapping.cs" />
+    <Compile Include="Mapping\Finance\CashBankMutationMapping.cs" />
+    <Compile Include="Mapping\Finance\CashMutationMapping.cs" />
+    <Compile Include="Mapping\Finance\CashBankAdjustmentMapping.cs" />
     <Compile Include="Mapping\Master\ContinentMapping.cs" />
     <Compile Include="Mapping\Master\CityLocationMapping.cs" />
     <Compile Include="Mapping\Master\AirportMapping.cs" />
@@ -55,6 +60,10 @@
     <Compile Include="Mapping\Master\PortMapping.cs" />
     <Compile Include="Mapping\Master\CountryLocationMapping.cs" />
     <Compile Include="Mapping\Transaction\BillOfLadingMapping.cs" />
+    <Compile Include="Mapping\Transaction\InvoiceDetailMapping.cs" />
+    <Compile Include="Mapping\Transaction\ShipmentOrderMapping.cs" />
+    <Compile Include="Mapping\Transaction\ShipmentOrderRoutingMapping.cs" />
+    <Compile Include="Mapping\Transaction\InvoiceMapping.cs" />
     <Compile Include="Mapping\Transaction\ShipmentInstructionMapping.cs" />
     <Compile Include="Mapping\Transaction\ShipmentAdviceMapping.cs" />
     <Compile Include="Mapping\Transaction\SeaContainerMapping.cs" />
@@ -80,6 +89,18 @@
     <Compile Include="Repository\Master\GroupContactRepository.cs" />
     <Compile Include="Repository\Master\CountryLocationRepository.cs" />
     <Compile Include="Repository\Master\CostRepository.cs" />
+    <Compile Include="Repository\Transaction\BillOfLadingRepository.cs" />
+    <Compile Include="Repository\Transaction\EstimateProfitLossDetailRepository.cs" />
+    <Compile Include="Repository\Transaction\EstimateProfitLossRepository.cs" />
+    <Compile Include="Repository\Transaction\SeaContainerRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentOrderRoutingRepository.cs" />
+    <Compile Include="Repository\Transaction\TelexReleaseRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentInstructionRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentAdviceRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentOrderRepository.cs" />
+    <Compile Include="UserRole\AccessUser.cs" />
+    <Compile Include="UserRole\AccountUser.cs" />
+    <Compile Include="UserRole\MenuUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -93,7 +114,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repository\Transaction\" />
     <Folder Include="Repository\UserRole\" />
   </ItemGroup>
   <ItemGroup>

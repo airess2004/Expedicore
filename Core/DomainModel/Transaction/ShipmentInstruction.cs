@@ -31,6 +31,14 @@ namespace Core.DomainModel
         public string FreightAgreed { get; set; }
         public string CollectName { get; set; }
         public string CollectAddress { get; set; }
+        public string PiecesRCP { get; set; } 
+        public Nullable<decimal> GrossWeight2 { get; set; }
+        public string KGLB { get; set; }
+        public Nullable<decimal> ChargeWeight { get; set; }
+        public Nullable<decimal> ChargeRate { get; set; }
+        public string Total { get; set; }
+        public string GoodNatureQuantity { get; set; }
+
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }

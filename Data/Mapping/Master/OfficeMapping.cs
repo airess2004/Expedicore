@@ -14,12 +14,12 @@ namespace Data.Mapping
         { 
             HasKey(u => u.Id);
             HasRequired(u => u.CreatedBy)
-            .WithMany()
-            .HasForeignKey(u => u.Id)
-            .WillCascadeOnDelete(false);
-            HasRequired(u => u.UpdatedBy)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.CreatedById)
+               .WillCascadeOnDelete(false);
+            HasOptional(u => u.UpdatedBy)
+               .WithMany()
+               .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);
             Ignore(u => u.Errors);
         }

@@ -17,7 +17,7 @@ namespace Validation.Validation
             {
                 continent.Errors.Add("Name", "Tidak boleh kosong");
             }
-            if (_continentService.IsNameDuplicate(continent))
+            else if (_continentService.IsNameDuplicated(continent))
             {
                 continent.Errors.Add("Name", "Tidak boleh diduplikasi");
             }
@@ -43,7 +43,9 @@ namespace Validation.Validation
         }
 
         public Continent VUpdateObject(Continent continent, IContinentService _continentService)
-        { 
+        {
+            VObject(continent, _continentService);
+            if (!isValid(continent)) { return continent; }
             VName(continent, _continentService);
             if (!isValid(continent)) { return continent; }
             VAbbrevation(continent, _continentService);
@@ -56,5 +58,25 @@ namespace Validation.Validation
             bool isValid = !obj.Errors.Any();
             return isValid;
         }
+
+        public Continent VObject(Continent continent, IContinentService _continentService)
+        {
+            Continent oldcontinent = _continentService.GetObjectById(continent.Id);
+            if (oldcontinent == null)
+            {
+                continent.Errors.Add("Generic", "Invalid Data For Update");
+            }
+            else if (!VOffice(continent.OfficeId, oldcontinent.OfficeId))
+            {
+                continent.Errors.Add("Generic", "Invalid Data For Update");
+            }
+            return continent;
+        }
+
+        public bool VOffice(int OfficeId, int CekOfficeId)
+        {
+            return OfficeId == CekOfficeId;
+        }
+
     }
 }

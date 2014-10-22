@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validation", "Validation\Validation.csproj", "{9F6B6733-F7F6-42DD-87F1-A523295172D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nspec", "Nspec\Nspec.csproj", "{88180669-7A37-47DF-8D91-F735DE1D55EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webview", "Webview\Webview.csproj", "{D870F3CA-99D2-4755-A0A0-0DBF734AB8F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{9F6B6733-F7F6-42DD-87F1-A523295172D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F6B6733-F7F6-42DD-87F1-A523295172D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F6B6733-F7F6-42DD-87F1-A523295172D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88180669-7A37-47DF-8D91-F735DE1D55EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88180669-7A37-47DF-8D91-F735DE1D55EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88180669-7A37-47DF-8D91-F735DE1D55EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88180669-7A37-47DF-8D91-F735DE1D55EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D870F3CA-99D2-4755-A0A0-0DBF734AB8F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D870F3CA-99D2-4755-A0A0-0DBF734AB8F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D870F3CA-99D2-4755-A0A0-0DBF734AB8F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D870F3CA-99D2-4755-A0A0-0DBF734AB8F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

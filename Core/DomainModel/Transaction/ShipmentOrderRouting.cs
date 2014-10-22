@@ -34,6 +34,7 @@ namespace Core.DomainModel
 
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }
+        public virtual ShipmentOrder ShipmentOrder { get; set; }
 
 
     }

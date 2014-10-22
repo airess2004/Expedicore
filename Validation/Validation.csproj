@@ -42,6 +42,28 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\Master\AirlineValidation.cs" />
     <Compile Include="Validation\Master\ContinentValidation.cs" />
+    <Compile Include="Validation\Master\CityLocationValidation.cs" />
+    <Compile Include="Validation\Master\AirportValidation.cs" />
+    <Compile Include="Validation\Master\ContactValidation.cs" />
+    <Compile Include="Validation\Master\ContactTypeValidation.cs" />
+    <Compile Include="Validation\Master\VesselValidation.cs" />
+    <Compile Include="Validation\Master\OfficeValidation.cs" />
+    <Compile Include="Validation\Master\MstBillOfLadingValidation.cs" />
+    <Compile Include="Validation\Master\JobValidation.cs" />
+    <Compile Include="Validation\Master\GroupValidation.cs" />
+    <Compile Include="Validation\Master\GroupContactValidation.cs" />
+    <Compile Include="Validation\Master\CostValidation.cs" />
+    <Compile Include="Validation\Master\PortValidation.cs" />
+    <Compile Include="Validation\Master\CountryLocationValidation.cs" />
+    <Compile Include="Validation\Transaction\BillOfLadingValidation.cs" />
+    <Compile Include="Validation\Transaction\EstimateProfitLossDetailValidation.cs" />
+    <Compile Include="Validation\Transaction\EstimateProfitLossValidation.cs" />
+    <Compile Include="Validation\Transaction\SeaContainerValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentOrderRoutingValidation.cs" />
+    <Compile Include="Validation\Transaction\TelexReleaseValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentInstructionValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentOrderValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentAdviceValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

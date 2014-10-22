@@ -9,12 +9,13 @@ namespace Core.DomainModel
     public partial class ShipmentOrder
     {
         public int Id { get; set; }
+        public int MasterCode { get; set; }  
         public int JobNumber { get; set; }
         public int SubJobNumber { get; set; }
         public int JobId { get; set; }
-        public int OfficeId { get; set; }
+        public int OfficeId { get; set; } 
         public int TotalSub { get; set; }
-        public string ShipmentNo { get; set; }
+        public string ShipmentOrderId { get; set; }
         public string SIReference { get; set; }
         public Nullable<DateTime> SIDate { get; set; }
         public string LoadStatus { get; set; }
@@ -141,7 +142,14 @@ namespace Core.DomainModel
         public virtual CityLocation DeliveryPlace { get; set; }
         public virtual Airport DepartureAirPort { get; set; }
         public virtual Airport DestinationAirPort { get; set; }
-         
+        public virtual ShipmentAdvice ShipmentAdvice { get; set; }
+        public virtual ShipmentInstruction ShipmentInstruction { get; set; }
+        public virtual DeliveryOrder DeliveryOrder { get; set; }
+        public virtual NoticeOfArrival NoticeOfArrival { get; set; }
+
+        public virtual ICollection<ShipmentOrderRouting> ShipmentOrderRoutings { get; set; }
+        public virtual ICollection<SeaContainer> SeaContainers { get; set; }
+
 
     }
 }

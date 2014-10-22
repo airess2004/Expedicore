@@ -20,27 +20,27 @@ namespace Data.Mapping
                 .WillCascadeOnDelete(false);
             HasRequired(u => u.ShipmentOrder)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.ShipmentOrderId)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.Agent)
+            HasOptional(u => u.Agent)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.AgentId)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.Consignee)
+            HasOptional(u => u.Consignee)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.ConsigneeId)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.NParty)
+            HasOptional(u => u.NParty)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.NPartyId)
                .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
              .WithMany()
-             .HasForeignKey(u => u.Id)
+             .HasForeignKey(u => u.CreatedById)
              .WillCascadeOnDelete(false);
-            HasRequired(u => u.UpdatedBy)
+            HasOptional(u => u.UpdatedBy)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);
             Ignore(u => u.Errors);
         }

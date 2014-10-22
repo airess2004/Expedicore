@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        Vessel CreateObject(Vessel model);
        Vessel UpdateObject(Vessel model);
        Vessel SoftDeleteObject(Vessel model);
-       bool DeleteObject(int Id);  
+       int GetLastMasterCode(int officeId);
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Vessel model);
     }
 }

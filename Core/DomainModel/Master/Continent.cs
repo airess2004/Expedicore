@@ -12,7 +12,7 @@ namespace Core.DomainModel
 
         public string Name { get; set; } 
         public string Abbrevation { get; set; }
-        public string MasterCode { get; set; }
+        public int MasterCode { get; set; }
         public int OfficeId { get; set; }
          
         public bool IsDeleted { get; set; }

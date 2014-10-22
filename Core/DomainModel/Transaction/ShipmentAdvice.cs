@@ -12,6 +12,7 @@ namespace Core.DomainModel
          
         public int ShipmentOrderId { get; set; }
         public int OfficeId { get; set; } 
+       
         public string Reference { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> PrintToAgent { get; set; }

@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        Airport CreateObject(Airport model);
        Airport UpdateObject(Airport model);
        Airport SoftDeleteObject(Airport model); 
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Airport model);
+       int GetLastMasterCode(int officeId);
     }
 }

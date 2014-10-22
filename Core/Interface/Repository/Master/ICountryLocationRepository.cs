@@ -8,11 +8,13 @@ namespace Core.Interface.Repository
 {
     public interface ICountryLocationRepository : IRepository<CountryLocation>
     {
-       IQueryable<CountryLocation> GetQueryable();
-       CountryLocation GetObjectById(int Id);
-       CountryLocation CreateObject(CountryLocation model);
-       CountryLocation UpdateObject(CountryLocation model);
-       CountryLocation SoftDeleteObject(CountryLocation model);
-       bool DeleteObject(int Id);  
+        IQueryable<CountryLocation> GetQueryable();
+        CountryLocation GetObjectById(int Id);
+        CountryLocation CreateObject(CountryLocation model);
+        CountryLocation UpdateObject(CountryLocation model);
+        CountryLocation SoftDeleteObject(CountryLocation model);
+        bool DeleteObject(int Id);
+        bool IsNameDuplicated(CountryLocation model);
+        int GetLastMasterCode(int officeId);
     }
 }

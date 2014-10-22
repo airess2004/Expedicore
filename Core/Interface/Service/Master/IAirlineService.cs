@@ -14,7 +14,7 @@ namespace Core.Interface.Service
         Airline CreateObject(Airline airline);
         Airline UpdateObject(Airline airline);
         Airline SoftDeleteObject(Airline airline);
-        bool IsNameDuplicate(Airline airline);
+        bool IsNameDuplicated(Airline airline);
 
     }
 }

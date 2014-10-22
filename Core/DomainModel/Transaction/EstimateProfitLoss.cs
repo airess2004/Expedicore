@@ -22,6 +22,8 @@ namespace Core.DomainModel
         public Nullable<DateTime> UpdatedAt { get; set; }
         public Nullable<int> UpdatedById { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
+        public bool IsConfirmed { get; set; }
+        public Nullable<DateTime> ConfirmationDate { get; set; }
 
         public Dictionary<string, string> Errors { get; set; }
 

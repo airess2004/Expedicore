@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        MstBillOfLading CreateObject(MstBillOfLading model);
        MstBillOfLading UpdateObject(MstBillOfLading model);
        MstBillOfLading SoftDeleteObject(MstBillOfLading model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(MstBillOfLading model);
+       int GetLastMasterCode(int officeId);
     }
 }

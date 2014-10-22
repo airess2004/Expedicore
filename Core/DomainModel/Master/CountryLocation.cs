@@ -15,7 +15,7 @@ namespace Core.DomainModel
         public string Currency { get; set; }
         public int ContinentId { get; set; }
         public int OfficeId { get; set; }
-        public string MasterCode { get; set; }
+        public int MasterCode { get; set; }
           
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }

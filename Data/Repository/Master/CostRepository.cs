@@ -31,6 +31,19 @@ namespace Data.Repository
             return data;
         }
 
+        public int GetLastMasterCode(int officeId)
+        {
+             int? data = FindAll(x => x.OfficeId == officeId).Max().MasterCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
         public Cost CreateObject(Cost model)
         {
             model.IsDeleted = false;
@@ -57,6 +70,12 @@ namespace Data.Repository
         {
             Cost data = Find(x => x.Id == Id);
             return (Delete(data) == 1) ? true : false;
+        }
+
+        public bool IsNameDuplicated(Cost model)
+        {
+            IQueryable<Cost> items = FindAll(x => x.Name == model.Name && !x.IsDeleted && x.Id != model.Id && x.OfficeId == model.OfficeId);
+            return (items.Count() > 0 ? true : false);
         }
     }
 }

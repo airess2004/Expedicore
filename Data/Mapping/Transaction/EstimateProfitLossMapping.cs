@@ -14,7 +14,7 @@ namespace Data.Mapping
         public EstimateProfitLossMapping()
         {  
             HasKey(u => u.Id);
-            HasMany(u => u.EstimateProfitLossDetails)
+            HasMany(u => u.EstimateProfitLossDetails) 
                 .WithRequired(u => u.EstimateProfitLoss)
                 .HasForeignKey(u => u.EstimateProfitLossId);
             HasRequired(u => u.Office) 
@@ -23,15 +23,15 @@ namespace Data.Mapping
                 .WillCascadeOnDelete(false);
             HasRequired(u => u.ShipmentOrder)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.ShipmentOrderId)
                .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
              .WithMany()
-             .HasForeignKey(u => u.Id)
+             .HasForeignKey(u => u.CreatedById)
              .WillCascadeOnDelete(false);
-            HasRequired(u => u.UpdatedBy)
+            HasOptional(u => u.UpdatedBy)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);
             Ignore(u => u.Errors);
         }

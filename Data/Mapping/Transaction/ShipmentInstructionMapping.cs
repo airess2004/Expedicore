@@ -18,31 +18,27 @@ namespace Data.Mapping
                 .WithMany()
                 .HasForeignKey(u => u.OfficeId)
                 .WillCascadeOnDelete(false);
-            HasRequired(u => u.Consignee)
+            HasOptional(u => u.Consignee)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.ConsigneeId)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.NParty)
+            HasOptional(u => u.NParty)
                 .WithMany()
-                .HasForeignKey(u => u.Id)
+                .HasForeignKey(u => u.NPartyId)
                 .WillCascadeOnDelete(false);
-            HasRequired(u => u.Shipper)
+            HasOptional(u => u.Shipper)
                 .WithMany()
-                .HasForeignKey(u => u.Id)
+                .HasForeignKey(u => u.ShipperId)
                 .WillCascadeOnDelete(false);
             HasRequired(u => u.ShipmentOrder)
                .WithMany()
-               .HasForeignKey(u => u.Id)
-               .WillCascadeOnDelete(false);
-            HasRequired(u => u.ShipmentOrder)
-               .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.ShipmentOrderId)
                .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
-             .WithMany()
-             .HasForeignKey(u => u.Id)
-             .WillCascadeOnDelete(false);
-            HasRequired(u => u.UpdatedBy)
+               .WithMany()
+               .HasForeignKey(u => u.Id)
+               .WillCascadeOnDelete(false);
+            HasOptional(u => u.UpdatedBy)
                .WithMany()
                .HasForeignKey(u => u.Id)
                .WillCascadeOnDelete(false);

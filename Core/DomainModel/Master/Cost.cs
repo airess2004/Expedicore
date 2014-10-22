@@ -14,7 +14,7 @@ namespace Core.DomainModel
         public bool Quantity { get; set; }
         public bool CBM { get; set; }
         public string Remarks { get; set; }
-        public string MasterCode { get; set; }
+        public int MasterCode { get; set; }
         public int OfficeId { get; set; }
         public int CostType { get; set; } // 1 : Sea , 2 : Air 
         public bool IsDeleted { get; set; }

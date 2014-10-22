@@ -15,6 +15,6 @@ namespace Core.Interface.Repository
        Airline SoftDeleteObject(Airline model);
        bool DeleteObject(int Id);
        bool IsNameDuplicated(Airline model);
-       int GetFirstMasterCode(int officeId);
+       int GetLastMasterCode(int officeId);
     }
 }

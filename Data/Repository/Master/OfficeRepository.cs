@@ -58,5 +58,11 @@ namespace Data.Repository
             Office data = Find(x => x.Id == Id);
             return (Delete(data) == 1) ? true : false;
         }
+
+        public bool IsNameDuplicated(Office model)
+        { 
+            IQueryable<Office> items = FindAll(x => x.Name == model.Name && !x.IsDeleted && x.Id != model.Id);
+            return (items.Count() > 0 ? true : false);
+        }
     }
 }

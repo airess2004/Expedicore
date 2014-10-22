@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        Group CreateObject(Group model);
        Group UpdateObject(Group model);
        Group SoftDeleteObject(Group model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Group model);
+       int GetLastMasterCode(int officeId);
     }
 }

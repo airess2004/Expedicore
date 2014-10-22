@@ -31,12 +31,12 @@ namespace Data.Repository
             return data;
         }
 
-        public int GetFirstMasterCode(int officeId)
+        public int GetLastMasterCode(int officeId)
         {
-            Airline data = Find(x => x.OfficeId == officeId);
+            int? data = FindAll(x => x.OfficeId == officeId).Max().MasterCode;
             if (data != null)
             {
-                return data.OfficeId;
+                return data.Value;
             }
             else
             {
@@ -74,7 +74,7 @@ namespace Data.Repository
 
         public bool IsNameDuplicated(Airline model)
         { 
-            IQueryable<Airline> items = FindAll(x => x.Name == model.Name && !x.IsDeleted && x.Id != model.Id);
+            IQueryable<Airline> items = FindAll(x => x.Name == model.Name && !x.IsDeleted && x.Id != model.Id && x.OfficeId == model.OfficeId);
             return (items.Count() > 0 ? true : false);
         }
 

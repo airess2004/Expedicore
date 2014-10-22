@@ -11,7 +11,7 @@ namespace Core.DomainModel
         public int Id { get; set; }
 
         public string Name { get; set; }
-        public string MasterCode { get; set; }
+        public int MasterCode { get; set; }
         public string ContactStatus { get; set; }
         public string ContactName { get; set; }
         public string ContactAddress { get; set; }
@@ -29,21 +29,21 @@ namespace Core.DomainModel
         public int CreditTermInDays { get; set; }
         public decimal CreditTermInIDR { get; set; }
         public string ShipmentStatus { get; set; }
-        public DateTime LastShipmentDate { get; set; }
+        public Nullable<DateTime> LastShipmentDate { get; set; }
         public bool IsAgent { get; set; }
-        public string AgentCode { get; set; }
+        public Nullable<int> AgentCode { get; set; }
         public bool IsShipper { get; set; }
-        public string ShipperCode { get; set; }
+        public Nullable<int> ShipperCode { get; set; }
         public bool IsConsignee { get; set; }
-        public string ConsigneeCode { get; set; }
+        public Nullable<int> ConsigneeCode { get; set; }
         public bool IsIATA { get; set; }
-        public string IATACode { get; set; }
+        public Nullable<int> IATACode { get; set; }
         public bool IsSSLine { get; set; }
-        public string SSLineCode { get; set; }
+        public Nullable<int> SSLineCode { get; set; }
         public bool IsDepo { get; set; }
-        public string DepoCode { get; set; }
+        public Nullable<int> DepoCode { get; set; }
         public bool IsEMKL { get; set; }
-        public string EMKLCode { get; set; }
+        public Nullable<int> EMKLCode { get; set; }
         public int OfficeId { get; set; }
          
         public bool IsDeleted { get; set; }

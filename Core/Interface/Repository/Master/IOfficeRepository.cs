@@ -13,6 +13,7 @@ namespace Core.Interface.Repository
        Office CreateObject(Office model);
        Office UpdateObject(Office model);
        Office SoftDeleteObject(Office model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(Office model);
     }
 }

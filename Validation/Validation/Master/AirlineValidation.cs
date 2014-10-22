@@ -17,14 +17,14 @@ namespace Validation.Validation
             {
                 airline.Errors.Add("Name", "Tidak boleh kosong");
             }
-            if (_airlineService.IsNameDuplicate(airline))
+            else if (_airlineService.IsNameDuplicated(airline))
             {
                 airline.Errors.Add("Name", "Tidak boleh diduplikasi");
             }
             return airline;
         }
 
-        public Airline VAbbrevation(Airline airline, IAirlineService _airlineService)
+        public Airline VAbbrevation(Airline airline)
         {
             if (String.IsNullOrEmpty(airline.Abbrevation) || airline.Abbrevation.Trim() == "")
             {
@@ -37,18 +37,40 @@ namespace Validation.Validation
         {
             VName(airline, _airlineService);
             if (!isValid(airline)) { return airline; }
-            VAbbrevation(airline, _airlineService);
+            VAbbrevation(airline);
             if (!isValid(airline)) { return airline; }
             return airline;
         }
 
         public Airline VUpdateObject(Airline airline, IAirlineService _airlineService)
-        { 
+        {
+            VObject(airline, _airlineService);
+            if (!isValid(airline)) { return airline; }
             VName(airline, _airlineService);
             if (!isValid(airline)) { return airline; }
-            VAbbrevation(airline, _airlineService);
+            VAbbrevation(airline);
             if (!isValid(airline)) { return airline; }
             return airline;
+        }
+       
+        public Airline VObject(Airline airline, IAirlineService _airlineService)
+        {
+            Airline oldairline = _airlineService.GetObjectById(airline.Id);
+            if (oldairline == null)
+            {
+                airline.Errors.Add("Generic", "Invalid Data For Update");
+            }
+            else if (!VOffice(airline.OfficeId,oldairline.OfficeId))
+            {
+                airline.Errors.Add("Generic", "Invalid Data For Update");
+            }
+            return airline;
+        }
+
+
+        public bool VOffice(int OfficeId, int CekOfficeId)
+        {
+            return OfficeId == CekOfficeId;
         }
 
         public bool isValid(Airline obj)

@@ -13,6 +13,6 @@ namespace Core.Interface.Repository
        Job CreateObject(Job model);
        Job UpdateObject(Job model);
        Job SoftDeleteObject(Job model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
     }
 }

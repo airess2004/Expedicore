@@ -42,7 +42,7 @@ namespace Core.DomainModel
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }
         public virtual Office Office { get; set; }
-        public virtual Cost Cost { get; set; }
+        public virtual Cost Cost { get; set; }  
         public virtual EstimateProfitLoss EstimateProfitLoss { get; set; }
         public virtual ShipmentOrder ShipmentOrder { get; set; }
 

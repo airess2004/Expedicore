@@ -36,7 +36,7 @@ namespace Service.Master
             continent.Errors = new Dictionary<String, String>();
             if (!isValid(_validator.VCreateObject(continent,this)))
             {
-                continent.MasterCode = (_repository.GetFirstMasterCode(continent.OfficeId) + 1).ToString();
+                continent.MasterCode = _repository.GetLastMasterCode(continent.OfficeId) + 1;
                 continent = _repository.CreateObject(continent);
             }
             return continent;

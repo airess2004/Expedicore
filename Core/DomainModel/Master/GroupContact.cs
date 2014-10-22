@@ -11,7 +11,7 @@ namespace Core.DomainModel
         public int Id { get; set; }
 
         public string Name { get; set; }
-        public string MasterCode { get; set; }
+        public int MasterCode { get; set; }
         public string Abbrevation { get; set; }
         public int OfficeId { get; set; }
          

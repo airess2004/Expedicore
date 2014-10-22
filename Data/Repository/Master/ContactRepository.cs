@@ -31,6 +31,110 @@ namespace Data.Repository
             return data;
         }
 
+        public int GetLastMasterCode(int officeId)
+        {
+            int? data = FindAll(x => x.OfficeId == officeId).Max().MasterCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        public int GetLastAgentCode(int officeId)
+        { 
+            int? data = FindAll(x => x.OfficeId == officeId && x.AgentCode != null).Max().AgentCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        public int GetLastShipperCode(int officeId)
+        {
+            int? data = FindAll(x => x.OfficeId == officeId && x.ShipperCode != null).Max().ShipperCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        } 
+         
+        public int GetLastConsigneeCode(int officeId)
+        {
+            int? data = FindAll(x => x.OfficeId == officeId && x.ConsigneeCode != null).Max().ConsigneeCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        public int GetLastIATACode(int officeId)
+        {
+            int? data = FindAll(x => x.OfficeId == officeId && x.IATACode != null).Max().IATACode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        public int GetLastSSLineCode(int officeId)
+        {
+            int? data = FindAll(x => x.OfficeId == officeId && x.SSLineCode != null).Max().SSLineCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        public int GetLastDepoCode(int officeId)
+        {
+            int? data = FindAll(x => x.OfficeId == officeId && x.DepoCode != null).Max().DepoCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        public int GetLastEMKLCode(int officeId)
+        { 
+            int? data = FindAll(x => x.OfficeId == officeId && x.EMKLCode != null).Max().EMKLCode;
+            if (data != null)
+            {
+                return data.Value;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
         public Contact CreateObject(Contact model)
         {
             model.IsDeleted = false;
@@ -57,6 +161,12 @@ namespace Data.Repository
         {
             Contact data = Find(x => x.Id == Id);
             return (Delete(data) == 1) ? true : false;
+        }
+
+        public bool IsNameDuplicated(Contact model)
+        {
+            IQueryable<Contact> items = FindAll(x => x.Name == model.Name && !x.IsDeleted && x.Id != model.Id && x.OfficeId == model.OfficeId);
+            return (items.Count() > 0 ? true : false);
         }
     }
 }

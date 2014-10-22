@@ -13,6 +13,8 @@ namespace Core.Interface.Repository
        GroupContact CreateObject(GroupContact model);
        GroupContact UpdateObject(GroupContact model);
        GroupContact SoftDeleteObject(GroupContact model);
-       bool DeleteObject(int Id);  
+       bool DeleteObject(int Id);
+       bool IsNameDuplicated(GroupContact model);
+       int GetLastMasterCode(int officeId);
     }
 }
