@@ -46,6 +46,11 @@
     <Compile Include="Validation\Master\AirportValidation.cs" />
     <Compile Include="Validation\Master\ContactValidation.cs" />
     <Compile Include="Validation\Master\ContactTypeValidation.cs" />
+    <Compile Include="Validation\Master\ContainerYardValidation.cs" />
+    <Compile Include="Validation\Master\DepoValidation.cs" />
+    <Compile Include="Validation\Master\TruckValidation.cs" />
+    <Compile Include="Validation\Master\GroupEmployeeValidation.cs" />
+    <Compile Include="Validation\Master\EmployeeValidation.cs" />
     <Compile Include="Validation\Master\VesselValidation.cs" />
     <Compile Include="Validation\Master\OfficeValidation.cs" />
     <Compile Include="Validation\Master\MstBillOfLadingValidation.cs" />
@@ -55,15 +60,10 @@
     <Compile Include="Validation\Master\CostValidation.cs" />
     <Compile Include="Validation\Master\PortValidation.cs" />
     <Compile Include="Validation\Master\CountryLocationValidation.cs" />
-    <Compile Include="Validation\Transaction\BillOfLadingValidation.cs" />
-    <Compile Include="Validation\Transaction\EstimateProfitLossDetailValidation.cs" />
-    <Compile Include="Validation\Transaction\EstimateProfitLossValidation.cs" />
-    <Compile Include="Validation\Transaction\SeaContainerValidation.cs" />
-    <Compile Include="Validation\Transaction\ShipmentOrderRoutingValidation.cs" />
-    <Compile Include="Validation\Transaction\TelexReleaseValidation.cs" />
-    <Compile Include="Validation\Transaction\ShipmentInstructionValidation.cs" />
-    <Compile Include="Validation\Transaction\ShipmentOrderValidation.cs" />
-    <Compile Include="Validation\Transaction\ShipmentAdviceValidation.cs" />
+    <Compile Include="Validation\Transaction\TruckOrderValidation.cs" />
+    <Compile Include="Validation\UserRole\UserAccessValidator.cs" />
+    <Compile Include="Validation\UserRole\UserAccountValidator.cs" />
+    <Compile Include="Validation\UserRole\UserMenuValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
@@ -74,7 +74,12 @@
       <Project>{d396f24f-05f4-4563-b4f6-0fc75567f05a}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{03d9646d-9cbb-4812-9bfc-af7ab0c62dff}</Project>
+      <Name>Service</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

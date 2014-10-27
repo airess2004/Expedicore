@@ -10,7 +10,7 @@ namespace Core.Interface.Validation
 {
     public interface IContactValidation
     {
-        Contact VCreateObject(Contact contact, IContactService _contactService, ICityLocationService _citylocationService);
-        Contact VUpdateObject(Contact contact, IContactService _contactService, ICityLocationService _citylocationService);
+        Contact VCreateObject(Contact contact, IContactService _contactService);
+        Contact VUpdateObject(Contact contact, IContactService _contactService);
     }
 }

@@ -10,3 +10,5 @@ C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\EntityFramework.xm
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\obj\Debug\Expedico.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\obj\Debug\Expedico.exe
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\obj\Debug\Expedico.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Service.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Service.pdb

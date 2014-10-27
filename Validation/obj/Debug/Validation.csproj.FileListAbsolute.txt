@@ -9,3 +9,5 @@ C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\EntityFramework.
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\obj\Debug\Validation.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\obj\Debug\Validation.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Validation\obj\Debug\Validation.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\Service.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Validation\bin\Debug\Service.pdb

@@ -45,6 +45,11 @@
     <Compile Include="Master\AirportService.cs" />
     <Compile Include="Master\ContactService.cs" />
     <Compile Include="Master\ContactTypeService.cs" />
+    <Compile Include="Master\ContainerYardService.cs" />
+    <Compile Include="Master\GroupEmployeeService.cs" />
+    <Compile Include="Master\TruckService.cs" />
+    <Compile Include="Master\EmployeeService.cs" />
+    <Compile Include="Master\DepoService.cs" />
     <Compile Include="Master\OfficeService.cs" />
     <Compile Include="Master\JobService.cs" />
     <Compile Include="Master\MstBillOfLadingService.cs" />
@@ -55,15 +60,11 @@
     <Compile Include="Master\PortService.cs" />
     <Compile Include="Master\CountryLocationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transaction\EstimateProfitLossDetailService.cs" />
-    <Compile Include="Transaction\EstimateProfitLossService.cs" />
-    <Compile Include="Transaction\SeaContainerService.cs" />
-    <Compile Include="Transaction\ShipmentOrderRoutingService.cs" />
-    <Compile Include="Transaction\TelexReleaseService.cs" />
-    <Compile Include="Transaction\ShipmentAdviceService.cs" />
-    <Compile Include="Transaction\ShipmentInstructionService.cs" />
-    <Compile Include="Transaction\ShipmentOrderService.cs" />
-    <Compile Include="Transaction\BillOfLadingService.cs" />
+    <Compile Include="StringEncryption.cs" />
+    <Compile Include="Transaction\TruckOrderService.cs" />
+    <Compile Include="UserRole\AccessUserService.cs" />
+    <Compile Include="UserRole\AccountUserService.cs" />
+    <Compile Include="UserRole\MenuUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

@@ -13,10 +13,6 @@ namespace Data.Mapping
         public OfficeMapping()
         { 
             HasKey(u => u.Id);
-            HasRequired(u => u.CreatedBy)
-               .WithMany()
-               .HasForeignKey(u => u.CreatedById)
-               .WillCascadeOnDelete(false);
             HasOptional(u => u.UpdatedBy)
                .WithMany()
                .HasForeignKey(u => u.UpdatedById)

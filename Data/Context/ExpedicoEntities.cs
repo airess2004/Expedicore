@@ -12,9 +12,32 @@ namespace Data.Context
 {
     public class ExpedicoEntities : DbContext
     {
-        public ExpedicoEntities() : base("Expedico")
+        public ExpedicoEntities() : base("ExpedicoPPJK")
         {
             Database.SetInitializer<ExpedicoEntities>(new DropCreateDatabaseIfModelChanges<ExpedicoEntities>());
+        }
+
+        public void DeleteAllTables()
+        {
+            IList<String> tableNames = new List<String>();
+
+            IList<String> userroleNames = new List<String>() { "MenuUser", "AccountUser", "AccessUser","Office"};
+
+            IList<String> transactionNames = new List<String>()
+                                        { "TruckOrder"};
+            IList<String> MasterNames = new List<String>()
+                                        { "Truck", "Contact", "Employee", "GroupEmployee", "ContainerYard", "Depo",
+                                          "Office"};
+
+            userroleNames.ToList().ForEach(x => tableNames.Add(x));
+            transactionNames.ToList().ForEach(x => tableNames.Add(x));
+            MasterNames.ToList().ForEach(x => tableNames.Add(x));
+
+            foreach (var tableName in tableNames)
+            {
+               
+                Database.ExecuteSqlCommand(string.Format("DELETE FROM {0}", tableName));
+            }
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -38,6 +61,12 @@ namespace Data.Context
             modelBuilder.Configurations.Add(new OfficeMapping());
             modelBuilder.Configurations.Add(new PortMapping());
             modelBuilder.Configurations.Add(new VesselMapping()); 
+            modelBuilder.Configurations.Add(new TruckMapping());
+            modelBuilder.Configurations.Add(new DepoMapping());
+            modelBuilder.Configurations.Add(new EmployeeMapping());
+            modelBuilder.Configurations.Add(new GroupEmployeeMapping());
+            modelBuilder.Configurations.Add(new ContainerYardMapping());
+          
             #endregion
 
             #region Transaction
@@ -48,7 +77,8 @@ namespace Data.Context
             modelBuilder.Configurations.Add(new NoticeOfArrivalMapping());
             modelBuilder.Configurations.Add(new SeaContainerMapping());
             modelBuilder.Configurations.Add(new ShipmentAdviceMapping());
-            modelBuilder.Configurations.Add(new ShipmentInstructionMapping()); 
+            modelBuilder.Configurations.Add(new ShipmentInstructionMapping());
+            modelBuilder.Configurations.Add(new TruckOrderMapping());
             #endregion
 
 
@@ -77,7 +107,13 @@ namespace Data.Context
         public DbSet<MstBillOfLading> MstBillOfLadings { get; set; }
         public DbSet<Office> Offices { get; set; }
         public DbSet<Port> Ports { get; set; }
-        public DbSet<Vessel> Vessels { get; set; } 
+        public DbSet<Vessel> Vessels { get; set; }
+        public DbSet<Depo> Depos { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<GroupEmployee> GroupEmployees { get; set; } 
+        public DbSet<ContainerYard> ContainerYards { get; set; }
+        public DbSet<Truck> Trucks { get; set; }  
+
         #endregion
 
         #region Transcantion
@@ -92,6 +128,8 @@ namespace Data.Context
         public DbSet<ShipmentOrder> ShipmentOrders { get; set; }
         public DbSet<ShipmentOrderRouting> ShipmentOrdersRoutings { get; set; }
         public DbSet<TelexRelease> TelexReleases { get; set; }
+        public DbSet<TruckOrder> TruckOrders { get; set; } 
+
         #endregion
 
 

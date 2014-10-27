@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Truck Job List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+}
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/TruckOrder.js")"></script>
+}
+<div id="ua_panel" class="easyui-panel" style="text-align: left;" data-options="modal:true" 
+    title=".: Truck Order :.">
+<div id="toolbar" class="form_toolbar">
+        <a id="btn_reload" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">Reload Data</a>
+    </div>
+    <div>
+        <table>
+            <tr>
+               <td>
+                                <label>Truck</label></td>
+                            <td colspan="3">
+                               <input id="TruckId" hidden class="textright" type="text" size="10" maxlength="7" disabled="disabled" />
+                               <input id="btnTruck" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                               <input id="Truck" name="Truck" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                 </td>
+            </tr>
+        </table>
+    </div>
+    <div id="table_div">
+        <table id="list"></table>
+        <div id="pager" class="scroll" style="text-align: center;"></div>
+    </div>
+
+     <!-- Look Up employee -->
+    <div id="lookup_div_employee" class="easyui-dialog" title="List Employee" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_employee" class="grid_toolbar">
+            <a id="lookup_btn_add_employee" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_employee" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_employee" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_employee" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up contact -->
+
+      <!-- Look Up containeryard -->
+    <div id="lookup_div_containeryard" class="easyui-dialog" title="List ContainerYard" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_containeryard" class="grid_toolbar">
+            <a id="lookup_btn_add_containeryard" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_containeryard" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_containeryard" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_containeryard" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up containeryard -->
+
+      <!-- Look Up depo -->
+    <div id="lookup_div_depo" class="easyui-dialog" title="List Depo" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_depo" class="grid_toolbar">
+            <a id="lookup_btn_add_depo" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_depo" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_depo" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_depo" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up depo -->
+
+      <!-- Look Up truck -->
+    <div id="lookup_div_truck" class="easyui-dialog" title="List Truck" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_truck" class="grid_toolbar">
+            <a id="lookup_btn_add_truck" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_truck" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_truck" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_truck" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up truck -->
+
+      <!-- Look Up contact -->
+    <div id="lookup_div_contact" class="easyui-dialog" title="List Contact" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_contact" class="grid_toolbar">
+            <a id="lookup_btn_add_contact" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_contact" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_contact" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_contact" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up contact -->
+  </div>
+

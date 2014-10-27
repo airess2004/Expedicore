@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constant\MasterConstant.cs" />
+    <Compile Include="Constant\OperationConstant.cs" />
     <Compile Include="DomainModel\Finance\CashBank.cs" />
     <Compile Include="DomainModel\Finance\CashBankAdjustment.cs" />
     <Compile Include="DomainModel\Finance\CashBankMutation.cs" />
@@ -51,6 +52,11 @@
     <Compile Include="DomainModel\Master\Airport.cs" />
     <Compile Include="DomainModel\Master\ContactType.cs" />
     <Compile Include="DomainModel\Master\Airline.cs" />
+    <Compile Include="DomainModel\Master\ContainerYard.cs" />
+    <Compile Include="DomainModel\Master\Depo.cs" />
+    <Compile Include="DomainModel\Master\GroupEmployee.cs" />
+    <Compile Include="DomainModel\Master\Employee.cs" />
+    <Compile Include="DomainModel\Master\Truck.cs" />
     <Compile Include="DomainModel\Master\Vessel.cs" />
     <Compile Include="DomainModel\Master\Job.cs" />
     <Compile Include="DomainModel\Master\Port.cs" />
@@ -64,6 +70,7 @@
     <Compile Include="DomainModel\Transaction\BillOfLading.cs" />
     <Compile Include="DomainModel\Transaction\CashAdvance.cs" />
     <Compile Include="DomainModel\Transaction\CashAdvanceDetail.cs" />
+    <Compile Include="DomainModel\Transaction\TruckOrder.cs" />
     <Compile Include="DomainModel\Transaction\OfficialReceiptDetailBank.cs" />
     <Compile Include="DomainModel\Transaction\OfficialReceiptDetailInvoice.cs" />
     <Compile Include="DomainModel\Transaction\OfficialReceipt.cs" />
@@ -89,6 +96,11 @@
     <Compile Include="DomainModel\UserRole\AccessUser.cs" />
     <Compile Include="DomainModel\UserRole\AccountUser.cs" />
     <Compile Include="DomainModel\UserRole\MenuUser.cs" />
+    <Compile Include="Interface\Repository\Master\IContainerYardRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IGroupEmployeeRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IEmployeeRepository.cs" />
+    <Compile Include="Interface\Repository\Master\IDepoRepository.cs" />
+    <Compile Include="Interface\Repository\Master\ITruckRepository.cs" />
     <Compile Include="Interface\Repository\Master\IVesselRepository.cs" />
     <Compile Include="Interface\Repository\Master\IPortRepository.cs" />
     <Compile Include="Interface\Repository\Master\IOfficeRepository.cs" />
@@ -105,17 +117,15 @@
     <Compile Include="Interface\Repository\Master\IAirportRepository.cs" />
     <Compile Include="Interface\Repository\Master\IAirlineRepository.cs" />
     <Compile Include="Interface\Repository\Master\IRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IInvoiceDetailRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IInvoiceRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IEstimateProfitLossDetailRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IEstimateProfitLossRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\ISeaContainerRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IShipmentOrderRoutingRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\ITelexReleaseRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IShipmentInstructionRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IBillOfLadingRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IShipmentAdviceRepository.cs" />
-    <Compile Include="Interface\Repository\Transaction\IShipmentOrderRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\ITruckOrderRepository.cs" />
+    <Compile Include="Interface\Repository\UserRole\IUserAccessRepository.cs" />
+    <Compile Include="Interface\Repository\UserRole\IUserAccountRepository.cs" />
+    <Compile Include="Interface\Repository\UserRole\IUserMenuRepository.cs" />
+    <Compile Include="Interface\Service\Master\IContainerYardService.cs" />
+    <Compile Include="Interface\Service\Master\ITruckService.cs" />
+    <Compile Include="Interface\Service\Master\IGroupEmployeeService.cs" />
+    <Compile Include="Interface\Service\Master\IEmployeeService.cs" />
+    <Compile Include="Interface\Service\Master\IDepoService.cs" />
     <Compile Include="Interface\Service\Master\IContactTypeService.cs" />
     <Compile Include="Interface\Service\Master\IOfficeService.cs" />
     <Compile Include="Interface\Service\Master\IMstBillOfLadingService.cs" />
@@ -131,17 +141,15 @@
     <Compile Include="Interface\Service\Master\ICityLocationService.cs" />
     <Compile Include="Interface\Service\Master\ICountryLocationService.cs" />
     <Compile Include="Interface\Service\Master\IAirlineService.cs" />
-    <Compile Include="Interface\Service\Transaction\IInvoiceDetailService.cs" />
-    <Compile Include="Interface\Service\Transaction\IInvoiceService.cs" />
-    <Compile Include="Interface\Service\Transaction\IEstimateProfitLossDetailService.cs" />
-    <Compile Include="Interface\Service\Transaction\IEstimateProfitLossService.cs" />
-    <Compile Include="Interface\Service\Transaction\ISeaContainerService.cs" />
-    <Compile Include="Interface\Service\Transaction\IShipmentOrderRoutingService.cs" />
-    <Compile Include="Interface\Service\Transaction\ITelexReleaseService.cs" />
-    <Compile Include="Interface\Service\Transaction\IShipmentAdviceService.cs" />
-    <Compile Include="Interface\Service\Transaction\IShipmentInstructionService.cs" />
-    <Compile Include="Interface\Service\Transaction\IBillOfLadingService.cs" />
-    <Compile Include="Interface\Service\Transaction\IShipmentOrderService.cs" />
+    <Compile Include="Interface\Service\Transaction\ITruckOrderService.cs" />
+    <Compile Include="Interface\Service\UserRole\IUserAccessService.cs" />
+    <Compile Include="Interface\Service\UserRole\IUserAccountService.cs" />
+    <Compile Include="Interface\Service\UserRole\IUserMenuService.cs" />
+    <Compile Include="Interface\Validation\Master\ITruckValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IContainerYardValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IGroupEmployeeValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IEmployeeValidator.cs" />
+    <Compile Include="Interface\Validation\Master\IDepoValidator.cs" />
     <Compile Include="Interface\Validation\Master\IContactTypeValidator.cs" />
     <Compile Include="Interface\Validation\Master\IOfficeValidator.cs" />
     <Compile Include="Interface\Validation\Master\IMstBillOfLadingValidator.cs" />
@@ -157,16 +165,10 @@
     <Compile Include="Interface\Validation\Master\ICityLocationValidator.cs" />
     <Compile Include="Interface\Validation\Master\IContinentValidator.cs" />
     <Compile Include="Interface\Validation\Master\IAirlineValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IInvoiceValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IEstimateProfiLossDetailValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IEstimateProfiLossValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\ISeaContainerValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IShipmentOrderRoutingValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\ITelexReleaseValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IShipmentAdviceValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IShipmentInstructionValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IBillOfLadingValidator.cs" />
-    <Compile Include="Interface\Validation\Transaction\IShipmentOrderValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\ITruckOrderValidator.cs" />
+    <Compile Include="Interface\Validation\UserRole\IUserAccessValidator.cs" />
+    <Compile Include="Interface\Validation\UserRole\IUserAccountValidator.cs" />
+    <Compile Include="Interface\Validation\UserRole\IUserMenuValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

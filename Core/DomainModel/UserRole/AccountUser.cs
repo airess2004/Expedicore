@@ -22,7 +22,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> UpdatedAt { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
-         
+        
         public Dictionary<String, String> Errors { get; set; }
         public ICollection<AccessUser> AccessUsers { get; set; }
         public virtual Office Office { get; set; }

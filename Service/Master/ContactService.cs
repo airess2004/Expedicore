@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Master
+namespace Service
 {
     public class ContactService : IContactService 
     {  
@@ -31,74 +31,21 @@ namespace Service.Master
             return _repository.GetObjectById(Id);
         }
          
-        public Contact CreateObject(Contact contact,ICityLocationService _citylocationService)
+        public Contact CreateObject(Contact contact)
         {
             contact.Errors = new Dictionary<String, String>();
-            if (!isValid(_validator.VCreateObject(contact,this,_citylocationService)))
+            if (isValid(_validator.VCreateObject(contact,this)))
             {
                 contact.MasterCode = _repository.GetLastMasterCode(contact.OfficeId) + 1;
-                contact.AgentCode = (contact.IsAgent) ? (_repository.GetLastAgentCode(contact.OfficeId) + 1) : contact.AgentCode;
-                if (contact.IsConsignee == true)
-                {
-                    contact.ConsigneeCode = _repository.GetLastConsigneeCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsDepo == true)
-                {
-                    contact.DepoCode = _repository.GetLastDepoCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsEMKL == true)
-                {
-                    contact.EMKLCode = _repository.GetLastEMKLCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsIATA == true)
-                {
-                    contact.IATACode = _repository.GetLastIATACode(contact.OfficeId) + 1;
-                }
-                if (contact.IsShipper == true)
-                {
-                    contact.ShipperCode = _repository.GetLastShipperCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsSSLine == true)
-                {
-                    contact.SSLineCode = _repository.GetLastSSLineCode(contact.OfficeId) + 1;
-                }
                 contact = _repository.CreateObject(contact);
             }
             return contact;
         }
 
-        public Contact UpdateObject(Contact contact, ICityLocationService _citylocationService)
+        public Contact UpdateObject(Contact contact)
         {
-            if (!isValid(_validator.VUpdateObject(contact, this,_citylocationService)))
+            if (isValid(_validator.VUpdateObject(contact, this)))
             {
-                if (contact.IsAgent == true && contact.AgentCode == null)
-                {
-                    contact.AgentCode = _repository.GetLastAgentCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsConsignee == true && contact.ConsigneeCode == null)
-                {
-                    contact.ConsigneeCode = _repository.GetLastConsigneeCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsDepo == true && contact.DepoCode == null)
-                {
-                    contact.DepoCode = _repository.GetLastDepoCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsEMKL == true && contact.EMKLCode == null)
-                {
-                    contact.EMKLCode = _repository.GetLastEMKLCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsIATA == true && contact.IATACode == null)
-                {
-                    contact.IATACode = _repository.GetLastIATACode(contact.OfficeId) + 1;
-                }
-                if (contact.IsShipper == true && contact.ShipperCode == null)
-                {
-                    contact.ShipperCode = _repository.GetLastShipperCode(contact.OfficeId) + 1;
-                }
-                if (contact.IsSSLine == true && contact.SSLineCode == null)
-                {
-                    contact.SSLineCode = _repository.GetLastSSLineCode(contact.OfficeId) + 1;
-                }
                 contact = _repository.UpdateObject(contact);
             }
             return contact;

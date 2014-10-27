@@ -28,3 +28,15 @@ C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\System.Web.WebPages.Razor
 C:\Users\Willy\Documents\GitHub\Expedicore\Webview\obj\Debug\Webview.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Webview\obj\Debug\Webview.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Webview\obj\Debug\Webview.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Core.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Data.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\log4net.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Service.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\System.Linq.Dynamic.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Validation.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Core.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Data.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Service.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Validation.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\log4net.xml
+C:\Users\Willy\Documents\GitHub\Expedicore\Webview\bin\Recaptcha.dll

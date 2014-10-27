@@ -16,11 +16,11 @@ namespace Data.Mapping
             HasKey(u => u.Id);
             HasRequired(u => u.MenuUsers)
                 .WithMany(u => u.AccessUsers)
-                .HasForeignKey(u => u.UserMenuId)
+                .HasForeignKey(u => u.MenuUserId)
                 .WillCascadeOnDelete(false);
             HasRequired(u => u.AccountUsers) 
                 .WithMany(u => u.AccessUsers)
-                .HasForeignKey(u => u.UserAccountId)
+                .HasForeignKey(u => u.AccountUserId)
                 .WillCascadeOnDelete(false);
             Ignore(u => u.Errors);
         }

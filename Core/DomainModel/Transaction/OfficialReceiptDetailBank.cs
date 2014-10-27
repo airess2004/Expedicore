@@ -10,9 +10,9 @@ namespace Core.DomainModel
         public int Id { get; set; } 
         public Nullable<int> OfficialReceiptId { get; set; } 
         public int InvoicesId { get; set; }
-        public Nullable<string> BankCode { get; set; }
+        public string BankCode { get; set; }
         public Nullable<int> AmountCrr { get; set; }
-        public Nullable<string> Remarks { get; set; }
+        public string Remarks { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public Nullable<DateTime> DueDate { get; set; }
         public Nullable<bool> StatusDueDate { get; set; }

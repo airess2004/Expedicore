@@ -15,7 +15,7 @@ namespace Core.DomainModel
         public string Abbrevation { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
-        public int CityId { get; set; }
+       // public int CityId { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
@@ -27,7 +27,6 @@ namespace Core.DomainModel
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int CreatedById { get; set; } 
         public Nullable<DateTime> UpdatedAt { get; set; }
         public Nullable<int> UpdatedById { get; set; }  
         public Nullable<DateTime> DeletedAt { get; set; }

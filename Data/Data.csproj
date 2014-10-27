@@ -49,7 +49,12 @@
     <Compile Include="Mapping\Master\AirportMapping.cs" />
     <Compile Include="Mapping\Master\AirlineMapping.cs" />
     <Compile Include="Mapping\Master\ContactMapping.cs" />
+    <Compile Include="Mapping\Master\TruckMapping.cs" />
+    <Compile Include="Mapping\Master\GroupEmployeeMapping.cs" />
+    <Compile Include="Mapping\Master\DepoMapping.cs" />
     <Compile Include="Mapping\Master\ContactTypeMapping.cs" />
+    <Compile Include="Mapping\Master\ContainerYardMapping.cs" />
+    <Compile Include="Mapping\Master\EmployeeMapping.cs" />
     <Compile Include="Mapping\Master\MstBillOfLadingMapping.cs" />
     <Compile Include="Mapping\Master\JobMapping.cs" />
     <Compile Include="Mapping\Master\GroupMapping.cs" />
@@ -60,6 +65,7 @@
     <Compile Include="Mapping\Master\PortMapping.cs" />
     <Compile Include="Mapping\Master\CountryLocationMapping.cs" />
     <Compile Include="Mapping\Transaction\BillOfLadingMapping.cs" />
+    <Compile Include="Mapping\Transaction\TruckOrderMapping.cs" />
     <Compile Include="Mapping\Transaction\InvoiceDetailMapping.cs" />
     <Compile Include="Mapping\Transaction\ShipmentOrderMapping.cs" />
     <Compile Include="Mapping\Transaction\ShipmentOrderRoutingMapping.cs" />
@@ -81,6 +87,11 @@
     <Compile Include="Repository\Master\ContactRepository.cs" />
     <Compile Include="Repository\Master\ContactTypeRepository.cs" />
     <Compile Include="Repository\Master\ContinentRepository.cs" />
+    <Compile Include="Repository\Master\ContainerYardRepository.cs" />
+    <Compile Include="Repository\Master\GroupEmployeeRepository.cs" />
+    <Compile Include="Repository\Master\EmployeeRepository.cs" />
+    <Compile Include="Repository\Master\DepoRepository.cs" />
+    <Compile Include="Repository\Master\TruckRepository.cs" />
     <Compile Include="Repository\Master\VesselRepository.cs" />
     <Compile Include="Repository\Master\PortRepository.cs" />
     <Compile Include="Repository\Master\OfficeRepository.cs" />
@@ -89,18 +100,10 @@
     <Compile Include="Repository\Master\GroupContactRepository.cs" />
     <Compile Include="Repository\Master\CountryLocationRepository.cs" />
     <Compile Include="Repository\Master\CostRepository.cs" />
-    <Compile Include="Repository\Transaction\BillOfLadingRepository.cs" />
-    <Compile Include="Repository\Transaction\EstimateProfitLossDetailRepository.cs" />
-    <Compile Include="Repository\Transaction\EstimateProfitLossRepository.cs" />
-    <Compile Include="Repository\Transaction\SeaContainerRepository.cs" />
-    <Compile Include="Repository\Transaction\ShipmentOrderRoutingRepository.cs" />
-    <Compile Include="Repository\Transaction\TelexReleaseRepository.cs" />
-    <Compile Include="Repository\Transaction\ShipmentInstructionRepository.cs" />
-    <Compile Include="Repository\Transaction\ShipmentAdviceRepository.cs" />
-    <Compile Include="Repository\Transaction\ShipmentOrderRepository.cs" />
-    <Compile Include="UserRole\AccessUser.cs" />
-    <Compile Include="UserRole\AccountUser.cs" />
-    <Compile Include="UserRole\MenuUser.cs" />
+    <Compile Include="Repository\Transaction\TruckOrderRepository.cs" />
+    <Compile Include="Repository\UserRole\UserAccessRepository.cs" />
+    <Compile Include="Repository\UserRole\UserAccountRepository.cs" />
+    <Compile Include="Repository\UserRole\UserMenuRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -111,11 +114,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\packages\References\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repository\UserRole\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{ff4db749-11ca-49c8-a917-8f2e56ed7d72}</Project>

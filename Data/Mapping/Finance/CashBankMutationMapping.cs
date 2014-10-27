@@ -12,7 +12,6 @@ namespace Data.Mapping
         public CashBankMutationMapping()
         {
             HasKey(cbm => cbm.Id);
-            Ignore(cbm => cbm.Errors);
         }
     }
 }

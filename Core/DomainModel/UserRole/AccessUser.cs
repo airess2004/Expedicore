@@ -9,8 +9,8 @@ namespace Core.DomainModel
     public partial class AccessUser
     {
         public int Id { get; set; }
-        public int UserMenuId { get; set; }
-        public int UserAccountId { get; set; }
+        public int MenuUserId { get; set; }
+        public int AccountUserId { get; set; }
 
         public bool AllowView { get; set; }
         public bool AllowCreate { get; set; }

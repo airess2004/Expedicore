@@ -20,7 +20,7 @@ namespace Data.Mapping
                 .WillCascadeOnDelete(false);
             HasRequired(u => u.ShipmentOrder)
                .WithMany()
-               .HasForeignKey(u => u.Id)
+               .HasForeignKey(u => u.ShipmentOrderId)
                .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
                .WithMany()

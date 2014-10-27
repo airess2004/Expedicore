@@ -11,8 +11,8 @@ namespace Core.Interface.Service
     {
         IQueryable<Contact> GetQueryable();
         Contact GetObjectById(int Id);
-        Contact CreateObject(Contact contact,ICityLocationService _citylocationService);
-        Contact UpdateObject(Contact contact, ICityLocationService _citylocationService);
+        Contact CreateObject(Contact contact);
+        Contact UpdateObject(Contact contact);
         Contact SoftDeleteObject(Contact contact);
         bool IsNameDuplicated(Contact contact);
         Contact UpdateLastShipment(Contact contact);
