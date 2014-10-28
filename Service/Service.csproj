@@ -39,6 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Finance\CashBankAdjustmentService.cs" />
+    <Compile Include="Finance\CashBankMutationService.cs" />
+    <Compile Include="Finance\CashBankService.cs" />
+    <Compile Include="Finance\CashMutationService.cs" />
     <Compile Include="Master\AirlineService.cs" />
     <Compile Include="Master\ContinentService.cs" />
     <Compile Include="Master\CityLocationService.cs" />

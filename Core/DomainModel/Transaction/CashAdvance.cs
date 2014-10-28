@@ -11,11 +11,11 @@ namespace Core.DomainModel
         public int Id { get; set; }
         public string CashBondNo { get; set; }
         public int OfficeId { get; set; }
-         public Nullable<string> Reference { get; set; }
+         public string Reference { get; set; }
          public Nullable<bool> Approved { get; set; }
          public Nullable<DateTime> ApprovedAt { get; set; }
          public Nullable<int> EmployeeId { get; set; }
-         public Nullable<string> CashBondTo { get; set; }
+         public string CashBondTo { get; set; }
          public Nullable<decimal> CashBondIDR { get; set; }
          public Nullable<bool> Paid { get; set; }
          public Nullable<DateTime> PaidOn { get; set; }

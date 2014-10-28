@@ -51,8 +51,14 @@ namespace Data.Context
             modelBuilder.Configurations.Add(new ShipmentInstructionMapping()); 
             #endregion
 
-
+            #region Finance
+            modelBuilder.Configurations.Add(new CashBankMapping());
+            modelBuilder.Configurations.Add(new CashBankAdjustmentMapping());
+            modelBuilder.Configurations.Add(new CashBankMutationMapping());
+            modelBuilder.Configurations.Add(new CashMutationMapping());
+            #endregion
             #region UserRole
+
             modelBuilder.Configurations.Add(new AccessUserMapping());
             modelBuilder.Configurations.Add(new AccountUserMapping());
             modelBuilder.Configurations.Add(new MenuUserMapping()); 
@@ -94,6 +100,12 @@ namespace Data.Context
         public DbSet<TelexRelease> TelexReleases { get; set; }
         #endregion
 
+        #region UserRole
+        public DbSet<CashBank> CashBanks { get; set; }
+        public DbSet<CashBankAdjustment> CashBankAdjustments { get; set; }
+        public DbSet<CashBankMutation> CashBankMutations { get; set; }
+        public DbSet<CashMutation> CashMutations { get; set; }
+        #endregion
 
         #region UserRole
         public DbSet<AccessUser> AccessUser { get; set; }

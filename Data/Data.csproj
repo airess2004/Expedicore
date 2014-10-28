@@ -75,6 +75,10 @@
     <Compile Include="Mapping\UserRole\AccountUserMapping.cs" />
     <Compile Include="Mapping\UserRole\MenuUserMapping.cs" />
     <Compile Include="Repository\EfRepository.cs" />
+    <Compile Include="Repository\Finance\CashBankAdjustmentRepository.cs" />
+    <Compile Include="Repository\Finance\CashBankMutationRepository.cs" />
+    <Compile Include="Repository\Finance\CashBankRepository.cs" />
+    <Compile Include="Repository\Finance\CashMutationRepository.cs" />
     <Compile Include="Repository\Master\AirlineRepository.cs" />
     <Compile Include="Repository\Master\AirportRepository.cs" />
     <Compile Include="Repository\Master\CityLocationRepository.cs" />
@@ -111,7 +115,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\UserRole\" />

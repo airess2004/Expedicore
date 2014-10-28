@@ -22,7 +22,7 @@ namespace Core.DomainModel
         public Nullable<bool> VerifyAcc;
         public Nullable<DateTime> VerifyAccOn;
         public Nullable<bool> PaidPV;
-        public Nullable<string> PaymentTo;
+        public string PaymentTo;
         public Nullable<DateTime> TPDueDate;
         public Nullable<int>JobOwnerId;
         public int CreatedById;
@@ -36,10 +36,6 @@ namespace Core.DomainModel
 
         public bool IsConfirmed { get; set; }
         public Nullable<DateTime> ConfirmationDate { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public Nullable<DateTime> UpdatedAt { get; set; }
-        public Nullable<DateTime> DeletedAt { get; set; }
 
         public virtual CashBank CashBank { get; set; }
         public virtual Contact Contact { get; set; }

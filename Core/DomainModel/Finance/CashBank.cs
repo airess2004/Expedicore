@@ -15,11 +15,9 @@ namespace Core.DomainModel
         public bool IsBank { get; set; }
 
         public bool IsDeleted { get; set; }
-        public Nullable<int> DeletedById { get; set; }
         public DateTime CreatedAt { get; set; }
-        public Nullable<int> CreatedById { get; set; }
         public Nullable<DateTime> UpdatedAt { get; set; }
-        public Nullable<int> UpdatedById { get; set; }
+        public Nullable<DateTime> DeletedAt { get; set; }
 
         public Dictionary<String, String> Errors { get; set; }
         public ICollection<CashMutation> CashMutations { get; set; }

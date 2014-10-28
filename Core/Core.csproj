@@ -37,9 +37,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interface\Repository\Finance\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Constant\MasterConstant.cs" />
     <Compile Include="DomainModel\Finance\CashBank.cs" />
@@ -89,6 +87,10 @@
     <Compile Include="DomainModel\UserRole\AccessUser.cs" />
     <Compile Include="DomainModel\UserRole\AccountUser.cs" />
     <Compile Include="DomainModel\UserRole\MenuUser.cs" />
+    <Compile Include="Interface\Repository\Finance\ICashBankAdjustmentRepository.cs" />
+    <Compile Include="Interface\Repository\Finance\ICashBankMutationRepository.cs" />
+    <Compile Include="Interface\Repository\Finance\ICashBankRepository.cs" />
+    <Compile Include="Interface\Repository\Finance\ICashMutationRepository.cs" />
     <Compile Include="Interface\Repository\Master\IVesselRepository.cs" />
     <Compile Include="Interface\Repository\Master\IPortRepository.cs" />
     <Compile Include="Interface\Repository\Master\IOfficeRepository.cs" />
@@ -116,6 +118,10 @@
     <Compile Include="Interface\Repository\Transaction\IBillOfLadingRepository.cs" />
     <Compile Include="Interface\Repository\Transaction\IShipmentAdviceRepository.cs" />
     <Compile Include="Interface\Repository\Transaction\IShipmentOrderRepository.cs" />
+    <Compile Include="Interface\Service\Finance\ICashBankAdjustmentService.cs" />
+    <Compile Include="Interface\Service\Finance\ICashBankMutationService.cs" />
+    <Compile Include="Interface\Service\Finance\ICashBankService.cs" />
+    <Compile Include="Interface\Service\Finance\ICashMutationService.cs" />
     <Compile Include="Interface\Service\Master\IContactTypeService.cs" />
     <Compile Include="Interface\Service\Master\IOfficeService.cs" />
     <Compile Include="Interface\Service\Master\IMstBillOfLadingService.cs" />
@@ -142,6 +148,10 @@
     <Compile Include="Interface\Service\Transaction\IShipmentInstructionService.cs" />
     <Compile Include="Interface\Service\Transaction\IBillOfLadingService.cs" />
     <Compile Include="Interface\Service\Transaction\IShipmentOrderService.cs" />
+    <Compile Include="Interface\Validation\Finance\ICashBankAdjustmentValidator.cs" />
+    <Compile Include="Interface\Validation\Finance\ICashBankMutationValidator.cs" />
+    <Compile Include="Interface\Validation\Finance\ICashBankValidator.cs" />
+    <Compile Include="Interface\Validation\Finance\ICashMutationValidator.cs" />
     <Compile Include="Interface\Validation\Master\IContactTypeValidator.cs" />
     <Compile Include="Interface\Validation\Master\IOfficeValidator.cs" />
     <Compile Include="Interface\Validation\Master\IMstBillOfLadingValidator.cs" />
@@ -169,7 +179,14 @@
     <Compile Include="Interface\Validation\Transaction\IShipmentOrderValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
