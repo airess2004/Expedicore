@@ -17,6 +17,7 @@ namespace Core.DomainModel
          public Nullable<int> EmployeeId { get; set; }
          public string CashBondTo { get; set; }
          public Nullable<decimal> CashBondIDR { get; set; }
+         public Nullable<decimal> CashBondUSD { get; set; } 
          public Nullable<bool> Paid { get; set; }
          public Nullable<DateTime> PaidOn { get; set; }
          public Nullable<Decimal> Rate { get; set; }

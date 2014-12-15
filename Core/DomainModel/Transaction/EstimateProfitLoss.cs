@@ -15,7 +15,8 @@ namespace Core.DomainModel
         public Nullable<decimal> Rate { get; set; }
         public Nullable<decimal> EstIDRShipCons { get; set; }
         public Nullable<decimal> EstIDRAgent { get; set; }
-
+        public Nullable<decimal> EstUSDShipCons { get; set; }
+        public Nullable<decimal> EstUSDAgent { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CreatedById { get; set; }
