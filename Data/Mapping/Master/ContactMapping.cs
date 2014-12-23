@@ -18,6 +18,22 @@ namespace Data.Mapping
                 .WithMany()
                 .HasForeignKey(u => u.OfficeId)
                 .WillCascadeOnDelete(false);
+            HasOptional(u => u.Airport)
+                        .WithMany()
+                        .HasForeignKey(u => u.AirportId)
+                        .WillCascadeOnDelete(false);
+            HasOptional(u => u.CityLocation)
+                        .WithMany()
+                        .HasForeignKey(u => u.CityId)
+                        .WillCascadeOnDelete(false);
+            HasOptional(u => u.Port)
+                       .WithMany()
+                       .HasForeignKey(u => u.PortId)
+                       .WillCascadeOnDelete(false);
+            HasOptional(u => u.UpdatedBy)
+               .WithMany()
+               .HasForeignKey(u => u.UpdatedById)
+               .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
                .WithMany()
                .HasForeignKey(u => u.CreatedById)

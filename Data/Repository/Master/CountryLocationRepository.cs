@@ -33,14 +33,14 @@ namespace Data.Repository
 
         public int GetLastMasterCode(int officeId)
         {
-            int? data = FindAll(x => x.OfficeId == officeId).Max().MasterCode;
+            CountryLocation data = FindAll(x => x.OfficeId == officeId).OrderByDescending(x => x.MasterCode).FirstOrDefault();
             if (data != null)
             {
-                return data.Value;
+                return data.MasterCode;
             }
             else
             {
-                return 1;
+                return 0;
             }
         }
 

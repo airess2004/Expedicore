@@ -35,7 +35,7 @@ namespace Service
         public Airport CreateObject(Airport airport, ICityLocationService _citylocationservice)
         {
             airport.Errors = new Dictionary<String, String>();
-            if (!isValid(_validator.VCreateObject(airport, this, _citylocationservice)))
+            if (isValid(_validator.VCreateObject(airport, this, _citylocationservice)))
             {
                 airport.MasterCode = _repository.GetLastMasterCode(airport.OfficeId) + 1;
                 airport = _repository.CreateObject(airport);
@@ -45,7 +45,7 @@ namespace Service
          
         public Airport UpdateObject(Airport airport, ICityLocationService _citylocationservice)
         {
-            if (!isValid(_validator.VUpdateObject(airport, this, _citylocationservice)))
+            if (isValid(_validator.VUpdateObject(airport, this, _citylocationservice)))
             {
                 airport = _repository.UpdateObject(airport);
             }

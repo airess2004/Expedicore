@@ -1,0 +1,768 @@
+﻿@*@model infoss.Models.ShipmentOrderModels*@
+@{
+    ViewBag.Title = "Shipment Order PPJK";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs.css")">
+    <!-- Additional IE/Win specific style sheet (Conditional Comments) -->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs-ie.css")">
+        <![endif]-->
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.1.3.1.pack.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.history_remote.pack.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tabs.pack.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput-1.2.2.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/mousetrap.min.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/shipmentorderPPJK.js")"></script>
+}
+
+<div id="container_seaimportdetail" style="margin: 10px;">
+    <div id="seaimportdetail" class="easyui-panel" style="text-align: left;"
+        data-options="modal:true" title=".: @ViewBag.Title  :.">
+
+        <div id="seaimport_form_toolbar" class="form_toolbar">
+            <a id="seaimport_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
+            <a id="seaimport_form_btn_cancel" href="@Url.Action("Index", new { type = "6" })" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-back'">Back</a>
+
+            <a id="seaimport_form_btn_print_do" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print DO</a>
+            <a id="seaimport_form_btn_open_close_job" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-book'">Close Job</a>
+        </div>
+        <div id="form_toolbar_nav" class="form_toolbar">
+            <div style="float: right">
+                <a id="nav_first" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-first'">First</a>
+                <a id="nav_prev" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-prev'">Prev</a>
+                <input id="nav_searchjobnumber" type="text" size="5" />
+                <input id="nav_searchsubjobno" type="text" size="1" />
+                <a id="nav_next" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-next'">Next</a>
+                <a id="nav_last" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-last'">Last</a>
+            </div>
+        </div>
+
+        <div id="seaimportdetail_content" style="overflow: auto;">
+            <form id="frmseaimport">
+                <!-- Shipment Order -->
+                <div style="padding: 10px; display: inline-block;" id="shipmentorder_content">
+                    <div class="easyui-panel" style="width: auto !important">
+                        <h2>Shipment Order</h2>
+                        <table width="100%" border="0" style="padding: 10px;">
+                            <tr>
+                                <td>
+                                    <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                        <tr>
+                                            <td width="180px" nowrap>
+                                                <label>Shipment Order Number</label></td>
+                                            <td width="">
+                                                <input id="txtSIshipmentno" type="text" disabled="disabled" size="25" maxlength="25"></td>
+                                            <td rowspan="5" valign="top" align="right">
+                                                <table>
+                                                    <tr>
+                                                        <td valign="top">
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>
+                                                                    <label>Load Status</label></legend>
+                                                                <table width="100%" border="0">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input name="load" type="radio" id="rbSIfcl" class="container" value="FCL" checked="checked" disabled="disabled" /><label for="rbSIfcl">FCL</label></td>
+                                                                        <td>
+                                                                            <input name="load" type="radio" id="rbSIlcl" class="container" value="LCL" disabled="disabled" /><label for="rbSIlcl">LCL</label></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </fieldset>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <fieldset class="ui-widget-content ui-corner-all" style="width: 80%; text-align: left">
+                                                    <legend>
+                                                        <label>Job Type</label></legend>
+                                                    <table width="100%" border="0">
+                                                        <tr>
+                                                            <td nowrap>
+                                                                <input name="jobstatus" type="radio" id="optSIjobLCLConsole" value="F" checked="checked" disabled="disabled"><label for="optSIjobLCLConsole">LCL Console</label></td>
+                                                            <td nowrap>
+                                                                <input name="jobstatus" type="radio" id="optSIjobLCLCoload" value="N" disabled="disabled"><label for="optSIjobLCLCoload">LCL Co-Load</label></td>
+                                                            <td nowrap>
+                                                                <input name="jobstatus" type="radio" id="optSIjobLCLSubmarine" value="C" disabled="disabled"><label for="optSIjobLCLSubmarine">LCL Submarine</label></td>
+                                                            <td nowrap>
+                                                                <input name="jobstatus" type="radio" id="optSIjobFCL" value="C" disabled="disabled"><label for="optSIjobFCL">FCL</label></td>
+                                                            <td nowrap>
+                                                                <input name="jobstatus" type="radio" id="optSIjobOtherservice" value="C" disabled="disabled"><label for="optSIjobOtherservice">Other Service</label></td>
+                                                        </tr>
+                                                    </table>
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap>
+                                                <label>Ref. PIB No.</label></td>
+                                            <td colspan="2">
+                                                <input id="txtSIrefSI" type="text" class="editable upper" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap>
+                                                <label>Date PIB</label></td>
+                                            <td colspan="2">
+                                                <input id="txtSIDateSI" class="editable easyui-datebox" name="date" type="text" title="mm/dd/yyyy" size="12" maxlength="10">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                        <tr>
+                                            <td>
+                                                <div id="SItabs-1" style="width: 600px; padding-right: 20px; padding-top: 10px">
+                                                    <ul class='tabs' style="width: 600px !important;">
+                                                        <li class="tabs-selected"><a href="#tabs_agentSE"><span>Agent</span></a></li>
+                                                        <li><a href="#tabs_shipperSE"><span>Shipper</span></a></li>
+                                                        <li><a href="#tabs_consigneeSE"><span>Consignee</span></a></li>
+                                                    </ul>
+                                                    <div id="tabs_agentSE" title=".:Agent:." class="tabs-container">
+                                                        <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                                            <tr>
+                                                                <td width="9%">Name</td>
+                                                                <td width="91%">
+                                                                    <input id="txtSIkdagent" type="text" size="5" maxlength="7" disabled="disabled" />
+                                                                    <input id="btnSIagent" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                                    <input id="txtSInmagent" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="42" valign="top">Address</td>
+                                                                <td valign="top">
+                                                                    <textarea id="txtSIagentaddress" cols="62" rows="3" class="editable upper" disabled="disabled"></textarea></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div id="tabs_shipperSE" title=".:Shipper:." class="tabs-container">
+                                                        <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                                           <tr>
+                                                                <td width="9%">Name</td>
+                                                                <td width="91%">
+                                                                    <input id="txtSIkdshipper" type="text" size="5" maxlength="7" disabled="disabled" />
+                                                                    <input id="btnSIshipper" name="buttonactivated" type="button" name="btnshipper" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                                    <input id="txtSInmshipper" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="42" valign="top">Address</td>
+                                                                <td valign="top">
+                                                                    <textarea id="txtSIshipperaddress" cols="62" rows="3" class="editable upper" disabled="disabled"></textarea></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div id="tabs_consigneeSE" title=".:Consignee:." class="tabs-container">
+                                                        <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                                            <tr>
+                                                                <td width="9%">Name</td>
+                                                                <td width="91%">
+                                                                    <input id="txtSIkdconsignee" type="text" size="5" maxlength="7" disabled="disabled" />
+                                                                    <input id="btnSIconsignee" name="buttonactivated" type="button" name="btnconsignee" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                                    <input id="txtSInmconsignee" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="42" valign="top">Address</td>
+                                                                <td valign="top">
+                                                                    <textarea id="txtSIconsigneeaddress" cols="62" rows="3" class="editable upper" disabled="disabled"></textarea></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td valign="top" align="right"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div id="SItabs-2" style="width: 930px !important; overflow: auto;">
+                                        <ul class='tabs' style="width: 600px !important;">
+                                            <li class="tabs-selected"><a href="#tabs_vesselSE"><span>Vessel</span></a></li>
+                                            <li><a href="#tabs_containerSE"><span>Container</span></a></li>
+                                            <li><a href="#tabs_descriptionSE"><span>Description</span></a></li>
+                                        </ul>
+                                        <div id="tabs_vesselSE" title=".: Vessel :." style="min-height: 210px;" class="tabs-container">
+                                            <!-- VESSEL !-->
+                                            <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                                <tr>
+                                                    <td nowrap="nowrap">Place of Receipt</td>
+                                                    <td colspan="3">
+                                                        <input id="txtSIkdplaceofreceipt" type="text" size="4" maxlength="7" disabled="disabled" />
+                                                        <input id="btnSIplaceofreceipt" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                        <input id="txtSInmplaceofreceipt" type="text" size="33" class="editable upper" disabled="disabled" />
+                                                    </td>
+                                                    <td>Port of Loading</td>
+                                                    <td>
+                                                        <input id="txtSIkdportofloading" type="text" size="4" disabled="disabled" />
+                                                        <input id="btnSIportofloading" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                        <input id="txtSInmportofloading" type="text" size="33" maxlength="30" class="editable upper" disabled="disabled" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td nowrap="nowrap">Port of Discharge</td>
+                                                    <td colspan="3">
+                                                        <input id="txtSIkdportofdischarge" type="text" size="4" maxlength="7" disabled="disabled" />
+                                                        <input id="btnSIportofdischarge" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                        <input id="txtSInmportofdischarge" type="text" size="33" class="editable upper" disabled="disabled" />
+                                                    </td>
+                                                    <td>Place of Delivery</td>
+                                                    <td>
+                                                        <input id="txtSIkdplaceofdelivery" type="text" size="4" disabled="disabled" />
+                                                        <input id="btnSIplaceofdelivery" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                        <input id="txtSInmplaceofdelivery" type="text" size="33" maxlength="35" class="editable upper" disabled="disabled" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ETD</td>
+                                                    <td colspan="3">
+                                                        <input type="text" id="txtSIetd" class="editable easyui-datebox" size="10" maxlength="10" /></td>
+                                                    <td>ETA</td>
+                                                    <td>
+                                                        <input type="text" id="txtSIeta" class="editable easyui-datebox" size="10" maxlength="10" /></td>
+                                                </tr>
+                                            </table>
+                                            <br />
+                                            <a href="#" id="newVessel" title="New Vessel">Add New Vessel</a>
+                                            <table width="100%" border="0" cellpadding="0" cellspacing="0" id="tblVessel" class="scroll dummyClass ui-jqgrid-htable">
+                                                <tr class="tableRow ui-jqgrid-labels ui-widget-content">
+                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">No</th>
+                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">Vessel</th>
+                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">Type</th>
+                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">Voyage</th>
+                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">ETD</th>
+                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">City</th>
+                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">Option</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>1
+                                                    </td>
+                                                    <td>
+                                                        <input id="txtSInmvessel" name="txtSInmvessel" type="text" size="26" disabled="disabled" />
+                                                        <input id="btnSIvessel" name="btnSIvessel" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                                                    </td>
+                                                    <td>
+                                                        <select id="ddlSEvesseltype" name="ddlSEvesseltype">
+                                                            @*@if (Model.VesselTypeList.ToList().Count == 1)
+                                                            {
+                                                                <option value="@Model.VesselTypeList[0]">
+                                                                    @Model.VesselTypeList[0]
+                                                                </option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="0"></option>
+                                                                foreach (var c in Model.VesselTypeList.ToList())
+                                                                {
+                                                                <option value="@c">@c</option>
+                                                                }
+                                                            }*@
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input id="txtSIvesselvoy" name="txtSIvesselvoy" type="text" size="7" maxlength="10" class="editable" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="txtSIvesseletd" name="txtSIvesseletd" class="editable easyui-datebox" type="text" title="mm/dd/yyyy" size="8" maxlength="10" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="txtSIvesselintcity" name="txtSIvesselintcity" type="text" size="1" disabled="disabled" />
+                                                        <input id="btnSIvesselcity" name="btnSIvesselcity" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                                                        <input id="txtSInmvesselcity" name="txtSInmvesselcity" type="text" size="16" maxlength="30" class="editable upper" disabled="disabled" />
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" id="saveVessel" title="Save Vessel" name="savevessel">Save</a>
+                                                        &nbsp;&nbsp;
+                                                            <a href="#" id="deleteVessel" title="Delete Vessel" name="deletevessel">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="tabs_containerSE" title=".: Container :." style="min-height: 210px;" class="tabs-container">
+                                            <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                                <tr>
+                                                    <td>
+                                                        <fieldset class="ui-widget-content ui-corner-all" style="margin-bottom: 10px">
+                                                            <legend>
+                                                                <label>Total Container</label></legend>
+                                                            <table width="100%" border="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td width="15px" nowrap="nowrap">20'</td>
+                                                                    <td width="50px" nowrap="nowrap">
+                                                                        <input id="txtcontainerSEtotal20" type="text" size="3" style="text-align: right;" disabled="disabled" /></td>
+
+                                                                    <td width="15px" nowrap="nowrap">40'</td>
+                                                                    <td width="50px" nowrap="nowrap">
+                                                                        <input id="txtcontainerSEtotal40" type="text" size="3" style="text-align: right;" disabled="disabled" /></td>
+
+                                                                    <td width="15px" nowrap="nowrap">45'</td>
+                                                                    <td width="50px" nowrap="nowrap">
+                                                                        <input id="txtcontainerSEtotal45" type="text" size="3" style="text-align: right;" disabled="disabled" /></td>
+
+                                                                    <td width="15px" nowrap="nowrap">ALL</td>
+                                                                    <td width="50px" nowrap="nowrap">
+                                                                        <input id="txtcontainerSEtotalall" type="text" size="3" style="text-align: right;" disabled="disabled" /></td>
+                                                                    <td width="60%">&nbsp;</td>
+                                                                </tr>
+                                                            </table>
+                                                        </fieldset>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top">
+                                                        <table id="list_containerSE" class="scroll dummyClass ui-jqgrid-htable" cellpadding="0" cellspacing="0" border="0" width="100%"></table>
+                                                        <div id="pager_containerSE" class="scroll" style="text-align: center;"></div>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <fieldset class="ui-widget-content ui-corner-all" style="background: #DCFFCA; margin-top: 10px;" id="list_containerSEinput">
+                                                            <div style="float: left; width: 50px;">
+                                                                Size<br />
+                                                                <select id="containerSEsize">
+                                                                    <option value="1">20</option>
+                                                                    <option value="2">40</option>
+                                                                    <option value="3">45</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="float: left; width: 230px;">
+                                                                Type<br />
+                                                                <select id="containerSEtype">
+                                                                    <option value="1">GP &#40;GENERAL PURPOSE&#41;</option>
+                                                                    <option value="2">HC &#40;HIGH CUBE&#41;</option>
+                                                                    <option value="3">RF &#40;REFER&#41;</option>
+                                                                    <option value="4">FR &#40;FLAT RACK&#41;</option>
+                                                                    <option value="5">OT &#40;OPEN TOP&#41;</option>
+                                                                    <option value="6">GOH &#40;GARMENT ON HANGER&#41;</option>
+                                                                    <option value="7">ISO &#40;ISOTANK&#41;</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="float: left; width: 150px;">
+                                                                Container No.<br />
+                                                                <input id="containerSEcontainerno" class="editable upper" type="text" size="12" style="text-align: right;" />
+                                                                <button id="btncontainerSEcontainerno" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled">..</button>
+                                                            </div>
+                                                            <div style="float: left; width: 150px;">
+                                                                Seal No.<br />
+                                                                <input id="containerSEsealno" class="editable upper" type="text" size="15" style="text-align: right;" />
+                                                            </div>
+                                                            <div style="float: left; width: 100px;">
+                                                                Gross Weight<br />
+                                                                <input id="containerSEgrossweight" type="text" size="7" style="text-align: right;" class="editable easyui-numberbox" data-options="precision:4,groupSeparator:','" />
+                                                            </div>
+                                                            <div style="float: left; width: 100px;">
+                                                                Net Weight<br />
+                                                                <input id="containerSEnetweight" type="text" size="7" style="text-align: right;" class="editable easyui-numberbox" data-options="precision:4,groupSeparator:','" />
+                                                            </div>
+                                                            <div style="float: left; width: 100px;">
+                                                                CBM<br />
+                                                                <input id="containerSEcbm" type="text" size="7" style="text-align: right;" class="editable easyui-numberbox" data-options="precision:4,groupSeparator:','" />
+                                                            </div>
+                                                            <div style="clear: both"></div>
+                                                            <div style="float: left; width: 280px; margin-top: 8px;">
+                                                                Commodity<br />
+                                                                <textarea id="containerSEcommodity" class="editable upper" rows="2" cols="30"></textarea>
+                                                            </div>
+                                                            <div style="float: left; width: 80px; margin-top: 8px;">
+                                                                No Of Pieces<br />
+                                                                <input id="containerSEnoofpieces" class="editable easyui-numberbox" type="text" size="3" style="text-align: right;" />
+                                                            </div>
+                                                            <div style="float: left; width: 220px; margin-top: 8px;">
+                                                                Packaging<br />
+                                                                <select id="containerSEpackaging">
+                                                                    <option value="GPL">GPL - General Packaging</option>
+                                                                    <option value="ALU">ALU - ALUMINIUM PLT&#40;S&#41;</option>
+                                                                    <option value="BAG">BAG - BAG&#40;S&#41;</option>
+                                                                    <option value="BLE">BLE - BALE&#40;S&#41;</option>
+                                                                    <option value="BOX">BOX - BOX&#40;ES&#41;</option>
+                                                                    <option value="CS">CS - CASE &#40;S&#41;</option>
+                                                                    <option value="CTN">CTN - CARTON&#40;S&#41;</option>
+                                                                    <option value="EA">EA - EACH</option>
+                                                                    <option value="LCL">LCL - CBM</option>
+                                                                    <option value="PAL">PAL - PAL&#40;S&#41;</option>
+                                                                    <option value="PCS">PCS - PIECE&#40;S&#41;</option>
+                                                                    <option value="PKG">PKG - PACKAGE&#40;S&#41;</option>
+                                                                    <option value="PLT">PLT - PALLET&#40;S&#41;</option>
+                                                                    <option value="PLY">PLY - PLYWOOD&#40;S&#41;</option>
+                                                                    <option value="ROL">ROL - ROLL&#40;S&#41;</option>
+                                                                    <option value="SET">SET - SET</option>
+                                                                    <option value="UNT">UNT - UNIT&#40;S&#41;</option>
+                                                                    <option value="WCR">WCR - WOODEN CRATE&#40;S&#41;</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="float: left; width: 100px; margin-top: 8px;">
+                                                                Part Of<br />
+                                                                <select id="containerSEpartof">
+                                                                    <option value="true">No</option>
+                                                                    <option value="false">Yes</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="float: left; width: 180px; margin-top: 18px;">
+                                                                <button id="btnSubmitcontainerSE" type="button" class="btnSubmit">Submit</button>
+                                                                &nbsp;&nbsp;
+                                                                <button id="btnCancelcontainerSE" type="button" class="btnSubmit">Cancel</button>
+                                                            </div>
+                                                            <div style="clear: both"></div>
+                                                        </fieldset>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        
+                                        <div id="tabs_descriptionSE" title=".: Description :." style="min-height: 210px; overflow: auto !important;" class="tabs-container">
+                                            <table width="380px" border="0">
+                                                <tr>
+                                                    <td width="90px" nowrap="nowrap">
+                                                        <label>Mark &amp; Number</label></td>
+                                                    <td width="230px">
+                                                        <label>Number &amp; Type Pakages</label></td>
+                                                    <td width="210px">
+                                                        <label>Description of Goods</label></td>
+                                                    <td width="90px">
+                                                        <label>Gross Weight</label></td>
+                                                    <td>
+                                                        <label>Measurement</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <label for="txtSIdesc"></label>
+                                                        <textarea id="txtSIdesc" cols="120" rows="10" maxlength="2000" class="editable upper mousetrap" disabled="disabled"
+                                                            style="background-color: #DCFFCA; font-family: Tahoma; text-align: left; font-size: 1.1em;"></textarea></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%" border="0" cellpadding="1" cellspacing="1" style="margin-top: 20px">
+                                        <tr>
+                                            <td nowrap="nowrap">BL / AWB No.</td>
+                                            <td colspan="3">
+                                                <input id="txtSIhouseblno" type="text" class="editable upper number" disabled="disabled" />
+                                                &nbsp;&nbsp;&nbsp;
+                                                    HBL / HWB No.
+                                                    &nbsp;
+                                                    <input id="txtSIsecondhblno" type="text" class="editable upper number" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap="nowrap">Jo.PTP </td>
+                                            <td colspan="3">
+                                                <input id="txtSIoceanmstblnr" type="text" class="editable upper number" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>JO CUST</td>
+                                            <td colspan="3">
+                                                <input id="txtSIvolumebl" class="editable easyui-numberbox" data-options="precision:2,groupSeparator:','" type="text" style="text-align: right;" disabled="disabled" />
+                                                &nbsp;&nbsp;&nbsp;
+                                                    Invoice No.
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <input id="txtSIvolumeinvoice" class="editable easyui-numberbox" data-options="precision:2,groupSeparator:','" type="text" size="20" style="text-align: right;" disabled="disabled" />
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SSLine Name</td>
+                                            <td>
+                                                <input id="txtSIkdssline" type="text" size="5" disabled="disabled" />
+                                                <input id="btnSIssline" type="button" name="buttonactivated" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                <input id="txtSInmssline" type="text" size="45" disabled="disabled" /></td>
+                                            <td>Warehouse</td>
+                                            <td>
+                                                <input id="txtSIwarehousename" type="text" class="editable upper number" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>EMKL Name</td>
+                                            <td>
+                                                <input id="txtSIkdemkl" type="text" size="5" disabled="disabled" />
+                                                <input id="btnSIemkl" type="button" name="buttonactivated" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                <input id="txtSInmemkl" type="text" size="45" disabled="disabled" />
+                                            </td>
+                                            <td>KINS</td>
+                                            <td>
+                                                <input id="txtSIkins" type="text" class="editable upper number" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Depo Name</td>
+                                            <td>
+                                                <input id="txtSIkddepo" type="text" size="5" disabled="disabled" />
+                                                <input id="btnSIdepo" type="button" name="buttonactivated" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                                <input id="txtSInmdepo" type="text" size="45" disabled="disabled" />
+                                            </td>
+                                            <td>Cargo/Freight Company</td>
+                                            <td>
+                                                <input id="txtSIcargofreightcompany" type="text" class="editable upper number" /></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- End Shipment Order -->
+
+            </form>
+        </div>
+    </div>
+
+    <!-- List Dialog -->
+    <div id="lookup_div_so_marketing" class="easyui-dialog" title="List Marketing" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_marketing" class="grid_toolbar">
+            <a id="lookup_btn_add_so_marketing" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_marketing" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_marketing" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_marketing" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_agent" class="easyui-dialog" title="List Agent" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_agent" class="grid_toolbar">
+            <a id="lookup_btn_add_so_agent" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_agent" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_agent" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_agent" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_shipper" class="easyui-dialog" title="List Shipper" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_shipper" class="grid_toolbar">
+            <a id="lookup_btn_add_so_shipper" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_shipper" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_shipper" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_shipper" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_consignee" class="easyui-dialog" title="List Consignee" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_consignee" class="grid_toolbar">
+            <a id="lookup_btn_add_so_consignee" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_consignee" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_consignee" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_consignee" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_city" class="easyui-dialog" title="List City" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_city" class="grid_toolbar">
+            <a id="lookup_btn_add_so_city" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_city" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_city" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_city" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_ssline" class="easyui-dialog" title="List SSLine" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_ssline" class="grid_toolbar">
+            <a id="lookup_btn_add_so_ssline" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_ssline" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_ssline" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_ssline" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_emkl" class="easyui-dialog" title="List EMKL" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_emkl" class="grid_toolbar">
+            <a id="lookup_btn_add_so_emkl" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_emkl" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_emkl" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_emkl" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_depo" class="easyui-dialog" title="List Depo" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_depo" class="grid_toolbar">
+            <a id="lookup_btn_add_so_depo" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_depo" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_depo" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_depo" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_port" class="easyui-dialog" title="List Port" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_port" class="grid_toolbar">
+            <a id="lookup_btn_add_so_port" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_port" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_port" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_port" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_vessel" class="easyui-dialog" title="List Vessel" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_vessel" class="grid_toolbar">
+            <a id="lookup_btn_add_so_vessel" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_vessel" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+            <div style="float: right">
+                <a id="lookup_btn_new_so_vessel" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Add New</a>
+            </div>
+        </div>
+
+        <table id="lookup_table_so_vessel" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_vessel" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_bl_blform" class="easyui-dialog" title="List BL" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_bl_blform" class="grid_toolbar">
+            <a id="lookup_btn_add_bl_blform" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_bl_blform" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_bl_blform" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_bl_blform" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_container" class="easyui-dialog" title="List Container" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_so_container" class="grid_toolbar">
+            <a id="lookup_btn_add_so_container" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_container" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_so_container" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_so_container" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="lookup_div_so_freight_obl_payable" class="easyui-dialog" title="List Agent" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+        <div id="lookup_toolbar_so_freight_obl_payable" class="grid_toolbar">
+            <a id="lookup_btn_add_so_freight_obl_payable" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_freight_obl_payable" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_freight_obl_payable" border="0" class="dummyClass ui-jqgrid-htable" cellpadding="0" cellspacing="0" width="100%">
+            <thead>
+                <tr class="ui-jqgrid-labels ui-widget-content">
+                    <th class="ui-state-default ui-th-column ui-th-ltr">Id</th>
+                    <th class="ui-state-default ui-th-column ui-th-ltr">Code</th>
+                    <th class="ui-state-default ui-th-column ui-th-ltr">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="lookup_div_so_freight_hbl_payable" class="easyui-dialog" title="List Consignee" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+        <div id="lookup_toolbar_so_freight_hbl_payable" class="grid_toolbar">
+            <a id="lookup_btn_add_so_freight_hbl_payable" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_so_freight_hbl_payable" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_freight_hbl_payable" border="0" class="dummyClass ui-jqgrid-htable" cellpadding="0" cellspacing="0" width="100%">
+            <thead>
+                <tr class="ui-jqgrid-labels ui-widget-content">
+                    <th class="ui-state-default ui-th-column ui-th-ltr">Id</th>
+                    <th class="ui-state-default ui-th-column ui-th-ltr">Code</th>
+                    <th class="ui-state-default ui-th-column ui-th-ltr">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Master Vessel -->
+    <div id="mst_vessel_form_div" class="easyui-dialog" style="text-align: left; width: 530px;"
+        data-options="modal:true" title=".: MASTER vessel :.">
+
+        <div id="mst_vessel_form_toolbar" class="form_toolbar">
+            <a id="mst_vessel_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
+            <a id="mst_vessel_form_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+
+        <div style="height: 150px; overflow: auto">
+            <fieldset class="ui-widget-content ui-corner-all input_form_div">
+                <table width="100%" border="0" cellpadding="1" cellspacing="1" class="input_form_tbl">
+                    <tr>
+                        <td>
+                            <label>International Code</label></td>
+                        <td>
+                            <input id="txtmstintvessel" type="text" size="3" maxlength="3" align="left" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Name</label></td>
+                        <td>
+                            <input id="txtmstvesselname" type="text" size="50" maxlength="50" align="left" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <!-- END Master Vessel -->
+
+    <!-- END List Dialog -->
+
+    <!--  Dialog Print -->
+    <div id="dialogPrint" class="easyui-dialog" data-options="modal:true" title="PRINT DELIVERY ORDER" style="width: 350px; height: 120px; padding: 10px"
+        buttons="#dialogPrint-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td nowrap>
+                    <label>Gudang (GoDown) :</label></td>
+                <td>
+                    <input id="txtgudang" type="text" size="30" maxlength="30" align="left" /></td>
+            </tr>
+        </table>
+    </div>
+    <div id="dialogPrint-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogPrintYes" href="#" class="easyui-linkbutton" iconcls="icon-print">Print</a>
+                    <a id="btnDialogPrintNo" href="#" class="easyui-linkbutton" iconcls="icon-no">Cancel</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Print -->
+</div>

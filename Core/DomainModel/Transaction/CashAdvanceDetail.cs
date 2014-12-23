@@ -11,14 +11,31 @@ namespace Core.DomainModel
         public int Id { get; set; }
         public int CashAdvanceId { get; set; }
         public int Sequence { get; set; }
+        public int OfficeId { get; set; }
+        public int MasterCode { get; set; }
         public string Description { get; set; }
         public Nullable<decimal> AmountUSD { get; set; }
         public Nullable<decimal> AmountIDR { get; set; }
-        public Nullable<int> RefId { get; set; }
+        public Nullable<int> PaymentRequestDetailId { get; set; }
         public Nullable<int> ShipmentOrderId { get; set; }
         public string ShipmentNo { get; set; }
-          
-       // public virtual CashAdvanceDetail CashAdvanceDetail { get; set; }
-        public virtual ShipmentOrder ShipmentOrder { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public int CreatedById { get; set; }
+        public Nullable<int> UpdatedById { get; set; }
+        public Nullable<DateTime> UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; }
+        public Nullable<DateTime> DeletedAt { get; set; }
+        public bool IsConfirmed { get; set; }
+        public Nullable<DateTime> ConfirmationDate { get; set; }
+
+        public virtual AccountUser CreatedBy { get; set; }
+        public virtual AccountUser UpdatedBy { get; set; }
+        public virtual ShipmentOrder ShipmentOrder { get; set; } 
+        public virtual PaymentRequestDetail PaymentRequestDetail { get; set; }
+        public virtual CashAdvance CashAdvance { get; set; }
+        public virtual Office Office { get; set; }
+        public Dictionary<String, String> Errors { get; set; }
+
     }
 }

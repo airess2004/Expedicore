@@ -34,7 +34,7 @@ namespace Service
         public Port CreateObject(Port port,ICityLocationService _citylocationService)
         {
             port.Errors = new Dictionary<String, String>();
-            if (!isValid(_validator.VCreateObject(port,this,_citylocationService)))
+            if (isValid(_validator.VCreateObject(port,this,_citylocationService)))
             {
                 port.MasterCode = _repository.GetLastMasterCode(port.OfficeId) + 1;
                 port = _repository.CreateObject(port);
@@ -44,7 +44,7 @@ namespace Service
 
         public Port UpdateObject(Port port,ICityLocationService _citylocationService)
         {
-            if (!isValid(_validator.VUpdateObject(port, this,_citylocationService)))
+            if (isValid(_validator.VUpdateObject(port, this,_citylocationService)))
             {
                 port = _repository.UpdateObject(port);
             }

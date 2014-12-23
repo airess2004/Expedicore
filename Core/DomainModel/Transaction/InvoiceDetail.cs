@@ -8,28 +8,33 @@ namespace Core.DomainModel
 {
     public partial class InvoiceDetail
     { 
-        public int Id;
-        public int InvoiceId;
-        public string DebetCredit;
-        public int OfficeId;	
-        public Nullable<int> Sequence;	
-        public Nullable<int> CostId;	
-        public string Description;	
-        public Nullable<int> Type;	
-        public Nullable<bool> CodingQuantity;	
-        public Nullable<decimal> Quantity;	
-        public Nullable<decimal> PerQty;	
-        public Nullable<bool> Sign;	
-        public Nullable<int> AmountCrr;
-        public Nullable<decimal> Amount;	
-        public Nullable<decimal> PercentVat;
-        public Nullable<decimal> AmountVat;	
-        public Nullable<int> EPLDetailId;	
-        public Nullable<int> CreatedById;	
-        public Nullable<DateTime> CreatedAt;	
-        public Nullable<int> UpdatedById;	
-        public Nullable<DateTime> UpdatedAt;
-        public Nullable<int> VatId;
+        public int Id { get; set; }
+        public int InvoiceId { get; set; }
+        public string DebetCredit { get; set; }
+        public int OfficeId { get; set; }
+        public int MasterCode { get; set; }
+        public Nullable<int> Sequence { get; set; }	
+        public Nullable<int> CostId { get; set; }	
+        public string Description { get; set; }	
+        public Nullable<int> Type { get; set; }	
+        public Nullable<bool> CodingQuantity { get; set; }	
+        public Nullable<decimal> Quantity { get; set; }	
+        public Nullable<decimal> PerQty { get; set; }	
+        public Nullable<bool> Sign { get; set; }	
+        public Nullable<int> AmountCrr { get; set; }
+        public Nullable<decimal> Amount { get; set; }	
+        public Nullable<decimal> PercentVat { get; set; }
+        public Nullable<decimal> AmountVat { get; set; }	
+        public Nullable<int> EPLDetailId { get; set; }	
+        public int CreatedById { get; set; }	
+        public DateTime CreatedAt { get; set; }	
+        public Nullable<int> UpdatedById { get; set; }	
+        public Nullable<DateTime> UpdatedAt { get; set; }
+        public Nullable<int> VatId { get; set; }
+        public bool IsDeleted { get; set; }
+        public Nullable<DateTime> DeletedAt { get; set; }
+        public bool IsConfirmed { get; set; }
+        public Nullable<DateTime> ConfirmationDate { get; set; }
 
         public Dictionary<string, string> Errors { get; set; }
          

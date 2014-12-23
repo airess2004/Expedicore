@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/invoicelist.js")"></script>
+}
+
+<div id="ua_panel" class="easyui-panel" style="text-align: left;" data-options="modal:true" title=".: Invoice :.">
+    <div id="invoice_toolbar" class="grid_toolbar">
+        <div style="float: left">
+            <a id="invoice_btn_reload" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">Reload Data</a>
+            <a id="invoice_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+            <a id="invoice_btn_edit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Edit Data</a>
+            <a id="invoice_btn_delete" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
+            <a id="invoice_btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print Data</a>
+            <a id="form_btn_reprintapproval" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-approval'">RePrint Approval</a>
+        </div>
+        <div id="freighttype" style="float: right; background: #dc381f; color: #fff; height: 25px; padding: 0 10px; font-size: 12px;">
+            <label style="font-size: 14px; font-weight: bold">Job:</label>
+            <select id="jobtype">
+              @*  @foreach (var item in Model.listJob)
+                {
+                    *@<option value="10">PPJK</option>
+                @*}*@
+            </select>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div id="invoice_panel">
+        <table id="list_invoice" class="scroll list_master" cellpadding="0" cellspacing="0"></table>
+        <div id="pager_list_invoice" class="scroll" style="text-align: center;"></div>
+    </div>
+
+
+    <!--  Dialog Edit -->
+    <div id="dialogEdit" class="easyui-dialog" title="Edit Data" data-options="modal:true" style="width: 400px; height: 120px; padding: 10px"
+        buttons="#dialogEdit-buttons">
+        Invoices has been Printed !
+    <br />
+        Edit will make Contra Invoices and New Invoices Automatically !
+    </div>
+    <div id="dialogEdit-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogEditOk" href="#" class="easyui-linkbutton" iconcls="icon-ok">OK</a>
+                    <a id="btnDialogEditCancel" href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dialogEdit').dialog('close')">Cancel</a>
+                    <a id="btnDialogEditView" href="#" class="easyui-linkbutton" iconcls="icon-remove">View Only</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Edit -->
+
+
+    <!--  Dialog Delete -->
+    <div id="dialogDelete" class="easyui-dialog" data-options="modal:true" title="Delete Data" style="width: 400px; height: 120px; padding: 10px"
+        buttons="#dialogDelete-buttons">
+        Invoices has been Printed !
+    <br />
+        Delete will make Contra Invoices Automatically !
+    </div>
+    <div id="dialogDelete-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogDeleteOk" href="#" class="easyui-linkbutton" iconcls="icon-ok">OK</a>
+                    <a id="btnDialogDeleteCancel" href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dialogDelete').dialog('close')">Cancel</a>
+                    <a id="btnDialogDeleteView" href="#" class="easyui-linkbutton" iconcls="icon-remove">View Only</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Delete -->
+
+    <!--  Dialog Print -->
+    <div id="dialogPrint" class="easyui-dialog" data-options="modal:true" title="Print Data" style="width: 400px; height: 120px; padding: 10px"
+        buttons="#dialogPrint-buttons">
+        BCR (Yes)  or  OTS (No) Invoices ?
+    </div>
+    <div id="dialogPrint-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogPrintOk" href="#" class="easyui-linkbutton">Yes</a>
+                    <a id="btnDialogPrintNo" href="#" class="easyui-linkbutton">No</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Print -->
+
+    <!--  Dialog Print (Fixed / Draft) -->
+    <div id="dialogPrintFixedDraft" class="easyui-dialog" data-options="modal:true" title="Print Data" style="width: 400px; height: 120px; padding: 10px"
+        buttons="#dialogPrintFixedDraft-buttons">
+        Fixed (Yes)  or  Draft (No) Invoices ?
+    </div>
+    <div id="dialogPrintFixedDraft-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogPrintFixedDraftOk" href="#" class="easyui-linkbutton">Yes</a>
+                    <a id="btnDialogPrintFixedDraftNo" href="#" class="easyui-linkbutton">No</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Print (Fixed / Draft) -->
+
+</div>

@@ -15,6 +15,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> FirstPrintedOn { get; set; }
         public Nullable<int> Printing { get; set; }
         public Nullable<DateTime> PrintedOn { get; set; }
+        public int MasterCode { get; set; }
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }

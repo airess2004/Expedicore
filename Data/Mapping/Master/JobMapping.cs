@@ -22,6 +22,10 @@ namespace Data.Mapping
                .WithMany()
                .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);
+            HasRequired(u => u.Office)
+               .WithMany()
+               .HasForeignKey(u => u.OfficeId)
+               .WillCascadeOnDelete(false);
             Ignore(u => u.Errors);
         }
     }

@@ -18,22 +18,26 @@ namespace Data.Mapping
                 .WithMany()
                 .HasForeignKey(u => u.OfficeId)
                 .WillCascadeOnDelete(false);
-            HasOptional(u => u.Consignee)
+            HasOptional(u => u.Agent)
+                 .WithMany()
+                 .HasForeignKey(u => u.AgentId)
+                 .WillCascadeOnDelete(false);
+            HasOptional(u => u.Delivery)
+                 .WithMany()
+                 .HasForeignKey(u => u.DeliveryId)
+                 .WillCascadeOnDelete(false);
+            HasOptional(u => u.Transhipment)
                .WithMany()
-               .HasForeignKey(u => u.ConsigneeId)
+               .HasForeignKey(u => u.TranshipmentId)
                .WillCascadeOnDelete(false);
-            HasOptional(u => u.NParty)
-                .WithMany()
-                .HasForeignKey(u => u.NPartyId)
-                .WillCascadeOnDelete(false);
             HasOptional(u => u.Shipper)
                 .WithMany()
                 .HasForeignKey(u => u.ShipperId)
                 .WillCascadeOnDelete(false);
             HasOptional(u => u.Consignee)
-                .WithMany()
-                .HasForeignKey(u => u.ConsigneeId)
-                .WillCascadeOnDelete(false);
+                 .WithMany()
+                 .HasForeignKey(u => u.ConsigneeId)
+                 .WillCascadeOnDelete(false);
             HasOptional(u => u.NParty)
                 .WithMany()
                 .HasForeignKey(u => u.NPartyId)
@@ -62,22 +66,18 @@ namespace Data.Mapping
                .WithMany()
                .HasForeignKey(u => u.DestinationAirPortId)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.ShipmentAdvice)
-               .WithMany()
-               .HasForeignKey(u => u.Id)
-               .WillCascadeOnDelete(false);
-            HasRequired(u => u.ShipmentInstruction)
-               .WithMany()
-               .HasForeignKey(u => u.Id)
-               .WillCascadeOnDelete(false);
-            HasRequired(u => u.DeliveryOrder)
-               .WithMany()
-               .HasForeignKey(u => u.Id)
-               .WillCascadeOnDelete(false);
-            HasRequired(u => u.NoticeOfArrival)
-               .WithMany()
-               .HasForeignKey(u => u.Id)
-               .WillCascadeOnDelete(false);
+            HasMany(u => u.ShipmentAdvice)
+               .WithRequired(u => u.ShipmentOrder)
+              .HasForeignKey(u => u.ShipmentOrderId);
+            HasMany(u => u.ShipmentInstruction)
+               .WithRequired(u => u.ShipmentOrder)
+               .HasForeignKey(u => u.ShipmentOrderId);
+            HasMany(u => u.DeliveryOrder)
+               .WithRequired(u => u.ShipmentOrder)
+               .HasForeignKey(u => u.ShipmentOrderId);
+            HasMany(u => u.NoticeOfArrival)
+               .WithRequired(u => u.ShipmentOrder)
+               .HasForeignKey(u => u.ShipmentOrderId);
             HasMany(u => u.SeaContainers)
                .WithRequired(u => u.ShipmentOrder)
                .HasForeignKey(u => u.ShipmentOrderId);

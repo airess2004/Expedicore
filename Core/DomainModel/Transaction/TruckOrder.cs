@@ -9,6 +9,7 @@ namespace Core.DomainModel
     public partial class TruckOrder
     { 
         public int Id { get; set; }
+        public int OfficeId { get; set; }
         public string NoJob { get; set; }
         public int EmployeeId { get; set; }
         public int ContactId { get; set; }
@@ -28,7 +29,6 @@ namespace Core.DomainModel
         public string NoContainer { get; set; }
         public string Tujuan { get; set; }
         public int MasterCode { get; set; }
-        public int OfficeId { get; set; }
 
         public Nullable<DateTime> TglLoloBayar { get; set; }
 
@@ -58,8 +58,8 @@ namespace Core.DomainModel
         public Nullable<DateTime> DeletedAt { get; set; }
 
         public Dictionary<string, string> Errors { get; set; }
+        
         public virtual Office Office { get; set; }
-
         public virtual Truck Truck { get; set; }
         public virtual Contact Contact { get; set; }
         public virtual Employee Employee { get; set; }

@@ -10,6 +10,7 @@ namespace Core.DomainModel
         public int Id { get; set; } 
         public Nullable<int> OfficialReceiptId { get; set; } 
         public int InvoicesId { get; set; }
+        public int MasterCode { get; set; }
         public string BankCode { get; set; }
         public Nullable<int> AmountCrr { get; set; }
         public string Remarks { get; set; }

@@ -40,6 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Finance\CashBankAdjustmentValidator.cs" />
+    <Compile Include="Validation\Finance\CashBankMutationValidator.cs" />
+    <Compile Include="Validation\Finance\CashBankValidator.cs" />
+    <Compile Include="Validation\Finance\CashMutationValidator.cs" />
     <Compile Include="Validation\Master\AirlineValidation.cs" />
     <Compile Include="Validation\Master\ContinentValidation.cs" />
     <Compile Include="Validation\Master\CityLocationValidation.cs" />
@@ -48,9 +52,11 @@
     <Compile Include="Validation\Master\ContactTypeValidation.cs" />
     <Compile Include="Validation\Master\ContainerYardValidation.cs" />
     <Compile Include="Validation\Master\DepoValidation.cs" />
+    <Compile Include="Validation\Master\ExchangeRateValidation.cs" />
     <Compile Include="Validation\Master\TruckValidation.cs" />
     <Compile Include="Validation\Master\GroupEmployeeValidation.cs" />
     <Compile Include="Validation\Master\EmployeeValidation.cs" />
+    <Compile Include="Validation\Master\VatValidation.cs" />
     <Compile Include="Validation\Master\VesselValidation.cs" />
     <Compile Include="Validation\Master\OfficeValidation.cs" />
     <Compile Include="Validation\Master\MstBillOfLadingValidation.cs" />
@@ -60,6 +66,25 @@
     <Compile Include="Validation\Master\CostValidation.cs" />
     <Compile Include="Validation\Master\PortValidation.cs" />
     <Compile Include="Validation\Master\CountryLocationValidation.cs" />
+    <Compile Include="Validation\Transaction\BillOfLadingValidation.cs" />
+    <Compile Include="Validation\Transaction\CashAdvanceDetailValidation.cs" />
+    <Compile Include="Validation\Transaction\CashAdvanceValidation.cs" />
+    <Compile Include="Validation\Transaction\EstimateProfitLossDetailValidation.cs" />
+    <Compile Include="Validation\Transaction\EstimateProfitLossValidation.cs" />
+    <Compile Include="Validation\Transaction\InvoiceDetailValidation.cs" />
+    <Compile Include="Validation\Transaction\InvoiceValidation.cs" />
+    <Compile Include="Validation\Transaction\PaymentRequestDetailValidation.cs" />
+    <Compile Include="Validation\Transaction\PaymentRequestValidation.cs" />
+    <Compile Include="Validation\Transaction\SeaContainerValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentAdviceValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentInstructionValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentOrderRoutingValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentOrderValidation.cs" />
+    <Compile Include="Validation\Transaction\TelexReleaseValidation.cs" />
+    <Compile Include="Validation\Transaction\TemporaryPaymentJobValidation.cs" />
+    <Compile Include="Validation\Transaction\TemporaryPaymentValidation.cs" />
+    <Compile Include="Validation\Transaction\TemporaryReceiptJobValidation.cs" />
+    <Compile Include="Validation\Transaction\TemporaryReceiptValidation.cs" />
     <Compile Include="Validation\Transaction\TruckOrderValidation.cs" />
     <Compile Include="Validation\UserRole\UserAccessValidator.cs" />
     <Compile Include="Validation\UserRole\UserAccountValidator.cs" />

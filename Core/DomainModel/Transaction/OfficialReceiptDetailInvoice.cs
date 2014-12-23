@@ -8,16 +8,17 @@ namespace Core.DomainModel
     public partial class OfficialReceiptDetailInvoice
     { 
 
-        public int Id; 
-        public string OfficialReceiptId;
-        public int OfficeId;
-        public int InvoicesId;
-        public Nullable<decimal> CashUSD;
-        public Nullable<decimal> CashIDR;
-        public Nullable<decimal> BankUSD;
-        public Nullable<decimal> BankIDR;
-        public Nullable<decimal> Rate;
-        public Nullable<DateTime> ExRateDate;
+        public int Id { get; set; } 
+        public string OfficialReceiptId { get; set; }
+        public int OfficeId { get; set; }
+        public int InvoicesId { get; set; }
+        public int MasterCode { get; set; }
+        public Nullable<decimal> CashUSD { get; set; }
+        public Nullable<decimal> CashIDR { get; set; }
+        public Nullable<decimal> BankUSD { get; set; }
+        public Nullable<decimal> BankIDR { get; set; }
+        public Nullable<decimal> Rate { get; set; }
+        public Nullable<DateTime> ExRateDate { get; set; }
 
         public bool IsConfirmed { get; set; }
         public Nullable<DateTime> ConfirmationDate { get; set; }
@@ -27,6 +28,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> DeletedAt { get; set; }
 
         public virtual CashBank CashBank { get; set; }
+        public virtual Office Office { get; set; }
         public virtual Contact Contact { get; set; }
         public virtual OfficialReceipt OfficalReceipt { get; set; }
         public Dictionary<String, String> Errors { get; set; }

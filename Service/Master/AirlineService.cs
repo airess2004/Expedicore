@@ -34,7 +34,7 @@ namespace Service
         public Airline CreateObject(Airline airline)
         {
             airline.Errors = new Dictionary<String, String>();
-            if (!isValid(_validator.VCreateObject(airline,this)))
+            if (isValid(_validator.VCreateObject(airline,this)))
             {
                 airline.MasterCode = _repository.GetLastMasterCode(airline.OfficeId) + 1;
                 airline = _repository.CreateObject(airline);
@@ -44,7 +44,7 @@ namespace Service
          
         public Airline UpdateObject(Airline airline)
         {
-            if (!isValid(_validator.VUpdateObject(airline, this)))
+            if (isValid(_validator.VUpdateObject(airline, this)))
             {
                 airline = _repository.UpdateObject(airline);
             }

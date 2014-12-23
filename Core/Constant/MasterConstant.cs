@@ -8,6 +8,35 @@ namespace Core.Constant
 { 
     public partial class MasterConstant
     {
+        public class Status
+        {
+            public static string Cancel = "Cancel";
+        }
+
+        public class DebetCredit
+        {
+            public static string Debet = "D";
+            public static string Credit = "C";
+        }
+
+        public class MutationStatus
+        {
+            public static int Addition = 1;
+            public static int Deduction = 2;
+        }
+
+
+        public class SourceDocument
+        {
+            public static string CashBankMutation = "CashBankMutation";
+            public static string CashBankAdjustment = "CashBankAdjustment";
+            public static string PaymentRequest = "PaymentVoucher";
+            public static string PaymentVoucher = "PaymentVoucher";
+            public static string ReceiptVoucher = "ReceiptVoucher";
+            public static string Invoice = "Invoice";
+        }
+
+
         public class VesselType
         {
             public const string VesselFeeder = "FEEDER";
@@ -58,6 +87,20 @@ namespace Core.Constant
             public const int EMKLAirExport = 7;
             public const int EMKLAirImport = 8;
             public const int EMKLDomestic = 9;
+            public const int PPJK = 10;
+        }
+
+        public class InvoiceTo
+        {
+            public const string InvoiceToAgent = "AG";
+            public const string InvoiceToShipper = "SM";
+            public const string InvoiceToConsignee = "CM";
+        }
+
+        public class Currency
+        { 
+            public const int USD = 1;
+            public const int IDR = 0;
         }
     }
 }

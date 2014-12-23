@@ -52,7 +52,7 @@ namespace Webview
             {
                 Office newOffice = new Office();
                 newOffice.Name = "ExpedicoPPJK";
-
+                newOffice.InitialCompany = "ET";
                 office = _officeService.CreateObject(newOffice);
             }
 

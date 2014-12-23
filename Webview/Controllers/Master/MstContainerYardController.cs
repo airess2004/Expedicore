@@ -186,8 +186,7 @@ namespace WebView.Controllers
                 //}
 
                 int userId = AuthenticationModel.GetUserId();
-                model.CreatedById = userId;
-                model.OfficeId = _accountUserService.GetObjectById(userId).OfficeId;
+                model.UpdatedById = userId;
                 var data = _depoService.GetObjectById(model.Id);
                 data.Address = model.Address;
                 data.Description = model.Description;
@@ -229,8 +228,7 @@ namespace WebView.Controllers
              
                 var data = _depoService.GetObjectById(model.Id);
                 int userId = AuthenticationModel.GetUserId();
-                data.CreatedById = userId;
-                data.OfficeId = _accountUserService.GetObjectById(userId).OfficeId;
+                data.UpdatedById = userId;
                 model = _depoService.SoftDeleteObject(data);
             }
             catch (Exception ex)

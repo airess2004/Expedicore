@@ -151,6 +151,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Master\ContinentController.cs" />
+    <Compile Include="Controllers\Master\CityLocationController.cs" />
+    <Compile Include="Controllers\Master\AirportController.cs" />
+    <Compile Include="Controllers\Master\AirlineController.cs" />
+    <Compile Include="Controllers\Master\VesselController.cs" />
+    <Compile Include="Controllers\Master\PortController.cs" />
+    <Compile Include="Controllers\Master\CountryLocationController.cs" />
     <Compile Include="Controllers\Master\MstContainerYardController.cs" />
     <Compile Include="Controllers\Master\MstDepoController.cs" />
     <Compile Include="Controllers\Master\MstEmployeeController.cs" />
@@ -158,6 +165,9 @@
     <Compile Include="Controllers\Master\MstContactController.cs" />
     <Compile Include="Controllers\Master\MstTruckController.cs" />
     <Compile Include="Controllers\Report\TruckJobListController.cs" />
+    <Compile Include="Controllers\Transaction\InvoiceController.cs" />
+    <Compile Include="Controllers\Transaction\EstimateProfitLossController.cs" />
+    <Compile Include="Controllers\Transaction\ShipmentOrderController.cs" />
     <Compile Include="Controllers\Transaction\TruckOrderController.cs" />
     <Compile Include="Controllers\UserRole\AuthenticationController.cs" />
     <Compile Include="Controllers\UserRole\UserAccessController.cs" />
@@ -171,6 +181,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\apps_js\Continent.js" />
+    <Content Include="Content\apps_js\CityLocation.js" />
+    <Content Include="Content\apps_js\Airport.js" />
+    <Content Include="Content\apps_js\Airline.js" />
+    <Content Include="Content\apps_js\invoice_PPJK.js" />
+    <Content Include="Content\apps_js\InvoiceList.js" />
+    <Content Include="Content\apps_js\eplPPJK.js" />
+    <Content Include="Content\apps_js\eplList.js" />
+    <Content Include="Content\apps_js\Vessel.js" />
+    <Content Include="Content\apps_js\Port.js" />
+    <Content Include="Content\apps_js\CountryLocation.js" />
+    <Content Include="Content\apps_js\shipmentorderPPJK.js" />
+    <Content Include="Content\apps_js\ShipmentOrderList.js" />
     <Content Include="Content\apps_js\TruckJobListIsFInish.js" />
     <Content Include="Content\apps_js\TruckJobListNOTMILLIN.js" />
     <Content Include="Content\apps_js\TruckJobListNOTCYIN.js" />
@@ -179,7 +202,7 @@
     <Content Include="Content\apps_js\MasterEmployee.js" />
     <Content Include="Content\apps_js\MasterContainerYard.js" />
     <Content Include="Content\apps_js\MasterDepo.js" />
-    <Content Include="Content\apps_js\MasterContact.js" />
+    <Content Include="Content\apps_js\Contact.js" />
     <Content Include="Content\apps_js\MasterGroupEmployee.js" />
     <Content Include="Content\apps_js\MasterTruck.js" />
     <Content Include="Content\apps_js\tools.js" />
@@ -931,6 +954,8 @@
     <Content Include="Content\themes\easyui\metro\images\Thumbs.db" />
     <Content Include="Content\uploadify\check.php" />
     <Content Include="Content\uploadify\uploadify.php" />
+    <Content Include="Content\Web.config" />
+    <None Include="Properties\PublishProfiles\PPJK.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\collapsiblePanel.js" />
     <Content Include="Scripts\jquery-1.1.3.1.pack.js" />
@@ -1067,6 +1092,19 @@
     <Content Include="Views\TruckJobList\NotMILLIN.cshtml" />
     <Content Include="Views\TruckJobList\NotDEPOIN.cshtml" />
     <Content Include="Views\TruckJobList\IsFinish.cshtml" />
+    <Content Include="Views\ShipmentOrder\Index.cshtml" />
+    <Content Include="Views\ShipmentOrder\PPJK.cshtml" />
+    <Content Include="Views\Continent\Index.cshtml" />
+    <Content Include="Views\CountryLocation\Index.cshtml" />
+    <Content Include="Views\CityLocation\Index.cshtml" />
+    <Content Include="Views\Port\Index.cshtml" />
+    <Content Include="Views\Airport\Index.cshtml" />
+    <Content Include="Views\Vessel\Index.cshtml" />
+    <Content Include="Views\Airline\Index.cshtml" />
+    <Content Include="Views\EstimateProfitLoss\Index.cshtml" />
+    <Content Include="Views\EstimateProfitLoss\PPJK.cshtml" />
+    <Content Include="Views\Invoice\Index.cshtml" />
+    <Content Include="Views\Invoice\PPJK.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1109,7 +1147,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61351</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

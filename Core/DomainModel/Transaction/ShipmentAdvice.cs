@@ -11,7 +11,8 @@ namespace Core.DomainModel
         public int Id { get; set; }
          
         public int ShipmentOrderId { get; set; }
-        public int OfficeId { get; set; } 
+        public int OfficeId { get; set; }
+        public int MasterCode { get; set; }
        
         public string Reference { get; set; }
         public string Remarks { get; set; }

@@ -40,7 +40,7 @@ namespace Validation.Validation
             {
                 airport.Errors.Add("City", "Tidak boleh kosong");
             }
-            else if(VOffice(airport.OfficeId,citylocation.OfficeId))
+            else if(!VOffice(airport.OfficeId,citylocation.OfficeId))
             {
                 airport.Errors.Add("City", "Invalid City");
             }

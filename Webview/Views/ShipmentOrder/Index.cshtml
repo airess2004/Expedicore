@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Shipment Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/mousetrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/shipmentorderlist.js")"></script>
+}
+
+<div id="ua_panel" class="easyui-panel" style="text-align: left;" data-options="modal:true" title=".: Shipment Order :.">
+    <div id="so_toolbar" class="grid_toolbar">
+        <div style="float: left">
+            <a id="so_btn_reload" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">Reload Data</a>
+            <a id="so_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+            <a id="so_btn_edit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Edit Data</a>
+            <a id="so_btn_del" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
+            <a id="so_btn_confirm" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Confirm</a>
+            <a id="so_btn_unconfirm" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Unconfirm</a>
+            <a id="so_btn_find" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'">Find</a>
+        </div>
+        <div id="freighttype" style="float: right; background: #dc381f; color: #fff; height: 25px; padding: 0 10px; font-size: 12px;">
+            <label style="font-size: 14px; font-weight: bold">Job:</label>
+            <select id="jobtype">
+               @* @foreach (var item in Model.listJob)
+                {
+                    *@<option value="10">PPJK</option>
+                @*}*@
+            </select>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div id="shipment_panel">
+        <table id="list_shipment" class="scroll list_master" cellpadding="0" cellspacing="0"></table>
+        <div id="pager_list_shipment" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <!--  Dialog Find Shipment Order -->
+    <div id="find_shipmentorder" class="easyui-dialog" data-options="modal:true" title="Find Shipment Order" style="width: 600px; height: 500px; padding: 0 10px">
+        <div class="grid_toolbar">
+            <a id="find_shipmentorder_btn_find" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'">Find</a>
+            <a id="find_shipmentorder_btn_report" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Report</a>
+            <a id="find_shipmentorder_btn_report_excel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-excel'">Report Excel</a>
+            <a id="find_shipmentorder_btn_close" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+        <fieldset class="ui-corner-all" style="margin: 10px 0">
+            <table cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                    <td>Container No
+                    </td>
+                    <td>
+                        <input type="text" id="findso_containerno" />
+                    </td>
+                    <td>MBL / MAWB
+                    </td>
+                    <td>
+                        <input type="text" id="findso_masterbl" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Feeder Vessel
+                    </td>
+                    <td>
+                        <input type="text" id="findso_feedervessel" />
+                    </td>
+                    <td>HBL / HAWB
+                    </td>
+                    <td>
+                        <input type="text" id="findso_housebl" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100px;">Range ETD / ETA
+                    </td>
+                    <td colspan="3">
+                        <div style="width: 444px; margin-top: 5px;">
+                            <div style="width: 50px; float: left;">
+                                <label>
+                                    <input type="checkbox" id="findso_allrange" checked="checked" />All</label>
+                            </div>
+                            <div id="pnlrange" style="width: 300px; display: none;">
+                                <input type="text" id="findso_rangefrom" class="easyui-datebox" size="10" />
+                                &nbsp;
+                    To
+                    &nbsp;
+                    <input type="text" id="findso_rangeto" class="easyui-datebox" size="10" />
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <div>
+            <table id="find_shipmentderlist" class="scroll" cellpadding="0" cellspacing="0"></table>
+            <div id="pager_find_shipmentderlist" class="scroll" style="text-align: center;"></div>
+        </div>
+    </div>
+    <!-- END Find Shipment Order -->
+</div>

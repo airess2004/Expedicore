@@ -34,7 +34,7 @@ namespace Service
         public Continent CreateObject(Continent continent)
         {
             continent.Errors = new Dictionary<String, String>();
-            if (!isValid(_validator.VCreateObject(continent,this)))
+            if (isValid(_validator.VCreateObject(continent,this)))
             {
                 continent.MasterCode = _repository.GetLastMasterCode(continent.OfficeId) + 1;
                 continent = _repository.CreateObject(continent);
@@ -44,7 +44,7 @@ namespace Service
          
         public Continent UpdateObject(Continent continent)
         {
-            if (!isValid(_validator.VUpdateObject(continent, this)))
+            if (isValid(_validator.VUpdateObject(continent, this)))
             {
                 continent = _repository.UpdateObject(continent);
             }

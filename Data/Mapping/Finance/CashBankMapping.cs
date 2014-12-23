@@ -16,6 +16,10 @@ namespace Data.Mapping
             HasMany(cb => cb.CashMutations)
                 .WithRequired(cm => cm.CashBank)
                 .HasForeignKey(cm => cm.CashBankId);
+            HasRequired(u => u.Office)
+               .WithMany()
+               .HasForeignKey(u => u.OfficeId)
+               .WillCascadeOnDelete(false);
             Ignore(cb => cb.Errors);
         }
     }

@@ -12,6 +12,7 @@ namespace Core.DomainModel
 
         public int ShipmentOrderId { get; set; }
         public int OfficeId { get; set; }
+        public int MasterCode { get; set; }
         public string SIReference { get; set; }
         public string Attention { get; set; }
         public Nullable<int> ShipperId { get; set; }

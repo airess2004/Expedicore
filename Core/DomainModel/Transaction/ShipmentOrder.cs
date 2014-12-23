@@ -15,8 +15,8 @@ namespace Core.DomainModel
         public int JobId { get; set; }
         public int OfficeId { get; set; } 
         public int TotalSub { get; set; }
-        public string ShipmentOrderId { get; set; }
-        public string SIReference { get; set; }
+        public string ShipmentOrderCode { get; set; }
+        public string SIReference { get; set; }// PIB untuk PPJK
         public Nullable<DateTime> SIDate { get; set; }
         public string LoadStatus { get; set; }
         public string ContainerStatus { get; set; }
@@ -113,9 +113,13 @@ namespace Core.DomainModel
         public Nullable<int> BrokerId { get; set; } 
         public Nullable<int> DepoId { get; set; } 
         public string VesselFlight { get; set; }
-        public string Truck { get; set; } 
         public Nullable<bool> JobClosed { get; set; } 
         public Nullable<DateTime> JobClosedOn { get; set; }
+
+        // PPJK
+        public string InvoiceNo { get; set; }
+        public string JobOrderPTP { get; set; }
+        public string JobOrderCustomer { get; set; }
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -142,10 +146,10 @@ namespace Core.DomainModel
         public virtual CityLocation DeliveryPlace { get; set; }
         public virtual Airport DepartureAirPort { get; set; }
         public virtual Airport DestinationAirPort { get; set; }
-        public virtual ShipmentAdvice ShipmentAdvice { get; set; }
-        public virtual ShipmentInstruction ShipmentInstruction { get; set; }
-        public virtual DeliveryOrder DeliveryOrder { get; set; }
-        public virtual NoticeOfArrival NoticeOfArrival { get; set; }
+        public virtual ICollection<ShipmentAdvice> ShipmentAdvice { get; set; }
+        public virtual ICollection<ShipmentInstruction> ShipmentInstruction { get; set; }
+        public virtual ICollection<DeliveryOrder> DeliveryOrder { get; set; }
+        public virtual ICollection<NoticeOfArrival> NoticeOfArrival { get; set; }
 
         public virtual ICollection<ShipmentOrderRouting> ShipmentOrderRoutings { get; set; }
         public virtual ICollection<SeaContainer> SeaContainers { get; set; }

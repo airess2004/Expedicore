@@ -10,8 +10,9 @@ namespace Core.DomainModel
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
+        public int OfficeId { get; set; }
         public decimal Amount { get; set; }
+        public int MasterCode { get; set; }
          
         public bool IsBank { get; set; }
 
@@ -24,5 +25,8 @@ namespace Core.DomainModel
 
         public Dictionary<String, String> Errors { get; set; }
         public ICollection<CashMutation> CashMutations { get; set; }
+        public virtual Office Office { get; set; }
+        public virtual AccountUser CreatedBy { get; set; }
+        public virtual AccountUser UpdatedBy { get; set; }
     }
 }

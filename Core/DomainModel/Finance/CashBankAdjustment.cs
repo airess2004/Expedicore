@@ -9,6 +9,8 @@ namespace Core.DomainModel
     {
         public int Id { get; set; }
         public int CashBankId { get; set; }
+        public int OfficeId { get; set; }
+        public int MasterCode { get; set; }
 
         public DateTime AdjustmentDate { get; set; }
         public int Amount { get; set; }
@@ -25,5 +27,8 @@ namespace Core.DomainModel
 
         public virtual CashBank CashBank { get; set; }
         public Dictionary<String, String> Errors { get; set; }
+        public virtual Office Office { get; set; }
+        public virtual AccountUser CreatedBy { get; set; }
+        public virtual AccountUser UpdatedBy { get; set; }
     }
 }

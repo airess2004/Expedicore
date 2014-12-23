@@ -10,6 +10,7 @@ namespace Core.DomainModel
     {
         public int Id { get; set; }
 
+        public int OfficeId { get; set; }
         public string Name { get; set; }
         public string JobCode { get; set; }
 
@@ -20,6 +21,7 @@ namespace Core.DomainModel
         public Nullable<int> UpdatedById { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
 
+        public virtual Office Office { get; set; }
         public Dictionary<string, string> Errors { get; set; }
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }

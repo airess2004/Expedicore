@@ -10,6 +10,7 @@ namespace Core.DomainModel
     {
         public int Id { get; set; }
         public int ShipmentOrderId { get; set; }
+        public int MasterCode { get; set; }
         public int OfficeId { get; set; }
         public int VesselId { get; set; }
         public string VesselName { get; set; }
@@ -32,6 +33,7 @@ namespace Core.DomainModel
 
         public Dictionary<string, string> Errors { get; set; }
 
+        public virtual Office Office { get; set; }
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }
         public virtual ShipmentOrder ShipmentOrder { get; set; }

@@ -11,11 +11,12 @@ namespace Core.DomainModel
         public int Id { get; set; } 
         public int EstimateProfitLossId { get; set; }
         public int OfficeId { get; set; } 
-        public int Sequence { get; set; } 
+        public int Sequence { get; set; }
+        public int MasterCode { get; set; }
         public Nullable<bool> IsIncome { get; set; } 
-        public Nullable<int> CustomerId { get; set; } 
-        public Nullable<int> CustumerTypeId { get; set; } 
-        public Nullable<int> CostId { get; set; }  
+        public int CustomerId { get; set; } 
+        public Nullable<int> CustomerTypeId { get; set; } 
+        public int CostId { get; set; }  
         public string Description { get; set; } 
         public Nullable<bool> CodingQuantity { get; set; } 
         public Nullable<int> Type { get; set; } 
@@ -30,6 +31,8 @@ namespace Core.DomainModel
         public Nullable<bool> PaidPR { get; set; } 
         public bool IsSplitIncCost { get; set; }
 
+        public bool IsConfirmed { get; set; }
+        public Nullable<DateTime> ConfirmationDate { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CreatedById { get; set; }

@@ -30,8 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\packages\References\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,6 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Finance\CashBankAdjustmentService.cs" />
+    <Compile Include="Finance\CashBankMutationService.cs" />
+    <Compile Include="Finance\CashBankService.cs" />
+    <Compile Include="Finance\CashMutationService.cs" />
+    <Compile Include="Finance\PayableService.cs" />
+    <Compile Include="Finance\PaymentVoucherDetailService.cs" />
+    <Compile Include="Finance\PaymentVoucherService.cs" />
+    <Compile Include="Finance\ReceiptVoucherDetailService.cs" />
+    <Compile Include="Finance\ReceiptVoucherService.cs" />
+    <Compile Include="Finance\ReceivableService.cs" />
     <Compile Include="Master\AirlineService.cs" />
     <Compile Include="Master\ContinentService.cs" />
     <Compile Include="Master\CityLocationService.cs" />
@@ -46,6 +63,7 @@
     <Compile Include="Master\ContactService.cs" />
     <Compile Include="Master\ContactTypeService.cs" />
     <Compile Include="Master\ContainerYardService.cs" />
+    <Compile Include="Master\ExchangeRateService.cs" />
     <Compile Include="Master\GroupEmployeeService.cs" />
     <Compile Include="Master\TruckService.cs" />
     <Compile Include="Master\EmployeeService.cs" />
@@ -56,11 +74,32 @@
     <Compile Include="Master\GroupService.cs" />
     <Compile Include="Master\GroupContactService.cs" />
     <Compile Include="Master\CostService.cs" />
+    <Compile Include="Master\VatService.cs" />
     <Compile Include="Master\VesselService.cs" />
     <Compile Include="Master\PortService.cs" />
     <Compile Include="Master\CountryLocationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringEncryption.cs" />
+    <Compile Include="Transaction\BillOfLadingService.cs" />
+    <Compile Include="Transaction\CashAdvanceDetailService.cs" />
+    <Compile Include="Transaction\CashAdvanceService.cs" />
+    <Compile Include="Transaction\CashSettlementService.cs" />
+    <Compile Include="Transaction\EstimateProfitLossDetailService.cs" />
+    <Compile Include="Transaction\EstimateProfitLossService.cs" />
+    <Compile Include="Transaction\InvoiceDetailService.cs" />
+    <Compile Include="Transaction\InvoiceService.cs" />
+    <Compile Include="Transaction\PaymentRequestDetailService.cs" />
+    <Compile Include="Transaction\PaymentRequestService.cs" />
+    <Compile Include="Transaction\SeaContainerService.cs" />
+    <Compile Include="Transaction\ShipmentAdviceService.cs" />
+    <Compile Include="Transaction\ShipmentInstructionService.cs" />
+    <Compile Include="Transaction\ShipmentOrderRoutingService.cs" />
+    <Compile Include="Transaction\ShipmentOrderService.cs" />
+    <Compile Include="Transaction\TelexReleaseService.cs" />
+    <Compile Include="Transaction\TemporaryPaymentJobService.cs" />
+    <Compile Include="Transaction\TemporaryPaymentService.cs" />
+    <Compile Include="Transaction\TemporaryReceiptJobService.cs" />
+    <Compile Include="Transaction\TemporaryReceiptService.cs" />
     <Compile Include="Transaction\TruckOrderService.cs" />
     <Compile Include="UserRole\AccessUserService.cs" />
     <Compile Include="UserRole\AccountUserService.cs" />

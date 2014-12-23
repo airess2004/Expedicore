@@ -26,7 +26,7 @@ namespace Data.Mapping
                .WithMany()
                .HasForeignKey(u => u.CreatedById)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.UpdatedBy)
+            HasOptional(u => u.UpdatedBy)
                .WithMany()
                .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);

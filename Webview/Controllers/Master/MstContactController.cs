@@ -51,8 +51,22 @@ namespace WebView.Controllers
                          select new
                          {
                              model.Id,
+                             model.IsDeleted,
+                             model.MasterCode,
+                             model.ContactStatus,
                              model.ContactName,
+                             ContactAs = model.IsAgent == true ? "Agent" 
+                             : model.IsConsignee == true ? "Consignee" 
+                             : model.IsDepo == true ? "Depo" 
+                             : model.IsEMKL == true ? "EMKL"
+                             : model.IsIATA == true ? "IATA"
+                             : model.IsShipper == true ? "Shipper"
+                             :"SSLine",
+                             model.ContactPerson,
+                             model.LastShipmentDate,
                              model.Phone,
+                             model.Fax,
+                             model.Email,
                              model.ContactAddress,
                              model.CreatedAt,
                              model.UpdatedAt,
@@ -87,9 +101,16 @@ namespace WebView.Controllers
                     {
                         id = model.Id,
                         cell = new object[] {
-                            model.Id,
+                            model.IsDeleted,
+                            model.MasterCode,
+                            model.ContactStatus,
                             model.ContactName,
+                            model.ContactAs,
+                            model.ContactPerson,
+                             model.LastShipmentDate,
                              model.Phone,
+                             model.Fax,
+                             model.Email,
                              model.ContactAddress,
                              model.CreatedAt,
                              model.UpdatedAt,
@@ -108,10 +129,39 @@ namespace WebView.Controllers
                 return Json(new
                 {
                     model.Id,
+                    model.IsDeleted,
+                    model.MasterCode,
+                    model.ContactStatus,
                     model.ContactName,
+                    model.ContactPerson,
+                    model.LastShipmentDate,
+                    model.PostalCode,
                     model.Phone,
+                    model.Fax,
+                    model.Email,
                     model.ContactAddress,
-                    model.Errors
+                    model.PortId,
+                    PortName =  model.PortId != null ? model.Port.Name : "",
+                    PortAbbrevation = model.PortId != null ? model.Port.Abbrevation : "",
+                    model.AirportId,
+                    AirportName = model.AirportId != null ?  model.Airport.Name : "",
+                    AirportAbbrevation = model.AirportId != null ? model.Airport.Abbrevation : "",
+                    model.CityId,
+                    CityAbbrevation = model.CityId != null ? model.CityLocation.Abbrevation : "",
+                    CityName = model.CityId != null ? model.CityLocation.Name : "",
+                    CountryName = model.CityId != null ? model.CityLocation.CountryLocations.Name : "",
+                    ContinentName = model.CityId != null ? model.CityLocation.CountryLocations.Continents.Name : "",
+                    model.NPPKP,   
+                    model.NPWP,
+                    model.IsAgent,
+                    model.IsConsignee,
+                    model.IsEMKL,
+                    model.IsIATA,
+                    model.IsShipper,
+                    model.IsSSLine,
+                    model.IsDepo,
+                    model.Errors,
+
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -122,7 +172,7 @@ namespace WebView.Controllers
 
                 return Json(new
                 {
-                    Errors
+                   model.Errors
                 }, JsonRequestBehavior.AllowGet);
             }
 
@@ -190,7 +240,22 @@ namespace WebView.Controllers
                 model.OfficeId = _accountUserService.GetObjectById(userId).OfficeId;
                 var data = _contactService.GetObjectById(model.Id);
                 data.ContactName = model.ContactName;
+                data.ContactStatus = model.ContactStatus;
+                data.ContactAddress = model.ContactAddress;
+                data.ContactPerson = model.ContactPerson;
+                data.PostalCode = model.PostalCode;
                 data.Phone = model.Phone;
+                data.NPWP = model.NPWP;
+                data.NPPKP = model.NPPKP;
+                data.Fax = model.Fax;
+                data.Email = model.Email;
+                data.CityId = model.CityId;
+                data.PortId = model.PortId;
+                data.AirportId = model.AirportId;
+                data.IsAgent = model.IsAgent;
+                data.IsShipper = model.IsShipper;
+                data.IsDepo = model.IsDepo;
+                data.IsConsignee = model.IsConsignee;
                 data.ContactAddress = model.ContactAddress;
                 model = _contactService.UpdateObject(data);
             }

@@ -5,71 +5,234 @@
 
 @section Head {
 }
-
 @section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/MasterContact.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/Contact.js")"></script>
 }
-<div id="ua_panel" class="easyui-panel" style="text-align: left;" data-options="modal:true" 
-    title=".: @ViewBag.Title :.">
-<div id="toolbar" class="form_toolbar">
+
+<div id="ua_panel" class="easyui-panel" style="text-align: left;" data-options="modal:true" title=".: Master Contact :.">
+    <div id="toolbar" class="grid_toolbar">
         <a id="btn_reload" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">Reload Data</a>
         <a id="btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
         <a id="btn_edit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Edit Data</a>
         <a id="btn_del" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
-        @*<a id="btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print Data</a>*@
+        <a id="btn_undel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-undo'">Un-Delete</a>
+        <a id="btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print Data</a>
     </div>
 
-    <div id="table_div">
-        <table id="list"></table>
+    <div>
+        <table id="list" class="scroll list_master" cellpadding="0" cellspacing="0"></table>
         <div id="pager" class="scroll" style="text-align: center;"></div>
+        <div id="toolbar_Contact" class="scroll" style="width: 10px;"></div>
     </div>
 
-<!-- Dialog Box -->
-    <div id="form_div" class="easyui-dialog" style="text-align: left;padding:0px 0px 10px" data-options="modal:true" 
-        title=".: @ViewBag.Title :.">
+    <!--List All Dialog-->
+    <div id="form_div" class="easyui-dialog" data-options="modal:true" style="width: 860px;" title=".: MASTER CONTACT :.">
 
         <div id="form_toolbar" class="form_toolbar">
-            <a id="form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Save</a>
+            <a id="form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
             <a id="form_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
         </div>
 
-        <div style="overflow: auto">
-            <form id="frm">
-                @*<fieldset class="ui-widget-content ui-corner-all input_form_div">*@
+        <div class="" style="height: 450px; overflow: auto;">
+            <form id="frmcontact">
+                <fieldset class="ui-widget-content ui-corner-all input_form_div">
                     <table width="100%" border="0" cellpadding="1" cellspacing="1" class="input_form_tbl">
-                        <tr nowrap hidden>
-                            <td width="139" nowrap style="width: 100px">
-                                <label>ID</label></td>
-                            <td width="226">
-                                <input id="id" type="text" size="10" disabled="disabled"/></td>
+                        <tr nowrap>
+                            <td width="150px">
+                                <label>Code</label></td>
+                            <td colspan="3">
+                                <input id="contactcode" type="text" size="20" maxlength="20" disabled="disabled" align="left" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Co. Status</label></td>
+                            <td colspan="3">
+                                <input id="rbcostatuspt" type="radio" name="rbcostatus" checked="checked" value="PT" align="left" />
+                                <label for="rbcostatuspt">PT</label>
+                                <input id="rbcostatuscv" type="radio" name="rbcostatus" value="CV" align="left" />
+                                <label for="rbcostatuscv">CV</label>
+                                <input id="rbcostatusother" type="radio" name="rbcostatus" value="Other" align="left" />
+                                <label for="rbcostatusother">Other</label>
+                            </td>
                         </tr>
                         <tr>
                             <td>
                                 <label>Name</label></td>
                             <td colspan="3">
-                                <input id="ContactName" name ="ContactName"type="text" size="60" maxlength="60" align="left" /></td>
-                        </tr>
-                          <tr>
-                            <td>
-                                <label>Phone</label></td>
-                            <td colspan="3">
-                                <input id="Phone" name ="Phone"type="text" size="60" maxlength="60" align="left" /></td>
+                                <input id="contactname" name="contactname" type="text" class="upper editable" size="90" maxlength="50" align="left" /></td>
                         </tr>
                         <tr>
                             <td>
                                 <label>Address</label></td>
                             <td colspan="3">
-                                <textarea id="ContactAddress" name ="ContactAddress"type="text" " cols="60" rows="3" /></td>
+                                <textarea id="contactaddress" class="upper editable" cols="69" rows="3" align="left"></textarea></td>
                         </tr>
+                        <tr>
+                            <td>
+                                <label>Contact</label></td>
+                            <td colspan="3">
+                                <input id="contactcontact" type="text" class="upper editable" size="90" maxlength="50" align="left" /></td>
+                        </tr>
+                        <tr>
+                            <td nowrap>
+                                <label>Postal Code</label></td>
+                            <td colspan="2">
+                                <input id="contactpostalcode" type="text" class="editable" size="15" maxlength="15" align="left" /></td>
+                        </tr>
+                        @*<tr>
+                            <td style="white-space: nowrap">Shipment Status
+                            </td>
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+                                        <td nowrap>
+                                            <input name="shipmentstatus" type="radio" id="optfreehand" value="FR" checked="checked"><label for="optfreehand">Freehand</label></td>
+                                        <td nowrap>
+                                            <input name="shipmentstatus" type="radio" id="optnominate" value="NO"><label for="optnominate">Nominate</label></td>
+                                        <td nowrap>
+                                            <input name="shipmentstatus" type="radio" id="optcorporate" value="CO"><label for="optcorporate">Corporate</label></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>*@
+                        <tr>
+                            <td>
+                                <label>Phone</label></td>
+                            <td>
+                                <input id="contactphone" type="text" class="editable" size="30" maxlength="15" align="left" /></td>
+                            <td align="right">
+                                <label>NPWP&nbsp;&nbsp;&nbsp;</label></td>
+                            <td>
+                                <input id="contactnpwp" type="text" class="editable" size="30" maxlength="30" align="left" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Fax</label></td>
+                            <td>
+                                <input id="contactfax" type="text" class="editable" size="30" maxlength="15" align="left" /></td>
+                            <td align="right">
+                                <label>NPPKP&nbsp;&nbsp;</label></td>
+                            <td>
+                                <input id="contactnppkp" type="text" class="editable" size="30" maxlength="30" align="left" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Email</label></td>
+                            <td colspan="3">
+                                <input id="contactemail" type="text" class="editable" size="90" maxlength="40" align="left" /></td>
+                        </tr>
+                        <tr>
+                            <td>City</td>
+                            <td colspan="3">
+                                <input name="CityCode" type="text" id="CityCode" size="7" disabled="disabled" />
+                                <input type="button" name="btnCity" id="btnCity" value=".." style="cursor: pointer;" class="ui-state-default" />
+                                <input name="City" type="text" disabled="disabled" id="City" size="45" /></td>
+                        </tr>
+                        <tr>
+                            <td>Country</td>
+                            <td colspan="2">
+                                <input name="Country" type="text" disabled="disabled" id="Country" size="35" /></td>
+                        </tr>
+                        <tr>
+                            <td>Continent</td>
+                            <td colspan="2">
+                                <input name="Continent" type="text" disabled="disabled" id="Continent" size="35" /></td>
+                        </tr>
+                        <tr>
+                            <td>Port</td>
+                            <td colspan="3">
+                                <input name="PortCode" type="text" id="PortCode" size="7" disabled="disabled" />
+                                <input type="button" name="btnAirport" id="btnPort" value=".." class="ui-state-default" style="cursor: pointer;" />
+                                <input name="Port" type="text" disabled="disabled" id="Port" size="45" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Air Port</label></td>
+                            <td colspan="3">
+                                <input id="AirportCode" type="text" class="upper" size="7" maxlength="5" disabled="disabled" align="left" />
+                                <input id="btnAirport" type="button" style="cursor: pointer;" class="ui-state-default" value=".." />
+                                <input id="Airport" name="Airport" type="text" class="upper" size="34" maxlength="32" disabled="disabled" align="left" />
+                            </td>
+                        </tr>
+                        @*<tr>
+                            <td>Marketing</td>
+                            <td colspan="3">
+                                <input name="contact_kdmarketing" type="text" id="contact_kdmarketing" size="7" disabled="disabled" />
+                                <input type="button" name="btncontact_marketing" id="btncontact_marketing" value=".." style="cursor: pointer;" class="ui-state-default" />
+                                <input name="contact_nmmarketing" type="text" disabled="disabled" id="contact_nmmarketing" size="45" />
+                                <input name="hidden_contact_marketing_companycode" type="hidden" disabled="disabled" id="hidden_contact_marketing_companycode" size="45" />
+                            </td>
+                        </tr>*@
+                        <tr>
+                            <td>Contact Type</td>
+                            <td colspan="4">
+                                <fieldset class="ui-widget-content ui-corner-all">
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                   <input id="cbcontact_typeagent" type="radio" name="rbcontacttype" checked="checked" value="Agent" align="left" />Agent</label>
+                                            </td>
+                                            <td>
+                                                <label>
+                                                   <input id="cbcontact_typeshipper" type="radio" name="rbcontacttype" value="Shipper"  align="left" />Shipper</label>
+                                            </td>
+                                            <td>
+                                                <label>
+                                                   <input id="cbcontact_typeconsignee" type="radio" name="rbcontacttype" value="Consignee"  align="left" />Consignee</label>
+                                            </td>
+                                            <td>
+                                                <label>
+                                                   <input id="cbcontact_typedepo" type="radio" name="rbcontacttype" value="Consignee"  align="left" />Depo</label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                       @* <tr>
+                            <td style="white-space: nowrap">
+                                <label>Credit Term</label></td>
+                            <td>
+                                <input id="contactcreditterm" type="text" size="7" maxlength="10" class="editable easyui-numberbox" data-options="precision:0" style="text-align: right" />&nbsp;&nbsp;DAYS</td>
+                            <td style="white-space: nowrap" align="right">
+                                <label>Credit Term IDR (Max)</label></td>
+                            <td>
+                                <input id="contactcredittermidr" type="text" align="left" size="30" style="text-align: right" class="easyui-numberbox" data-options="precision:2,groupSeparator:','" /></td>
+                        </tr>*@
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <!--
+                            <td>Active</td>
+                            <td>
+                                <select name="combomst_aktif" id="combomst_aktif">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </td>
+                                -->
+                            <td align="right">
+                                <label>Latest Shipment Date</label></td>
+                            <td>
+                                <input id="contactshipdate" type="text" disabled="disabled" align="left" style="text-align: right" /></td>
+                        </tr>
+                        @*<tr>
+                            <td>
+                                <label>Chart Acc.</label></td>
+                            <td colspan="2">
+                                <input id="accountcode" type="text" class="upper" size="5" maxlength="5" disabled="disabled" align="left" />
+                                <input id="btnaccount" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." disabled="disabled" />
+                                <input id="accountname" type="text" class="upper" size="34" maxlength="32" disabled="disabled" align="left" />
+                            </td>
+                        </tr>*@
                     </table>
-                @*</fieldset>*@
+                </fieldset>
             </form>
         </div>
     </div>
-<!-- End Dialog Box -->
 
-<!-- Dialog Box  Delete-->
+
     <div id="delete_confirm_div" class="easyui-dialog" style="text-align: left; height: 130px; width: 300px;"
         data-options="modal:true" title=".: Confirmation :.">
 
@@ -78,10 +241,53 @@
             <a id="delete_confirm_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
         </div>
         <div id="delete_confirm_info">
-            <span>Are you sure to delete the selected record?</span>
+            <span>Are you sure to delete this record?</span>
+            <br />
+            Contact Name: <span id="delete_confirm_name"></span>
             <input id="delete_confirm_id" type="hidden" />
         </div>
     </div>
-<!-- End Dialog Box Delete-->
-  </div>
 
+       <!-- Look Up city -->
+    <div id="lookup_div_city" class="easyui-dialog" title="List City" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_city" class="grid_toolbar">
+            <a id="lookup_btn_add_city" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_city" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_city" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_city" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up city -->
+
+     <!-- Look Up port -->
+    <div id="lookup_div_port" class="easyui-dialog" title="List City" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_port" class="grid_toolbar">
+            <a id="lookup_btn_add_port" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_port" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_port" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_port" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up port -->
+
+     <!-- Look Up airport -->
+    <div id="lookup_div_airport" class="easyui-dialog" title="List City" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_airport" class="grid_toolbar">
+            <a id="lookup_btn_add_airport" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_airport" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_airport" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_airport" class="scroll" style="text-align: center;"></div>
+    </div>
+<!-- END Look Up airport -->
+
+</div>

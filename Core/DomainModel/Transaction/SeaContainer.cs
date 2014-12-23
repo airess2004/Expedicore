@@ -23,6 +23,7 @@ namespace Core.DomainModel
         public string Commodity { get; set; }
         public Nullable<decimal> NoOfPieces { get; set; }
         public string PackagingCode { get; set; }
+        public int MasterCode { get; set; }
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }

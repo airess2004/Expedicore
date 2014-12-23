@@ -11,7 +11,9 @@ namespace Core.DomainModel
         public int Id { get; set; }
         public Nullable<int> EPLNo { get; set; }
         public int ShipmentOrderId { get; set; }
-        public int OfficeId { get; set; } 
+        public int OfficeId { get; set; }
+        public int MasterCode { get; set; }
+        public bool CloseEPL { get; set; }
         public Nullable<decimal> Rate { get; set; }
         public Nullable<decimal> EstIDRShipCons { get; set; }
         public Nullable<decimal> EstIDRAgent { get; set; }

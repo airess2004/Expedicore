@@ -44,11 +44,18 @@
     <Compile Include="Mapping\Finance\CashBankMutationMapping.cs" />
     <Compile Include="Mapping\Finance\CashMutationMapping.cs" />
     <Compile Include="Mapping\Finance\CashBankAdjustmentMapping.cs" />
+    <Compile Include="Mapping\Finance\PayableMapping.cs" />
+    <Compile Include="Mapping\Finance\PaymentVoucherDetailMapping.cs" />
+    <Compile Include="Mapping\Finance\PaymentVoucherMapping.cs" />
+    <Compile Include="Mapping\Finance\ReceiptVoucherDetailMapping.cs" />
+    <Compile Include="Mapping\Finance\ReceiptVoucherMapping.cs" />
+    <Compile Include="Mapping\Finance\ReceivableMapping.cs" />
     <Compile Include="Mapping\Master\ContinentMapping.cs" />
     <Compile Include="Mapping\Master\CityLocationMapping.cs" />
     <Compile Include="Mapping\Master\AirportMapping.cs" />
     <Compile Include="Mapping\Master\AirlineMapping.cs" />
     <Compile Include="Mapping\Master\ContactMapping.cs" />
+    <Compile Include="Mapping\Master\ExchangeRateMapping.cs" />
     <Compile Include="Mapping\Master\TruckMapping.cs" />
     <Compile Include="Mapping\Master\GroupEmployeeMapping.cs" />
     <Compile Include="Mapping\Master\DepoMapping.cs" />
@@ -61,10 +68,21 @@
     <Compile Include="Mapping\Master\OfficeMapping.cs" />
     <Compile Include="Mapping\Master\GroupContactMapping.cs" />
     <Compile Include="Mapping\Master\CostMapping.cs" />
+    <Compile Include="Mapping\Master\VatMapping.cs" />
     <Compile Include="Mapping\Master\VesselMapping.cs" />
     <Compile Include="Mapping\Master\PortMapping.cs" />
     <Compile Include="Mapping\Master\CountryLocationMapping.cs" />
     <Compile Include="Mapping\Transaction\BillOfLadingMapping.cs" />
+    <Compile Include="Mapping\Transaction\CashAdvanceDetailMapping.cs" />
+    <Compile Include="Mapping\Transaction\CashAdvanceMapping.cs" />
+    <Compile Include="Mapping\Transaction\CashSettlementMapping.cs" />
+    <Compile Include="Mapping\Transaction\TelexReleaseMapping.cs" />
+    <Compile Include="Mapping\Transaction\PaymentRequestDetailMapping.cs" />
+    <Compile Include="Mapping\Transaction\PaymentRequestMapping.cs" />
+    <Compile Include="Mapping\Transaction\TemporaryPaymentJobMapping.cs" />
+    <Compile Include="Mapping\Transaction\TemporaryPaymentMapping.cs" />
+    <Compile Include="Mapping\Transaction\TemporaryReceiptJobMapping.cs" />
+    <Compile Include="Mapping\Transaction\TemporaryReceiptMapping.cs" />
     <Compile Include="Mapping\Transaction\TruckOrderMapping.cs" />
     <Compile Include="Mapping\Transaction\InvoiceDetailMapping.cs" />
     <Compile Include="Mapping\Transaction\ShipmentOrderMapping.cs" />
@@ -80,7 +98,18 @@
     <Compile Include="Mapping\UserRole\AccessUserMapping.cs" />
     <Compile Include="Mapping\UserRole\AccountUserMapping.cs" />
     <Compile Include="Mapping\UserRole\MenuUserMapping.cs" />
+    <Compile Include="Repository\Configuration.cs" />
     <Compile Include="Repository\EfRepository.cs" />
+    <Compile Include="Repository\Finance\CashBankAdjustmentRepository.cs" />
+    <Compile Include="Repository\Finance\CashBankMutationRepository.cs" />
+    <Compile Include="Repository\Finance\CashBankRepository.cs" />
+    <Compile Include="Repository\Finance\CashMutationRepository.cs" />
+    <Compile Include="Repository\Finance\PayableRepository.cs" />
+    <Compile Include="Repository\Finance\PaymentVoucherDetailRepository.cs" />
+    <Compile Include="Repository\Finance\PaymentVoucherRepository.cs" />
+    <Compile Include="Repository\Finance\ReceiptVoucherDetailRepository.cs" />
+    <Compile Include="Repository\Finance\ReceiptVoucherRepository.cs" />
+    <Compile Include="Repository\Finance\ReceivableRepository.cs" />
     <Compile Include="Repository\Master\AirlineRepository.cs" />
     <Compile Include="Repository\Master\AirportRepository.cs" />
     <Compile Include="Repository\Master\CityLocationRepository.cs" />
@@ -88,10 +117,12 @@
     <Compile Include="Repository\Master\ContactTypeRepository.cs" />
     <Compile Include="Repository\Master\ContinentRepository.cs" />
     <Compile Include="Repository\Master\ContainerYardRepository.cs" />
+    <Compile Include="Repository\Master\ExchangeRateRepository.cs" />
     <Compile Include="Repository\Master\GroupEmployeeRepository.cs" />
     <Compile Include="Repository\Master\EmployeeRepository.cs" />
     <Compile Include="Repository\Master\DepoRepository.cs" />
     <Compile Include="Repository\Master\TruckRepository.cs" />
+    <Compile Include="Repository\Master\VatRepository.cs" />
     <Compile Include="Repository\Master\VesselRepository.cs" />
     <Compile Include="Repository\Master\PortRepository.cs" />
     <Compile Include="Repository\Master\OfficeRepository.cs" />
@@ -100,6 +131,26 @@
     <Compile Include="Repository\Master\GroupContactRepository.cs" />
     <Compile Include="Repository\Master\CountryLocationRepository.cs" />
     <Compile Include="Repository\Master\CostRepository.cs" />
+    <Compile Include="Repository\Transaction\BillOfLadingRepository.cs" />
+    <Compile Include="Repository\Transaction\CashAdvanceDetailRepository.cs" />
+    <Compile Include="Repository\Transaction\CashAdvanceRepository.cs" />
+    <Compile Include="Repository\Transaction\CashSettlementRepository.cs" />
+    <Compile Include="Repository\Transaction\EstimateProfitLossDetailRepository.cs" />
+    <Compile Include="Repository\Transaction\EstimateProfitLossRepository.cs" />
+    <Compile Include="Repository\Transaction\lnvoiceDetailRepository.cs" />
+    <Compile Include="Repository\Transaction\lnvoiceRepository.cs" />
+    <Compile Include="Repository\Transaction\PaymentRequestDetailRepository.cs" />
+    <Compile Include="Repository\Transaction\PaymentRequestRepository.cs" />
+    <Compile Include="Repository\Transaction\SeaContainerRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentAdviceRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentInstructionRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentOrderRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentOrderRoutingRepository.cs" />
+    <Compile Include="Repository\Transaction\TelexReleaseRepository.cs" />
+    <Compile Include="Repository\Transaction\TemporaryPaymentJobRepository.cs" />
+    <Compile Include="Repository\Transaction\TemporaryPaymentRepository.cs" />
+    <Compile Include="Repository\Transaction\TemporaryReceiptJobRepository.cs" />
+    <Compile Include="Repository\Transaction\TemporaryReceiptRepository.cs" />
     <Compile Include="Repository\Transaction\TruckOrderRepository.cs" />
     <Compile Include="Repository\UserRole\UserAccessRepository.cs" />
     <Compile Include="Repository\UserRole\UserAccountRepository.cs" />
@@ -122,7 +173,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{ff4db749-11ca-49c8-a917-8f2e56ed7d72}</Project>

@@ -10,20 +10,25 @@ namespace Core.DomainModel
         public int Id { get; set; }
         public int CashBankId { get; set; }
         public int Status { get; set; }
+        public int OfficeId { get; set; }
+        public int MasterCode { get; set; }
 
         public string SourceDocumentType { get; set; }
         public int SourceDocumentId { get; set; }
-
+        public string SourceDocumentCode { get; set; }
         public decimal Amount { get; set; }
         public DateTime MutationDate { get; set; }
 
         public bool IsDeleted { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int CreatedById { get; set; }
+        public Nullable<int> CreatedById { get; set; }
 
         public virtual CashBank CashBank { get; set; }
         public Dictionary<String, String> Errors { get; set; }
+        public virtual Office Office { get; set; }
+        public virtual AccountUser CreatedBy { get; set; }
+        public virtual AccountUser UpdatedBy { get; set; }
 
     }
 }

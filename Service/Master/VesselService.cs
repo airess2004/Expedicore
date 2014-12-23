@@ -35,7 +35,7 @@ namespace Service
         public Vessel CreateObject(Vessel vessel)
         {
             vessel.Errors = new Dictionary<String, String>();
-            if (!isValid(_validator.VCreateObject(vessel,this)))
+            if (isValid(_validator.VCreateObject(vessel,this)))
             {
                 vessel.MasterCode = _repository.GetLastMasterCode(vessel.OfficeId) + 1;
                 vessel = _repository.CreateObject(vessel);
@@ -45,7 +45,7 @@ namespace Service
          
         public Vessel UpdateObject(Vessel vessel)
         {
-            if (!isValid(_validator.VUpdateObject(vessel, this)))
+            if (isValid(_validator.VUpdateObject(vessel, this)))
             {
                 vessel = _repository.UpdateObject(vessel);
             }

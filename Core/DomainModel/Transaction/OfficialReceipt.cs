@@ -13,6 +13,7 @@ namespace Core.DomainModel
         public string PaymentFor { get; set; }
         public string PaymentBy { get; set; }
         public int ContactId { get; set; }
+        public int MasterCode { get; set; }
         public Nullable<Decimal> Rate { get; set; }
         public Nullable<DateTime> ExRateDate { get; set; }
         public Nullable<Decimal> TotalCashUSD { get; set; }
@@ -28,7 +29,7 @@ namespace Core.DomainModel
         public Nullable<int> JobOwnerId { get; set; }
         public int CreatedById { get; set; }
         public Nullable<DateTime> CreatedAt { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
         public Nullable<int> UpdatedById { get; set; }
         public Nullable<DateTime> UpdatedAt { get; set; }
@@ -40,6 +41,7 @@ namespace Core.DomainModel
         public virtual CashBank CashBank { get; set; }
         public virtual Contact Contact { get; set; }
         public virtual ICollection<OfficialReceiptDetailInvoice> OfficialReceiptDetailInvoices { get; set; }
+        public virtual Office Office { get; set; }
         
         public Dictionary<String, String> Errors { get; set; }
     }
