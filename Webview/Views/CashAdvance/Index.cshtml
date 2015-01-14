@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Cash Advance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Head {
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/cashadvancelist.js")"></script>
+}
+
+<div id="ua_panel" class="easyui-panel" style="text-align: left;" data-options="modal:true" title=".: Cash Advance :.">
+    <div id="paymentvoucher_toolbar" class="form_toolbar">
+        <a id="paymentvoucher_btn_reload" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">Reload Data</a>
+        <a id="paymentvoucher_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+        <a id="paymentvoucher_btn_edit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Edit Data</a>
+        <a id="paymentvoucher_btn_del" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
+        <a id="btn_confirm" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-approval'">Confirm</a>
+        <a id="btn_unconfirm" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-undo'">Unconfirm</a>
+        <a id="paymentvoucher_btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print Data</a>
+    </div>
+
+    <div id="paymentvoucher_table_div">
+        <table id="list_paymentvoucher" class="scroll list_master" cellpadding="0" cellspacing="0"></table>
+        <div id="pager_paymentvoucher" class="scroll" style="text-align: center;"></div>
+    </div>
+</div>

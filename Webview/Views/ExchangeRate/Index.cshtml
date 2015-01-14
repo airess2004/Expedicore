@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Master Exchange Rate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Head {
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/ExchangeRate.js")"></script>
+}
+<div id="exchangerate_toolbar" class="form_toolbar">
+        <a id="exchangerate_btn_reload" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">Reload Data</a>
+        <a id="exchangerate_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+        <a id="exchangerate_btn_edit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Edit Data</a>
+        <a id="exchangerate_btn_del" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
+        <a id="exchangerate_btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print Data</a>
+    </div>
+
+    <div id="exchangerate_table_div">
+        <table id="list_exchangerate"></table>
+        <div id="pager_exchangerate" class="scroll" style="text-align: center;"></div>
+    </div>
+
+    <div id="exchangerate_form_div" class="easyui-dialog" style="text-align: left; width: 500px;" data-options="modal:true" title=".: Exchange Rate :.">
+
+        <div id="exchangerate_form_toolbar" class="form_toolbar">
+            <a id="exchangerate_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
+            <a id="exchangerate_form_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+
+        <div style="height: 250px; overflow: auto">
+            <form id="frm_exchangerate">
+                <fieldset class="ui-widget-content ui-corner-all input_form_div">
+                    <table width="100%" border="0" cellpadding="1" cellspacing="1" class="input_form_tbl">
+                        <tr>
+                            <td>
+                                <label>Entry Date</label></td>
+                            <td>
+                                <input id="txtentrydate" class="easyui-datebox" title="mm/dd/yyyy" type="text" size="10" value="@DateTime.Today.ToShortDateString()"/ /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Rate</label></td>
+                            <td>
+                                <input id="txthighrate" type="text" size="10" maxlength="10" align="right" class="easyui-numberbox textright" data-options="precision:0,groupSeparator:','" /></td>
+                       </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div id="delete_confirm_div" class="easyui-dialog" style="text-align: left; height: 130px; width: 300px;"
+        data-options="modal:true" title=".: Confirmation :.">
+
+        <div id="delete_confirm_toolbar" class="form_toolbar">
+            <a id="delete_confirm_btn_submit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Submit</a>
+            <a id="delete_confirm_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+        <div id="delete_confirm_info">
+            <span>Are you sure to delete the selected record?</span>
+            <input id="delete_confirm_id" type="hidden" />
+        </div>
+    </div>
+
+    <div id="lookup_exchangerate_div" class="easyui-dialog" style="padding-left: 5px; width: 530px; height: 480px;"
+        title="Master Data List" data-options="modal:true">
+
+        <div class="form_toolbar">
+            <a id="exchangerate_lookup_add" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="exchangerate_lookup_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_exchangerate" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="pager_lookup_exchangerate" class="scroll" style="text-align: center;"></div>
+    </div>

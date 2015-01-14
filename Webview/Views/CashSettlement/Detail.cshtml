@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "Cash Advance Settlement Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs.css")">
+    <!-- Additional IE/Win specific style sheet (Conditional Comments) -->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs-ie.css")">
+        <![endif]-->
+}
+@section Scripts {
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput-1.2.2.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/cashsettlementdetail.js")"></script>
+}
+
+<div id="container_casdetail" style="margin: 10px;">
+    <div id="casdetail" class="easyui-panel" style="text-align: left;"
+            data-options="modal:true" title="@ViewBag.Title">
+
+        <div id="cas_form_toolbar" class="form_toolbar">
+            <a id="cas_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
+            <a id="cas_form_btn_cancel" href="@Url.Action("Index", new { type = "or" })" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-back'">Back</a>
+            <a id="cas_form_btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print</a>
+            <a id="casettlement_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+        </div>
+
+        <div id="casdetail_content" style="overflow: auto;">
+            <form id="frmor">
+                <div style="display: inline-block; padding: 5px 10px" id="shipmentorder_content">
+                    <div class="easyui-panel" style="width: auto !important; border: none !important;">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td>
+                                    <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                        <tr>
+                                            <td width="120px" nowrap="true">
+                                                <label>C.A. Settlement No</label></td>
+                                            <td width="200px" nowrap="true" colspan="2">
+                                                <input id="txtcasettlementno" style="text-align: right" type="text" disabled="disabled" size="10" maxlength="25">
+                                            <td rowspan="4" align="right">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Print Date</legend>
+                                                                <input id="txtDatePrint" class="editable easyui-datebox" title="mm/dd/yyyy" type="text" size="10" maxlength="20" />
+                                                            </fieldset>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Rate</legend>
+                                                                <input id="txtRate" class="textright easyui-numberbox" data-options="precision:0,groupSeparator:','" 
+                                                                        value="0" type="text" size="10" maxlength="20" disabled="disabled" />
+                                                            </fieldset>
+                                                        </td>
+                                                        <td>
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Date Rate</legend>
+                                                                <input id="txtDateRate" class="textright" type="text" size="10" maxlength="20" disabled="disabled" />
+                                                            </fieldset>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Reference</label></td>
+                                            <td>
+                                                <input id="txtReference" type="text" disabled="disabled" size="35" maxlength="50"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Personal Code</td>
+                                            <td colspan="2">
+                                                <input id="txtPersonalCode" class="textright" type="text" size="10" maxlength="25" disabled="disabled" />
+                                                <input id="btnPersonalCode" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                                                <input id="txtPersonalName" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>For Cash Advance No</td>
+                                            <td colspan="2">
+                                                <input id="txtcano" class="textright" type="text" size="10" maxlength="25" disabled="disabled" />
+                                                <input id="btncano" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <fieldset class="ui-widget-content ui-corner-all" style="background: #DCFFCA;">
+                                                    <legend>Status Cash Advance</legend>
+                                                    <table width="50%">
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="rbstatuspaid" id="rbpart" checked="checked" />Part</label>
+                                                            </td>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="rbstatuspaid" id="rbpaid" />Paid</label>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <table width="100%" border="0">
+                                                    <tr>
+                                                        <td valign="top">
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Settlement</legend>
+                                                                <table>
+                                                                    <tr>
+
+                                                                        <td>Cash USD</td>
+                                                                        <td>
+                                                                            <input id="txtCashUsd" class="textright easyui-numberbox" size="15"
+                                                                                data-options="precision:2,groupSeparator:','" type="text" value="0" /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Cash IDR</td>
+                                                                        <td>
+                                                                            <input id="txtCashIdr" class="textright easyui-numberbox" size="15"
+                                                                                data-options="precision:2,groupSeparator:','" type="text" value="0" /></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </fieldset>
+                                                        </td>
+                                                        <td rowspan="2">
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Balance</legend>
+                                                                <table>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td align="center">IDR</td>
+                                                                        <td align="center">USD</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Balance Per Cash Advance</td>
+                                                                        <td>
+                                                                            <input id="txtBpcaIdr" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" /></td>
+                                                                        <td>
+                                                                            <input id="txtBpcaUsd" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Balance Settlement</td>
+                                                                        <td>
+                                                                            <input id="txtBsIdr" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" /></td>
+                                                                        <td>
+                                                                            <input id="txtBsUsd" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Balance</td>
+                                                                        <td>
+                                                                            <input id="txtBIdr" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" /></td>
+                                                                        <td>
+                                                                            <input id="txtBUsd" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" /></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </fieldset>
+                                                        </td>
+                                                    </tr>
+                                                   @* <tr>
+                                                        <td>
+                                                            <input type="button" id="btn_balance_overall" value="Balance of Overall Cash Advance" class="btnSubmit" />
+                                                        </td>
+                                                    </tr>*@
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Look Up Cash Advance -->
+<div id="lookup_div_cashadvance" class="easyui-dialog" title="List Cash Advance" style="padding: 0px 5px; height: 480px; width: 520px;"
+    data-options="iconCls:'icon-tip',modal:true">
+
+    <div id="lookup_toolbar_cashadvance" class="grid_toolbar">
+        <a id="lookup_btn_add_cashadvance" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+        <a id="lookup_btn_cancel_cashadvance" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+    </div>
+
+    <table id="lookup_table_cashadvance" class="scroll" cellpadding="0" cellspacing="0"></table>
+    <div id="lookup_pager_cashadvance" class="scroll" style="text-align: center;"></div>
+</div>
+<!-- END Look Up Cash Advance -->
+
+
+
+<!-- Look Up Balance Overall -->
+<div id="lookup_div_balanceoverall" class="easyui-dialog" title="Balance" style="padding: 0px 5px; height: 480px; width: 520px;"
+    data-options="iconCls:'icon-tip',modal:true">
+
+    <div id="lookup_toolbar_balanceoverall" class="grid_toolbar">
+        <a id="lookup_btn_add_balanceoverall" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+        <a id="lookup_btn_cancel_balanceoverall" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+    </div>
+
+    <table id="lookup_table_balanceoverall" class="scroll" cellpadding="0" cellspacing="0"></table>
+    <div id="lookup_pager_balanceoverall" class="scroll" style="text-align: center;"></div>
+</div>
+<!-- END Look Up Balance Overall -->
+
+<!-- Look Up Personal Code -->
+<div id="lookup_div_personalcode" class="easyui-dialog" title="List Personal Code" style="padding: 0px 5px; height: 490px; width: 480px;"
+    data-options="iconCls:'icon-tip',modal:true">
+    <div id="lookup_toolbar_personalcode" class="grid_toolbar">
+        <a id="lookup_btn_add_personalcode" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+        <a id="lookup_btn_cancel_personalcode" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+    </div>
+
+    <table id="lookup_table_personalcode" class="scroll" cellpadding="0" cellspacing="0"></table>
+    <div id="lookup_pager_personalcode" class="scroll" style="text-align: center;"></div>
+</div>
+<!-- END Look Up Personal Code -->

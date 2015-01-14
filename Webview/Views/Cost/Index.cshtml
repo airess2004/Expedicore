@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Cost PPJK";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/costPPJK.js")"></script>
+}
+
+<div id="ua_panel" class="easyui-panel" style="text-align: left;" data-options="modal:true" title=".: Master Cost PPJK :.">
+    <div id="mst_CostSalesAir_toolbar" class="form_toolbar">
+        <a id="mst_CostSalesAir_btn_reload" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">Reload Data</a>
+        <a id="mst_CostSalesAir_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+        <a id="mst_CostSalesAir_btn_edit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Edit Data</a>
+        <a id="mst_CostSalesAir_btn_del" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
+        <a id="mst_CostSalesAir_btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print Data</a>
+    </div>
+    <div>
+        <table id="list_CostSalesAir" class="scroll list_master" cellpadding="0" cellspacing="0"></table>
+        <div id="pager_CostSalesAir" class="scroll" style="text-align: center;"></div>
+        <div id="toolbar_CostSalesAir" class="scroll" style="width: 10px;"></div>
+    </div>
+
+    <!--List All Dialog-->
+    <div id="dialog_addmaster" title="Cost PPJK" class="easyui-dialog" data-options="modal:true" style="width: 570px;">
+        <div id="mst_CostSalesAir_form_toolbar" class="form_toolbar">
+            <a id="mst_CostSalesAir_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
+            <a id="mst_CostSalesAir_form_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+
+        <div class="" style="height: 250px; overflow: auto;">
+            <form id="frmaddmaster">
+                <fieldset class="ui-widget-content ui-corner-all input_form_div">
+                    <table width="100%" border="0" cellpadding="1" cellspacing="1" class="input_form_tbl">
+                        <tr nowrap>
+                            <td nowrap width="30%">
+                                <label>Account ID</label></td>
+                            <td colspan="3">
+                                <input id="txtmastercode" type="text" size="10" maxlength="10" disabled="disabled" align="left" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Account Name</label></td>
+                            <td colspan="3">
+                                <input id="txtmastername" name="Name" type="text" class="upper editable" size="50" maxlength="50" disabled="disabled" align="left" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Remarks</label></td>
+                            <td colspan="3">
+                                <input id="txtremarks" type="text" size="50" maxlength="50" disabled="disabled" align="left" class="editable" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Chargeable</label></td>
+                            <td>
+                                <label style="color: #A44629;">USD</label>
+                                &nbsp;&nbsp;
+                                <input id="txtminimumusd" type="text" size="10" maxlength="20" style="text-align: right" class="easyui-numberbox editable" data-options="precision:2,groupSeparator:','" />
+                            </td>
+                            <td>
+                                <label style="color: #0043B9;">IDR</label>
+                                &nbsp;&nbsp;
+                                <input id="txtminimumidr" type="text" size="10" maxlength="20" style="text-align: right" class="easyui-numberbox editable" data-options="precision:2,groupSeparator:','" />
+                            </td>
+                        </tr>
+                        <!--
+                        <tr>
+                            <td>Active</td>
+                            <td>
+                                <select name="combomst_aktif" id="combomst_aktif">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </td>
+                        </tr>
+                            -->
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div>
+        <table id="list_master" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="pager_master" class="scroll" style="text-align: center;"></div>
+        <div id="toolbar_master" class="scroll" style="width: 10px;"></div>
+    </div>
+
+    <div id="delete_confirm_div" class="easyui-dialog" style="text-align: left; height: 130px; width: 300px;"
+        data-options="modal:true" title=".: Confirmation :.">
+
+        <div id="delete_confirm_toolbar" class="form_toolbar">
+            <a id="delete_confirm_btn_submit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Submit</a>
+            <a id="delete_confirm_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+        <div id="delete_confirm_info">
+            <span>Are you sure to delete this record?</span>
+            <br />
+            Shipper Name: <span id="delete_confirm_name"></span>
+            <input id="delete_confirm_id" type="hidden" />
+        </div>
+    </div>
+</div>

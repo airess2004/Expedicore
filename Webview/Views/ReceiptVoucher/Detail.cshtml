@@ -1,0 +1,340 @@
+﻿@{
+    ViewBag.Title = "Receipt Voucher Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs.css")">
+    <!-- Additional IE/Win specific style sheet (Conditional Comments) -->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs-ie.css")">
+        <![endif]-->
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput-1.2.2.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.easyui.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/receiptvoucherdetail.js")"></script>
+}
+
+
+<div id="container_paymentvoucher" style="margin: 10px;">
+    <div id="paymentvoucher" class="easyui-panel" style="text-align: left;"
+            data-options="modal:true" title="@ViewBag.Title">
+
+        <div id="paymentvoucher_form_toolbar" class="form_toolbar">
+            <a id="paymentvoucher_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
+            <a id="paymentvoucher_form_btn_cancel" href="@Url.Action("Index", new { type = "receiptvoucher" })" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-back'">Back</a>
+            <a id="paymentvoucher_form_btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print</a>
+            <a id="paymentvoucher_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+        </div>
+
+        <div id="paymentvoucher_content" style="overflow: auto;">
+            <form id="frmpaymentvoucher">
+                <div style="display: inline-block; padding: 10px" id="shipmentorder_content">
+                    <div class="easyui-panel" style="width: auto !important; border: none !important;">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td colspan="2">
+                                    <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                        <tr>
+                                            <td width="120px" nowrap="true">
+                                                <label>Payment Voucher No</label></td>
+                                            <td>
+                                                <input id="txtPVpaymentvoucherno" style="text-align: right" type="text" disabled="disabled" size="10" maxlength="25"></td>
+
+                                           
+                                            
+                                        </tr>
+                                        <tr>
+                                             <td nowrap="true">
+                                                <label>Reference</label></td>
+                                            <td style="width: 220px;">
+                                                <input id="txtPVreference" type="text" disabled="disabled" size="35" maxlength="50"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Bank</label>
+                                            </td>
+                                            <td nowrap="true">
+                                                  <input id="txtPVbankcode" type="text" disabled="disabled" size="5" maxlength="25" class="textright" />
+                                                <input id="btnPVbank" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" disabled="disabled" value=".." />
+                                                <input id="txtPVintbankname" type="text" disabled="disabled" size="25" maxlength="25">
+                                                <input id="txtPVbankname" type="text" disabled="disabled" size="5" maxlength="25">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="120px" nowrap="true">Customer</td>
+                                            <td colspan="3">
+                                                <input id="txtPVcustomer" class="textright" type="text" size="5" maxlength="7" disabled="disabled" />
+                                                <input id="btnPVcustomer" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" disabled="disabled" value=".." />
+                                                <input id="txtPVnmcustomer" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                                            </td>
+                                            <td rowspan="3" align="right">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Print Date</legend>
+                                                                <input id="txtPVdateprint" type="text" size="10" maxlength="20" disabled="disabled" />
+                                                            </fieldset>
+                                                        </td>
+                                                        <td>
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Verify Acc</legend>
+                                                                <input id="txtPVverify" class="textright" type="text" size="10" maxlength="20" disabled="disabled" />
+                                                            </fieldset>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Rate</legend>
+                                                                <input id="txtPVrate" class="textright easyui-numberbox" data-options="precision:0,groupSeparator:','" 
+                                                                        value="0" data-exrateid="1" type="text" size="10" maxlength="20" disabled="disabled" />
+                                                            </fieldset>
+                                                        </td>
+                                                        <td>
+                                                            <fieldset class="ui-widget-content ui-corner-all">
+                                                                <legend>Date Rate</legend>
+                                                                <input id="txtPVdaterate" value="" class="textright" type="text" size="10" maxlength="20" disabled="disabled" />
+                                                            </fieldset>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top">Address</td>
+                                            <td colspan="3">
+                                                <textarea id="txtPVaddress" cols="62" rows="3" class="editable upper"  disabled="disabled"></textarea></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    <fieldset class="ui-widget-content ui-corner-all">
+                                        <table>
+                                            <tr>
+                                                <td>Total 
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>USD
+                                                </td>
+                                                <td>
+                                                    <input id="txtPVTotalDebitUsd" disabled="disabled" type="text" size="15" maxlength="20" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:','" value="0" />
+                                                </td>
+                                                 <td>IDR
+                                                </td>
+                                                <td>
+                                                    <input id="txtPVTotalDebitIdr" disabled="disabled" type="text" size="15" maxlength="20" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:','" value="0" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <fieldset class="ui-widget-content ui-corner-all">
+                                        <legend>Payment Detail</legend>
+                                        <br />
+                                        <table id="table_payment_voucher_detail" class="scroll" cellpadding="0" cellspacing="0"></table>
+                                        <br />
+                                        <input type="button" id="btn_add_payment_voucher_detail" value="Add" class="btnSubmit" />
+                                        <input type="button" id="btn_edit_payment_voucher_detail" value="Edit" class="btnSubmit" />
+                                        <input type="button" id="btn_delete_payment_voucher_detail" value="Delete" class="btnSubmit" />
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            
+                            <tr style="display: none;">
+                                <td colspan="2" align="right">
+                                    <table>
+                                        <tr>
+                                            <td>Account Code</td>
+                                            <td colspan="3">
+                                                <input id="txtPVdifferentaccountcode" type="text" size="10" maxlength="10" disabled="disabled" />
+                                                <input id="btnPVdifferentaccountcode" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-disabled" value=".." />
+                                                <input id="txtPVdifferentaccountname" type="text" size="50" maxlength="50" disabled="disabled" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dialog Payment Voucher Detail -->
+    <div id="lookup_div_payment_voucher_detail" class="easyui-dialog" title="Receipt Voucher Detail" style="padding: 0px 5px; height: 480px; width: 650px;"
+        data-options="iconCls:'icon-tip',modal:true">
+        <div id="lookup_toolbar_payment_voucher_detail" class="grid_toolbar">
+            <a id="lookup_btn_add_payment_voucher_detail" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Save</a>
+            <a id="lookup_btn_cancel_payment_voucher_detail" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_payment_voucher_detail" border="0" class="dummyClass ui-jqgrid-htable" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <fieldset class="ui-widget-content ui-corner-all" style="margin-bottom: 20px;">
+                            <legend>Settlement For</legend>
+                            <table width="100%">
+                                <tr>
+                                    <td>Reference No
+                                    </td>
+                                    <td>
+                                        <input id="txtPVDrefno" type="text" size="10" maxlength="10" disabled="disabled" />
+                                        <input id="btnPVDrefno" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                                    </td>
+                                    <td>Ref Account ID</td>
+                                    <td>
+                                        <input id="txtPVDrefaccountid" type="text" size="10" maxlength="10" disabled="disabled" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ref Shipment No</td>
+                                    <td>
+                                        <input id="txtPVDrefshipmentno" type="text" size="20" maxlength="10" disabled="disabled" />
+                                    </td>
+                                    <td>Ref Rate</td>
+                                    <td>
+                                        <input id="txtPVDrefrate" type="text" size="10" maxlength="10" class="textright easyui-numberbox" data-options="precision:0,groupSeparator:','" disabled="disabled" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="top">Description</td>
+                    <td>
+                        <textarea id="txtPVDaccountdesc" rows="3" cols="56"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Transaction</td>
+                    <td>
+                        <label>
+                            <input type="radio" id="optPVDtransdebit" name="optPVDtrans" disabled="disabled" checked="checked" />Debit</label>
+                        &nbsp;&nbsp;
+                            <label>
+                                <input type="radio" id="optPVDtranscredit" name="optPVDtrans" disabled="disabled" />Credit</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Remaining Amount</td>
+                    <td>USD
+                            <input id="txtPVDamountusd" class="textright easyui-numberbox" type="text" size="15" maxlength="20" disabled="disabled" data-options="precision:2,groupSeparator:','" />
+                        &nbsp;&nbsp;
+                            IDR
+                            <input id="txtPVDamountidr" class="textright easyui-numberbox" type="text" size="15" maxlength="20" disabled="disabled" data-options="precision:2,groupSeparator:','" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Amount Paid</td>
+                    <td>USD
+                            <input id="txtPVDamountpaidusd" class="textright easyui-numberbox" type="text" size="15" maxlength="20"  data-options="precision:2,groupSeparator:','" />
+                        &nbsp;&nbsp;
+                            IDR
+                            <input id="txtPVDamountpaididr" class="textright easyui-numberbox" type="text" size="15" maxlength="20"  data-options="precision:2,groupSeparator:','" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- END Dialog Payment Voucher Detail -->
+
+    <!-- Look Up PV Detail - Settlement For -->
+    <div id="lookup_div_pvd_settlement" class="easyui-dialog" title="List Bank" style="padding: 0px 5px; height: 500px; width: 680px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_pvd_settlement" class="grid_toolbar">
+            <a id="lookup_btn_add_pvd_settlement" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_pvd_settlement" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <div id="div_lookup_table_pvd_settlement_pr" class="lookup_table_pvd_settlement lookup_table_pvd_settlement_pr">
+            <table id="lookup_table_pvd_settlement_pr" class="scroll" cellpadding="0" cellspacing="0"></table>
+        </div>
+        <div id="div_lookup_table_pvd_settlement_pr_detail" class="lookup_table_pvd_settlement_detail lookup_table_pvd_settlement_pr">
+            <table id="lookup_table_pvd_settlement_pr_detail" class="scroll" cellpadding="0" cellspacing="0"></table>
+        </div>
+        <div id="lookup_pager_pvd_settlement" class="scroll" style="text-align: center;"></div>
+    </div>
+    <!-- END Look Up PV Detail - Settlement For -->
+
+
+    <!-- Look Up Bank -->
+    <div id="lookup_div_bank" class="easyui-dialog" title="List Bank" style="padding: 0px 5px; height: 480px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_bank" class="grid_toolbar">
+            <a id="lookup_btn_add_bank" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_bank" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_bank" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_bank" class="scroll" style="text-align: center;"></div>
+    </div>
+    <!-- END Look Up Bank -->
+
+
+
+    <!-- Look Up City -->
+    <div id="lookup_div_city" class="easyui-dialog" title="List City" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_city" class="grid_toolbar">
+            <a id="lookup_btn_add_city" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_city" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_city" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_city" class="scroll" style="text-align: center;"></div>
+    </div>
+    <!-- END Look Up City -->
+
+    <!-- Look Up Customer -->
+    <div id="lookup_div_customer" class="easyui-dialog" title="List Customer" style="padding: 0px 5px; height: 490px; width: 480px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_customer" class="grid_toolbar">
+            <a id="lookup_btn_add_customer" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_customer" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_customer" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_customer" class="scroll" style="text-align: center;"></div>
+    </div>
+    <!-- END Look Up Customer -->
+
+    <!--  Dialog Print -->
+    <div id="dialogPrint" class="easyui-dialog" data-options="modal:true" title="Print Payment Voucher" style="width: 250px; height: 120px; padding: 10px"
+        buttons="#dialogPrint-buttons">
+        Print Date: <input id="txtdialogdateprint" class="editable easyui-datebox" title="mm/dd/yyyy" type="text" size="10" maxlength="20"
+                        value="@DateTime.Today.ToString("MM/dd/yyyy")" />
+    </div>
+    <div id="dialogPrint-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogPrintYes" href="#" class="easyui-linkbutton" iconcls="icon-ok">Yes</a>
+                    <a id="btnDialogPrintNo" href="#" class="easyui-linkbutton" iconcls="icon-no">No</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Print -->
+
+</div>

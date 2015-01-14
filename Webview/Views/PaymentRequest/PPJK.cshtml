@@ -1,0 +1,521 @@
+﻿@model WebView.Controllers.VatController
+
+@{
+    ViewBag.Title = "PaymentRequest - PPJK";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs.css")">
+    <!-- Additional IE/Win specific style sheet (Conditional Comments) -->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.tabs-ie.css")">
+        <![endif]-->
+}
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.1.3.1.pack.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.history_remote.pack.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tabs.pack.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput-1.2.2.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/tools.js")"></script>
+    <script type="text/javascript">
+       @* var dmrChargeList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.DmrChargeList))*@
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Content/apps_js/paymentRequest_PPJK.js")"></script>
+}
+
+<div id="container_seaimportdetail" style="margin: 10px;">
+    <div id="seaimportdetail" class="easyui-panel" style="text-align: left;"
+            data-options="modal:true" title="@ViewBag.Title">
+
+        <div id="seaimport_form_toolbar" class="form_toolbar">
+            <a id="seaimport_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
+            <a id="seaimport_form_btn_cancel" href="@Url.Action("Index", new { type = Request.QueryString["JobId"] })" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-back'">Back</a>
+            <a id="seaimport_form_btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print</a>
+            <a id="invoice_btn_add_new" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+            <a id="seaimport_form_btn_reprintapproval" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-approval'">RePrint Approval</a>
+        </div>
+
+        <div id="seaimportdetail_content" style="overflow: auto;">
+            <form id="frmseaimport">
+                <!-- Shipment Order -->
+                <div style="display: inline-block; padding: 5px 10px" id="shipmentorder_content">
+                    <div class="easyui-panel" style="width: auto !important; border: none !important;">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td>
+                                    <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                                        <tr>
+                                            <td style="color: #ff6a00; font-weight: bold;">Payment From</td>
+                                            <td>
+                                                <table style="border: none !important">
+                                                    <tr style="border: none !important">
+                                                        <td style="border: none !important">
+                                                            <label>
+                                                                <input type="radio" name="optSEpaymentfrom" id="optSEpaymentfrompr" checked="checked" />PR</label>
+                                                        </td>
+                                                        <td style="border: none !important">
+                                                            <label>
+                                                                <input type="radio" name="optSEpaymentfrom" id="optSEpaymentfromgpr" />General Payment Request</label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td width="100px" style="white-space: nowrap">
+                                                <label >Shipment Order No</label></td>
+                                            <td width="220px" >
+                                                <input id="txtSEshipmentno" name="ShipmentOrder" type="text" disabled="disabled" size="20" maxlength="25">
+                                                <input id="btnSEshipmentno" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="120px" nowrap="true">
+                                                <label>Payment Request No</label></td>
+                                            <td style="width: 220px;">
+                                                <input id="InvoicesNo" style="text-align: right" type="text" disabled="disabled" size="10" maxlength="25"></td>
+                                            <td>Debet / Credit</td>
+                                            <td colspan="3">
+                                                <table style="border: none !important">
+                                                    <tr style="border: none !important">
+                                                        <td style="border: none !important">
+                                                            <label>
+                                                                <input type="radio" name="optSEDC" id="optSEDCdebet" />Debet</label>
+                                                        </td>
+                                                        <td style="border: none !important">
+                                                            <label>
+                                                                <input type="radio" name="optSEDC" id="optSEDCcredit"  checked="checked" />Credit</label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                           
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>
+                                                <label>Printing</label></td>
+                                            <td>
+                                                <input id="txtSEprinting" class="textright" type="text" disabled="disabled" size="1" maxlength="25">
+                                                &nbsp;
+                                                <input id="txtSEdateprint" type="text" disabled="disabled" size="10" maxlength="25"></td>
+                                             <td>Currency
+                                            </td>
+                                            <td>
+                                                <select id="ddlcurrency">
+                                                    <option value="USD">USD</option>
+                                                    <option value="IDR">IDR</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Due Date</label></td>
+                                            <td>
+                                                <input id="txtSEduedate" type="text" disabled="disabled" size="10" maxlength="25"></td>
+                                            <td rowspan="4" colspan="3">
+                                                    <table >
+                                                        <tr>
+                                                            <td>
+                                                                <label id="spaninvoiceto">Contact</label></td>
+                                                            <td>
+                                                                <input id="txtSEkdcustomer" class="textright" type="text" disabled="disabled" size="5" maxlength="25">
+                                                                <input id="btnSEcustomer" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                                                                <input id="txtSEnmcustomer" type="text" size="40" maxlength="50">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td valign="top">Address</td>
+                                                            <td>
+                                                                <textarea id="txtSEcustomeraddress" rows="1" cols="45"></textarea>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>ETD / ETA</label></td>
+                                            <td>
+                                                <input id="txtSEetd" type="text" disabled="disabled" size="10" maxlength="25"></td>
+                                        </tr>
+                                        @*<tr>
+                                            <td valign="top">
+                                                <label>Invoice Header</label></td>
+                                            <td valign="top">
+                                                <select id="ddlSEinvoiceheader">
+                                                    @if (Model.JobOwnerList.ToList().Count == 1)
+                                                    {
+                                                        <option value="@Model.JobOwnerList[0].Id">
+                                                            @Model.JobOwnerList[0].JobOwnerCode
+                                                        </option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="0"></option>
+                                                        foreach (var c in Model.JobOwnerList.ToList())
+                                                        {
+                                                        <option value="@c.Id">@c.JobOwnerCode</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>*@
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <fieldset class="ui-widget-content ui-corner-all">
+                                        <legend>Being For Payment</legend>
+                                        <div style="margin: 7px 0px !important;">
+                                            <table id="table_invoice_detail" class="scroll" cellpadding="0" cellspacing="0"></table>
+                                        </div>
+                                        <input type="button" id="btn_add_invoice_detail" value="Add" class="btnSubmit" />
+                                        <input type="button" id="btn_edit_invoice_detail" value="Edit" class="btnSubmit" />
+                                        <input type="button" id="btn_delete_invoice_detail" value="Delete" class="btnSubmit" />
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="80px">
+                                                <fieldset class="ui-widget-content ui-corner-all" style="width: 80px;">
+                                                    <table width="100%">
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="rbTotalIDR" id="rbTotalIDRPaid" disabled="disabled" />Paid</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="rbTotalIDR" id="rbTotalIDRNotPaid" disabled="disabled" checked="checked" />Not Paid</label>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </fieldset>
+                                            </td>
+                                            <td>
+                                                <fieldset class="ui-widget-content ui-corner-all" style="width: 100px; float: left; margin-right: 5px;">
+                                                    <legend>Payment USD</legend>
+                                                    <input id="txtSEpaymentusd" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" />
+                                                </fieldset>
+                                                <fieldset class="ui-widget-content ui-corner-all" style="width: 100px; float: left; margin-right: 5px;">
+                                                    <legend>Payment IDR</legend>
+                                                    <input id="txtSEpaymentidr" class="textright easyui-numberbox" size="15" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" />
+                                                </fieldset>
+                                            </td>
+                                            <td style="width: 200px" width="200px">
+                                                <fieldset class="ui-widget-content ui-corner-all" style="width: 200px;">
+                                                    <legend>Rate</legend>
+                                                    <input id="txtSErate" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:','" type="text" disabled="disabled" size="7" />
+                                                    <input id="txtSEdaterate" class="textright" type="text" disabled="disabled" size="10" />
+                                                </fieldset>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dialog Agent (Agent, Shipper/Consignee) -->
+    <div id="lookup_div_invoice_detail" class="easyui-dialog" title="Inc Agent" style="padding: 0px 5px; height: 470px; width: 720px;"
+        data-options="iconCls:'icon-tip',modal:true">
+        <div id="lookup_toolbar_invoice_detail" class="grid_toolbar">
+            <a id="lookup_btn_add_invoice_detail" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Save</a>
+            <a id="lookup_btn_cancel_invoice_detail" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_inc_agent" border="0" class="dummyClass ui-jqgrid-htable" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td><span id="lblInvagentshipper">Contact</span></td>
+                    <td colspan="4">
+                        <input id="txtInvkdagent" type="text" size="5" maxlength="7" disabled="disabled" />
+                        <input id="txtInvnmagent" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Account</td>
+                    <td colspan="4">
+                        <div style="float: left; width: 120px">
+                            <input id="txtInvkdaccount" type="text" size="5" maxlength="7" disabled="disabled" />
+                            <input id="btnInvaccount" name="buttonactivated" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Account Name</td>
+                    <td colspan="4">
+                        <input id="txtInvnmaccount" type="text" size="80" maxlength="200" disabled="disabled" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Description</td>
+                    <td colspan="4">
+                        <textarea id="txtInvdesc" rows="5" cols="57"></textarea>
+                    </td>
+                </tr>
+                <tr id="rowCurrencyType">
+                    <td></td>
+                    <td colspan="4">
+                        <table style="border: none !important">
+                            <tr style="border: none !important">
+                                <td style="border: none !important">
+                                    <label style="color: #ff6a00; font-weight: bold;">
+                                        <input type="radio" name="optInvcurrencytype" id="optInvcurrencytypeUSD" checked="checked" />USD</label>
+                                </td>
+                                <td style="border: none !important">
+                                    <label style="color: #0026ff; font-weight: bold;">
+                                        <input type="radio" name="optInvcurrencytype" id="optInvcurrencytypeIDR" />IDR</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td nowrap style="white-space: nowrap">Quantity Unit</td>
+                    <td colspan="4">
+                        <input id="txtInvquantity" type="text" size="10" class="textright easyui-numberbox" data-options="precision:4,groupSeparator:','" value="0" />
+                    </td>
+                </tr>
+                <tr>
+                    <td nowrap style="white-space: nowrap">Per Unit Cost</td>
+                    <td colspan="2">
+                        <input id="txtInvperunitcost" type="text" size="10" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:','" value="0" />
+                    </td>
+                    <td>Date Rate</td>
+                    <td>
+                        <input id="txtInvdaterate" type="text" size="10" disabled="disabled" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Amount</td>
+                    <td width="30%">
+                        <input id="txtInvamount" type="text" size="10" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:','" value="0" />
+                    </td>
+                    <td>
+                        <table style="border: none !important" width="100%" id="rowSign">
+                            <tr style="border: none !important">
+                                <td style="border: none !important">
+                                    <label style="font-weight: bold;">
+                                        <input type="radio" name="optInvsign" id="optInvsignplus" checked="checked" />+</label>
+                                </td>
+                                <td style="border: none !important">
+                                    <label style="font-weight: bold;">
+                                        <input type="radio" name="optInvsign" id="optInvsignminus" />-</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>Exchange Rate</td>
+                    <td>
+                        <input id="txtInvexchangerate" type="text" size="10" disabled="disabled" />
+                    </td>
+                </tr>
+                <tr id="rowVat" style="display: none;">
+                    <td style="color: #ff6a00; font-weight: bold; font-size: 16px;">Vat</td>
+                    <td width="30%" colspan="4">
+                        <select id="ddlSEvat">
+                            @if (Model.GetLookUp().Count == 1)
+                            {
+                                <option value="@Model.GetLookUp().FirstOrDefault().Id">
+                                    @Model.GetLookUp().FirstOrDefault().Value
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="0"></option>
+                                foreach (var c in Model.GetLookUp().ToList())
+                                {
+                                <option value="@c.Id">@c.Value</option>
+                                }
+                            }
+                        </select>
+                        &nbsp;%
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- END Dialog Agent (Agent, Shipper/Consignee) -->
+
+    <!-- Dialog Agent - handlingfee -->
+    <div id="lookup_div_invoice_detail_handlingfee" class="easyui-dialog" title="Inc Agent Handling Fee" style="padding: 0px 5px; height: 480px; width: 650px;"
+        data-options="iconCls:'icon-tip',modal:true">
+        <div id="lookup_toolbar_inc_agent_handlingfee" class="grid_toolbar">
+            <a id="lookup_btn_add_invoice_detail_handlingfee" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Save</a>
+            <a id="lookup_btn_cancel_invoice_detail_handlingfee" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_inc_agent_handlingfee" border="0" class="dummyClass ui-jqgrid-htable" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td>Agent</td>
+                    <td>
+                        <input id="txtInvkdagent_handlingfee" type="text" size="5" maxlength="7" disabled="disabled" />
+                        <input id="txtInvnmagent_handlingfee" type="text" size="56" maxlength="50" class="editable upper" disabled="disabled" />
+                        <table style="border: none !important" width="20%">
+                            <tr style="border: none !important">
+                                <td style="border: none !important">
+                                    <label style="font-weight: bold;">
+                                        <input type="radio" name="optInvsign_handlingfee" id="optInvsignplus_handlingfee" checked="checked" />+</label>
+                                </td>
+                                <td style="border: none !important">
+                                    <label style="font-weight: bold;">
+                                        <input type="radio" name="optInvsign_handlingfee" id="optInvsignminus_handlingfee" />-</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table style="border: none !important" width="100%">
+                            <tr style="border: none !important">
+                                <td valign="top" style="border: none !important" rowspan="4">Handling Fee
+                                </td>
+                                <td style="border: none !important">(&nbsp;
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee20" class="textright easyui-numberbox" data-options="precision:4,groupSeparator:',',value:0" />
+                                    X 20'&nbsp;) X USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee20usd" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" />
+                                    = USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee20total" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" disabled="disabled" />
+                                </td>
+                            </tr>
+                            <tr style="border: none !important">
+                                <td style="border: none !important">(&nbsp;
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee40" class="textright easyui-numberbox" data-options="precision:4,groupSeparator:',',value:0" />
+                                    X 40'&nbsp;) X USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee40usd" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" />
+                                    = USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee40total" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" disabled="disabled" />
+                                </td>
+                            </tr>
+                            <tr style="border: none !important">
+                                <td style="border: none !important">(&nbsp;
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee45" class="textright easyui-numberbox" data-options="precision:4,groupSeparator:',',value:0" />
+                                    X 45'&nbsp;) X USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee45usd" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" />
+                                    = USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfee45total" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" disabled="disabled" />
+                                </td>
+                            </tr>
+                            <tr style="border: none !important">
+                                <td style="border: none !important">(&nbsp;
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfeem3" class="textright easyui-numberbox" data-options="precision:4,groupSeparator:',',value:0" />
+                                    X M3&nbsp;) X USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfeem3usd" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" />
+                                    = USD 
+                                    <input size="10" type="text" name="txtInv_handlingfee" id="txtInv_handlingfeem3total" class="textright easyui-numberbox" data-options="precision:2,groupSeparator:',',value:0" disabled="disabled" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- END Dialog Agent - handlingfee -->
+
+
+    <!-- Look Up shipmentorder -->
+    <div id="lookup_div_shipmentorder" class="easyui-dialog" title="List Shipment Order" style="padding: 0px 5px; height: 480px; width: 600px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_shipmentorder" class="grid_toolbar">
+            <a id="lookup_btn_add_shipmentorder" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_shipmentorder" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_shipmentorder" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_pager_shipmentorder" class="scroll" style="text-align: center;"></div>
+    </div>
+    <!-- END Look Up shipmentorder -->
+
+    <!-- Look Up Account -->
+    <div id="lookup_div_account" class="easyui-dialog" title="List Account" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_account" class="grid_toolbar">
+            <a id="lookup_btn_add_account" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_account" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+        <div id="lookup_table_account_div">
+            <table id="lookup_table_account" class="scroll" cellpadding="0" cellspacing="0"></table>
+            <div id="lookup_pager_account" class="scroll" style="text-align: center;"></div>
+        </div>
+        <div id="lookup_table_account_general_div">
+            <table id="lookup_table_account_general" class="scroll" cellpadding="0" cellspacing="0"></table>
+            <div id="lookup_pager_account_general" class="scroll" style="text-align: center;"></div>
+        </div>
+    </div>
+    <!-- END Look Up Account -->
+
+
+    <!-- Look Up Customer -->
+    <div id="lookup_div_customer" class="easyui-dialog" title="List Customer" style="padding: 0px 5px; height: 480px; width: 485px;"
+        data-options="iconCls:'icon-tip',modal:true">
+
+        <div id="lookup_toolbar_customer" class="grid_toolbar">
+            <a id="lookup_btn_add_customer" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Select Data</a>
+            <a id="lookup_btn_cancel_customer" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close Window</a>
+        </div>
+
+        <table id="lookup_table_customer" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="lookup_table_agent_div">
+            <table id="lookup_table_agent" class="scroll" cellpadding="0" cellspacing="0"></table>
+        </div>
+        <div id="lookup_pager_customer" class="scroll" style="text-align: center;"></div>
+    </div>
+    <!-- END Look Up Customer -->
+
+    <!--  Dialog Print -->
+    <div id="dialogPrint" class="easyui-dialog" data-options="modal:true" title="Print Data" style="width: 400px; height: 120px; padding: 10px"
+        buttons="#dialogPrint-buttons">
+        BCR (Yes)  or  OTS (No) Invoices ?
+    </div>
+    <div id="dialogPrint-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogPrintOk" href="#" class="easyui-linkbutton">Yes</a>
+                    <a id="btnDialogPrintNo" href="#" class="easyui-linkbutton">No</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Print -->
+
+    <!--  Dialog Print (Fixed / Draft) -->
+    <div id="dialogPrintFixedDraft" class="easyui-dialog" data-options="modal:true" title="Print Data" style="width: 400px; height: 120px; padding: 10px"
+        buttons="#dialogPrintFixedDraft-buttons">
+        Fixed (Yes)  or  Draft (No) Invoices ?
+    </div>
+    <div id="dialogPrintFixedDraft-buttons">
+        <table cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td>&nbsp;
+                </td>
+                <td style="text-align: right">
+                    <a id="btnDialogPrintFixedDraftOk" href="#" class="easyui-linkbutton">Yes</a>
+                    <a id="btnDialogPrintFixedDraftNo" href="#" class="easyui-linkbutton">No</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- END Dialog Print (Fixed / Draft) -->
+
+</div>
