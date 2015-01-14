@@ -34,7 +34,7 @@ namespace Service
         public Cost CreateObject(Cost cost)
         {
             cost.Errors = new Dictionary<String, String>();
-            if (!isValid(_validator.VCreateObject(cost,this)))
+            if (isValid(_validator.VCreateObject(cost,this)))
             {
                 cost.MasterCode = _repository.GetLastMasterCode(cost.OfficeId) + 1;
                 cost = _repository.CreateObject(cost);
@@ -44,7 +44,7 @@ namespace Service
          
         public Cost UpdateObject(Cost cost)
         {
-            if (!isValid(_validator.VUpdateObject(cost, this)))
+            if (isValid(_validator.VUpdateObject(cost, this)))
             {
                 cost = _repository.UpdateObject(cost);
             }

@@ -102,7 +102,7 @@ namespace Service
             shipmentorder.VolumeBL = 0; 
             shipmentorder.VolumeInvoice = 0;
             shipmentorder.SSLineId = 0;
-            shipmentorder.BrokerId = 0;
+            shipmentorder.EMKLId = 0;
             shipmentorder.DepoId = 0;
 //shipmentorder.Truck = "";
             shipmentorder.CreatedAt  = DateTime.Now;
@@ -159,7 +159,7 @@ namespace Service
             shipmentorder.HAWBPayableId = 0;
             shipmentorder.Currency = "USD";
             shipmentorder.HandlingInfo = "PLEASE CONTACT CNEE IMMEDIATELY UPON ARRIVAL DOCS ATTACHED TO MAWB";
-            shipmentorder.BrokerId = 0;
+            shipmentorder.EMKLId = 0;
             shipmentorder.CustomValue = "N C V";
             shipmentorder.CarriageValue = "AS PER INV";
             shipmentorder.IATAId = 0; 
@@ -228,7 +228,7 @@ namespace Service
             shipmentorder.HAWBPayableId = 0;
             shipmentorder.Currency = "USD";
             shipmentorder.HandlingInfo = "PLEASE CONTACT CNEE IMMEDIATELY UPON ARRIVAL DOCS ATTACHED TO MAWB";
-            shipmentorder.BrokerId = 0; 
+            shipmentorder.EMKLId = 0; 
             shipmentorder.CustomValue = "N C V";
             shipmentorder.CarriageValue = "AS PER INV";
             shipmentorder.IATAId = 0;
@@ -303,7 +303,7 @@ namespace Service
             shipmentorder.VolumeBL = 0; 
             shipmentorder.VolumeInvoice = 0;
             shipmentorder.SSLineId = 0;
-            shipmentorder.BrokerId = 0; 
+            shipmentorder.EMKLId = 0; 
             shipmentorder.DepoId = 0;
             shipmentorder.CreatedAt = DateTime.Now;
             shipmentorder.MasterCode = _repository.GetLastMasterCode(shipmentorder.OfficeId) + 1;
@@ -394,7 +394,7 @@ namespace Service
             shipmentorder.VolumeBL = 0; 
             shipmentorder.VolumeInvoice = 0;
             shipmentorder.SSLineId = 0; 
-            shipmentorder.BrokerId = 0; 
+            shipmentorder.EMKLId = 0; 
             shipmentorder.DepoId = 0;
             shipmentorder.CreatedAt = DateTime.Now;
             shipmentorder.MasterCode = _repository.GetLastMasterCode(shipmentorder.OfficeId) + 1;
@@ -459,7 +459,7 @@ namespace Service
             shipmentorder.VolumeBL = 0; 
             shipmentorder.VolumeInvoice = 0;
             shipmentorder.SSLineId = 0; 
-            shipmentorder.BrokerId = 0; 
+            shipmentorder.EMKLId = 0; 
             shipmentorder.DepoId = 0;
             shipmentorder.CreatedAt = DateTime.Now;
             shipmentorder.MasterCode = _repository.GetLastMasterCode(shipmentorder.OfficeId) + 1;
@@ -522,7 +522,7 @@ namespace Service
             shipmentorder.VolumeBL = 0; 
             shipmentorder.VolumeInvoice = 0;
             shipmentorder.SSLineId = 0; 
-            shipmentorder.BrokerId = 0; 
+            shipmentorder.EMKLId = 0; 
             shipmentorder.DepoId = 0;
             shipmentorder.CreatedAt = DateTime.Now;
             shipmentorder.MasterCode = _repository.GetLastMasterCode(shipmentorder.OfficeId) + 1;
@@ -565,7 +565,7 @@ namespace Service
             shipmentorder.MAWBStatus = "P"; shipmentorder.MAWBCollectId = 0; shipmentorder.MAWBPayableId = 0;
             shipmentorder.HAWBStatus = "P"; shipmentorder.HAWBCollectId = 0; shipmentorder.HAWBPayableId = 0; shipmentorder.Currency = "USD";
             shipmentorder.HandlingInfo = "PLEASE CONTACT CNEE IMMEDIATELY UPON ARRIVAL DOCS ATTACHED TO MAWB";
-            shipmentorder.BrokerId = 0; shipmentorder.CustomValue = "N C V"; shipmentorder.CarriageValue = "AS PER INV";
+            shipmentorder.EMKLId = 0; shipmentorder.CustomValue = "N C V"; shipmentorder.CarriageValue = "AS PER INV";
             shipmentorder.IATAId = 0; shipmentorder.ChargeableWeight = 0; shipmentorder.WeightHAWB = 0;
             shipmentorder.MAWBNo = "000 0000 0000"; shipmentorder.Shipmark = ""; shipmentorder.GoodNatureQuantity = ""; shipmentorder.Total = "AS ARRANGED";
             shipmentorder.ChargeRate = 0; shipmentorder.ChargeWeight = 0; shipmentorder.KGLB = "KG"; shipmentorder.GrossWeight = 0; shipmentorder.PiecesRCP = "";
@@ -623,7 +623,7 @@ namespace Service
             shipmentorder.HAWBPayableId = 0; 
             shipmentorder.Currency = "USD";
             shipmentorder.HandlingInfo = "PLEASE CONTACT CNEE IMMEDIATELY UPON ARRIVAL DOCS ATTACHED TO MAWB";
-            shipmentorder.BrokerId = 0; 
+            shipmentorder.EMKLId = 0; 
             shipmentorder.CustomValue = "N C V"; 
             shipmentorder.CarriageValue = "AS PER INV";
             shipmentorder.IATAId = 0; 
@@ -769,7 +769,7 @@ namespace Service
                 newShipmentOrder.IATAId = model.IATAId;
                 newShipmentOrder.CarriageValue = model.CarriageValue;
                 newShipmentOrder.CustomValue = model.CustomValue;
-                newShipmentOrder.BrokerId = model.BrokerId;
+                newShipmentOrder.EMKLId = model.EMKLId;
                 newShipmentOrder.DeletedAt = model.DeletedAt;
                 newShipmentOrder.IsDeleted = model.IsDeleted;
                 newShipmentOrder.JobClosed = model.JobClosed;
@@ -794,8 +794,8 @@ namespace Service
                         foreach (var item in shipmentRoutingList)
                         {
                             ShipmentOrderRouting route = new ShipmentOrderRouting();
-                            route.AirportFrom = item.AirportFrom;
-                            route.AirportTo = item.AirportTo;
+                            route.AirportFromId = item.AirportFromId;
+                            route.AirportToId = item.AirportToId;
                             route.CityId = item.CityId;
                             route.OfficeId = item.OfficeId;
                             route.CreatedById = model.CreatedById;
@@ -884,7 +884,7 @@ namespace Service
                 newShipmentOrder.IATAId = model.IATAId;
                 newShipmentOrder.CarriageValue = model.CarriageValue;
                 newShipmentOrder.CustomValue = model.CustomValue;
-                newShipmentOrder.BrokerId = model.BrokerId;
+                newShipmentOrder.EMKLId = model.EMKLId;
                 newShipmentOrder.DeletedAt = model.DeletedAt;
                 newShipmentOrder.IsDeleted = model.IsDeleted;
                 newShipmentOrder.JobClosed = model.JobClosed;
@@ -906,8 +906,8 @@ namespace Service
                         foreach (var item in shipmentRoutingList)
                         {
                             ShipmentOrderRouting route = new ShipmentOrderRouting();
-                            route.AirportFrom = item.AirportFrom;
-                            route.AirportTo = item.AirportTo;
+                            route.AirportFromId = item.AirportFromId;
+                            route.AirportToId = item.AirportToId;
                             route.CityId = item.CityId;
                             route.OfficeId = item.OfficeId;
                             route.CreatedById = model.CreatedById;
@@ -1003,7 +1003,7 @@ namespace Service
                 newShipmentOrder.ChargeableWeight = model.ChargeableWeight; 
                 newShipmentOrder.IATAId = model.IATAId; newShipmentOrder.CarriageValue = model.CarriageValue;
                 newShipmentOrder.CustomValue = model.CustomValue;
-                newShipmentOrder.BrokerId = model.BrokerId;
+                newShipmentOrder.EMKLId = model.EMKLId;
                 newShipmentOrder.DeletedAt = model.DeletedAt; 
                 newShipmentOrder.IsDeleted = model.IsDeleted;
                 newShipmentOrder.JobClosed = model.JobClosed;
@@ -1028,8 +1028,8 @@ namespace Service
                         foreach (var item in shipmentRoutingList)
                         {
                             ShipmentOrderRouting route = new ShipmentOrderRouting();
-                            route.AirportFrom = item.AirportFrom;
-                            route.AirportTo = item.AirportTo;
+                            route.AirportFromId = item.AirportFromId;
+                            route.AirportToId = item.AirportToId;
                             route.CityId = item.CityId;
                             route.OfficeId = item.OfficeId;
                             route.CreatedById = model.CreatedById;
@@ -1117,7 +1117,7 @@ namespace Service
                 newShipmentOrder.ChargeableWeight = model.ChargeableWeight;
                 newShipmentOrder.IATAId = model.IATAId; newShipmentOrder.CarriageValue = model.CarriageValue;
                 newShipmentOrder.CustomValue = model.CustomValue;
-                newShipmentOrder.BrokerId = model.BrokerId;
+                newShipmentOrder.EMKLId = model.EMKLId;
                 newShipmentOrder.DeletedAt = model.DeletedAt;
                 newShipmentOrder.IsDeleted = model.IsDeleted;
                 newShipmentOrder.JobClosed = model.JobClosed;
@@ -1139,8 +1139,8 @@ namespace Service
                         foreach (var item in shipmentRoutingList)
                         {
                             ShipmentOrderRouting route = new ShipmentOrderRouting();
-                            route.AirportFrom = item.AirportFrom;
-                            route.AirportTo = item.AirportTo;
+                            route.AirportFromId = item.AirportFromId;
+                            route.AirportToId = item.AirportToId;
                             route.CityId = item.CityId;
                             route.OfficeId = item.OfficeId;
                             route.CreatedById = model.CreatedById;
@@ -1229,7 +1229,7 @@ namespace Service
                     newShipmentOrder.VolumeBL = model.VolumeBL; 
                     newShipmentOrder.VolumeInvoice = model.VolumeInvoice;
                     newShipmentOrder.SSLineId = model.SSLineId; 
-                    newShipmentOrder.BrokerId = model.BrokerId; 
+                    newShipmentOrder.EMKLId = model.EMKLId; 
                     newShipmentOrder.DepoId = model.DepoId;
                     newShipmentOrder.WareHouseName = model.WareHouseName; 
                     newShipmentOrder.KINS = model.KINS; newShipmentOrder.CFName = model.CFName;
@@ -1259,8 +1259,8 @@ namespace Service
                             foreach (var item in shipmentRoutingList)
                             {
                                 ShipmentOrderRouting route = new ShipmentOrderRouting();
-                                route.AirportFrom = item.AirportFrom;
-                                route.AirportTo = item.AirportTo;
+                                route.AirportFromId = item.AirportFromId;
+                                route.AirportToId = item.AirportToId;
                                 route.CityId = item.CityId;
                                 route.OfficeId = item.OfficeId;
                                 route.CreatedById = model.CreatedById;
@@ -1342,7 +1342,7 @@ namespace Service
                     newShipmentOrder.VolumeBL = model.VolumeBL;
                     newShipmentOrder.VolumeInvoice = model.VolumeInvoice;
                     newShipmentOrder.SSLineId = model.SSLineId;
-                    newShipmentOrder.BrokerId = model.BrokerId; newShipmentOrder.DepoId = model.DepoId;
+                    newShipmentOrder.EMKLId = model.EMKLId; newShipmentOrder.DepoId = model.DepoId;
                     newShipmentOrder.WareHouseName = model.WareHouseName; 
                     newShipmentOrder.KINS = model.KINS; newShipmentOrder.CFName = model.CFName;
                     newShipmentOrder.DeletedAt = model.DeletedAt;
@@ -1364,8 +1364,8 @@ namespace Service
                             foreach (var item in shipmentRoutingList)
                             {
                                 ShipmentOrderRouting route = new ShipmentOrderRouting();
-                                route.AirportFrom = item.AirportFrom;
-                                route.AirportTo = item.AirportTo;
+                                route.AirportFromId = item.AirportFromId;
+                                route.AirportToId = item.AirportToId;
                                 route.CityId = item.CityId;
                                 route.OfficeId = item.OfficeId;
                                 route.CreatedById = model.CreatedById;
@@ -1456,7 +1456,7 @@ namespace Service
                 newShipmentOrder.VolumeBL = model.VolumeBL;
                 newShipmentOrder.VolumeInvoice = model.VolumeInvoice;
                 newShipmentOrder.SSLineId = model.SSLineId;
-                newShipmentOrder.BrokerId = model.BrokerId;
+                newShipmentOrder.EMKLId = model.EMKLId;
                 newShipmentOrder.DepoId = model.DepoId;
                 newShipmentOrder.DeletedAt = model.DeletedAt;   
                 newShipmentOrder.IsDeleted = model.IsDeleted;
@@ -1483,8 +1483,8 @@ namespace Service
                         foreach (var item in shipmentRoutingList)
                         {
                             ShipmentOrderRouting route = new ShipmentOrderRouting();
-                            route.AirportFrom = item.AirportFrom;
-                            route.AirportTo = item.AirportTo;
+                            route.AirportFromId = item.AirportFromId;
+                            route.AirportToId = item.AirportToId;
                             route.CityId = item.CityId;
                             route.OfficeId = item.OfficeId;
                             route.CreatedById = model.CreatedById;
@@ -1568,7 +1568,7 @@ namespace Service
                 newShipmentOrder.VolumeBL = model.VolumeBL;
                 newShipmentOrder.VolumeInvoice = model.VolumeInvoice;
                 newShipmentOrder.SSLineId = model.SSLineId;
-                newShipmentOrder.BrokerId = model.BrokerId;
+                newShipmentOrder.EMKLId = model.EMKLId;
                 newShipmentOrder.DepoId = model.DepoId;
                 newShipmentOrder.DeletedAt = model.DeletedAt;
                 newShipmentOrder.IsDeleted = model.IsDeleted;
@@ -1589,8 +1589,8 @@ namespace Service
                         foreach (var item in shipmentRoutingList)
                         {
                             ShipmentOrderRouting route = new ShipmentOrderRouting();
-                            route.AirportFrom = item.AirportFrom;
-                            route.AirportTo = item.AirportTo;
+                            route.AirportFromId = item.AirportFromId;
+                            route.AirportToId = item.AirportToId;
                             route.CityId = item.CityId;
                             route.OfficeId = item.OfficeId;
                             route.CreatedById = model.CreatedById;
@@ -1622,7 +1622,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -1675,7 +1675,7 @@ namespace Service
                 shipmentorder.CarriageValue = String.IsNullOrEmpty(model.CarriageValue) ? "" : model.CarriageValue.ToUpper();
                 shipmentorder.CustomValue = String.IsNullOrEmpty(model.CustomValue) ? "" : model.CustomValue.ToUpper();
                 shipmentorder.SSLineId = model.SSLineId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
                 shipmentorder.DepoId = model.DepoId;
                // shipmentorder.Truck = String.IsNullOrEmpty(model.Truck) ? "" : model.Truck.ToUpper();
                 shipmentorder.VesselFlight = String.IsNullOrEmpty(model.VesselFlight) ? "N" : model.VesselFlight.ToUpper();
@@ -1711,7 +1711,7 @@ namespace Service
                         tFRoute.OfficeId = model.OfficeId;
                         tFRoute.CreatedById = model.CreatedById;
                         tFRoute.CreatedAt = DateTime.Today;
-                        tFRoute.AirportFrom = shipmentorderrouting.AirportFrom;
+                        tFRoute.AirportFromId = shipmentorderrouting.AirportFromId;
                         tFRoute.ShipmentOrderId = model.Id;
                         tFRoute.FlightId = shipmentorderrouting.FlightId;
                         tFRoute.FlightNo = shipmentorderrouting.FlightNo;
@@ -1802,20 +1802,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.EMKLDomestic
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -1855,7 +1855,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -1929,7 +1929,7 @@ namespace Service
                 shipmentorder.CarriageValue = String.IsNullOrEmpty(model.CarriageValue) ? "" : model.CarriageValue.ToUpper();
                 shipmentorder.CustomValue = String.IsNullOrEmpty(model.CustomValue) ? "" : model.CustomValue.ToUpper();
                 shipmentorder.IATAId = model.IATAId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
 
                 shipmentorder.OfficeId = model.OfficeId;
                 shipmentorder.UpdatedById = model.UpdatedById;
@@ -2017,20 +2017,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.AirImport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -2072,7 +2072,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -2147,7 +2147,7 @@ namespace Service
                 shipmentorder.CarriageValue = String.IsNullOrEmpty(model.CarriageValue) ? "" : model.CarriageValue.ToUpper();
                 shipmentorder.CustomValue = String.IsNullOrEmpty(model.CustomValue) ? "" : model.CustomValue.ToUpper();
                 shipmentorder.IATAId = model.IATAId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
 
                 shipmentorder.OfficeId = model.OfficeId;
                 shipmentorder.UpdatedById = model.UpdatedById;
@@ -2235,20 +2235,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.EMKLAirExport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -2367,7 +2367,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -2435,7 +2435,7 @@ namespace Service
                 shipmentorder.VolumeBL = model.VolumeBL;
                 shipmentorder.VolumeInvoice = model.VolumeInvoice;
                 shipmentorder.SSLineId = model.SSLineId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
                 shipmentorder.DepoId = model.DepoId;
 
                 shipmentorder.OfficeId = model.OfficeId;
@@ -2524,20 +2524,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.EMKLSeaImport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -2578,7 +2578,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -2641,7 +2641,7 @@ namespace Service
                 shipmentorder.VolumeBL = model.VolumeBL;
                 shipmentorder.VolumeInvoice = model.VolumeInvoice;
                 shipmentorder.SSLineId = model.SSLineId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
                 shipmentorder.DepoId = model.DepoId;
 
                 shipmentorder.OfficeId = model.OfficeId;
@@ -2730,20 +2730,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.EMKLSeaExport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -2888,7 +2888,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -2965,7 +2965,7 @@ namespace Service
                 shipmentorder.CarriageValue = String.IsNullOrEmpty(model.CarriageValue) ? "" : model.CarriageValue.ToUpper();
                 shipmentorder.CustomValue = String.IsNullOrEmpty(model.CustomValue) ? "" : model.CustomValue.ToUpper();
                 shipmentorder.IATAId = model.IATAId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
 
                 shipmentorder.OfficeId = model.OfficeId;
                 shipmentorder.UpdatedById = model.UpdatedById;
@@ -3060,20 +3060,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.AirImport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -3116,7 +3116,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -3189,7 +3189,7 @@ namespace Service
                 shipmentorder.CarriageValue = String.IsNullOrEmpty(model.CarriageValue) ? "" : model.CarriageValue.ToUpper();
                 shipmentorder.CustomValue = String.IsNullOrEmpty(model.CustomValue) ? "" : model.CustomValue.ToUpper();
                 shipmentorder.IATAId = model.IATAId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
 
                 shipmentorder.OfficeId = model.OfficeId;
                 shipmentorder.UpdatedById = model.UpdatedById;
@@ -3284,20 +3284,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.AirExport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -3436,7 +3436,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -3499,7 +3499,7 @@ namespace Service
                 shipmentorder.VolumeBL = model.VolumeBL;
                 shipmentorder.VolumeInvoice = model.VolumeInvoice;
                 shipmentorder.SSLineId = model.SSLineId;
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
                 shipmentorder.DepoId = model.DepoId;
 
                 shipmentorder.OfficeId = model.OfficeId;
@@ -3595,20 +3595,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.SeaExport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }
@@ -3752,7 +3752,7 @@ namespace Service
                 int oldShipperId = shipmentorder.ShipperId.HasValue ? shipmentorder.ShipperId.Value : 0;
                 int oldConsigneeId = shipmentorder.ConsigneeId.HasValue ? shipmentorder.ConsigneeId.Value : 0;
                 int oldSSLineId = shipmentorder.SSLineId.HasValue ? shipmentorder.SSLineId.Value : 0;
-                int oldEMKLId = shipmentorder.BrokerId.HasValue ? shipmentorder.BrokerId.Value : 0;
+                int oldEMKLId = shipmentorder.EMKLId.HasValue ? shipmentorder.EMKLId.Value : 0;
                 int oldDepoId = shipmentorder.DepoId.HasValue ? shipmentorder.DepoId.Value : 0;
 
                 /* ==================================================== Shipment Order ==================================== */
@@ -3822,7 +3822,7 @@ namespace Service
                 shipmentorder.WareHouseName = String.IsNullOrEmpty(model.WareHouseName) ? "" : model.WareHouseName.ToUpper();
                 shipmentorder.KINS = String.IsNullOrEmpty(model.KINS) ? "" : model.KINS.ToUpper();
                 shipmentorder.CFName = String.IsNullOrEmpty(model.CFName) ? "" : model.CFName.ToUpper();
-                shipmentorder.BrokerId = model.BrokerId;
+                shipmentorder.EMKLId = model.EMKLId;
                 shipmentorder.DepoId = model.DepoId;
 
                 shipmentorder.OfficeId = model.OfficeId;
@@ -3918,20 +3918,20 @@ namespace Service
                 }
 
                 //Broker
-                Contact emkl = _contactService.GetObjectById(model.BrokerId.Value);
+                Contact emkl = _contactService.GetObjectById(model.EMKLId.Value);
                 if (emkl != null)
                 {
                     emkl.LastShipmentDate = model.ETD.Value;
                     _contactService.UpdateLastShipment(emkl);
                 }
                 // Revert Last Shipment Date for Old Record
-                if (oldEMKLId != model.BrokerId)
+                if (oldEMKLId != model.EMKLId)
                 {
                     Contact oldemkl = _contactService.GetObjectById(oldEMKLId);
                     if (oldemkl != null)
                     {
                         var shipmentETD = _repository.GetQueryable().Where(x => x.OfficeId == shipmentorder.OfficeId && x.JobId == MasterConstant.JobType.SeaImport
-                            && x.BrokerId == oldEMKLId).Max(x => x.ETD);
+                            && x.EMKLId == oldEMKLId).Max(x => x.ETD);
                         oldemkl.LastShipmentDate = shipmentETD == null ? null : shipmentETD;
                         _contactService.UpdateLastShipment(oldemkl);
                     }

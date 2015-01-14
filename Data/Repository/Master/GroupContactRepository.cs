@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<GroupContact> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public GroupContact GetObjectById(int Id)

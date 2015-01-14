@@ -40,10 +40,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Finance\PaymentVoucherDetailValidator.cs" />
+    <Compile Include="Validation\Finance\PaymentVoucherValidator.cs" />
+    <Compile Include="Validation\Finance\ReceiptVoucherDetailValidator.cs" />
     <Compile Include="Validation\Finance\CashBankAdjustmentValidator.cs" />
     <Compile Include="Validation\Finance\CashBankMutationValidator.cs" />
     <Compile Include="Validation\Finance\CashBankValidator.cs" />
     <Compile Include="Validation\Finance\CashMutationValidator.cs" />
+    <Compile Include="Validation\Finance\PayableValidator.cs" />
+    <Compile Include="Validation\Finance\ReceiptVoucherValidator.cs" />
+    <Compile Include="Validation\Finance\ReceivableValidator.cs" />
     <Compile Include="Validation\Master\AirlineValidation.cs" />
     <Compile Include="Validation\Master\ContinentValidation.cs" />
     <Compile Include="Validation\Master\CityLocationValidation.cs" />
@@ -69,6 +75,8 @@
     <Compile Include="Validation\Transaction\BillOfLadingValidation.cs" />
     <Compile Include="Validation\Transaction\CashAdvanceDetailValidation.cs" />
     <Compile Include="Validation\Transaction\CashAdvanceValidation.cs" />
+    <Compile Include="Validation\Transaction\CashSettlementValidation.cs" />
+    <Compile Include="Validation\Transaction\ShipmentOrderDocumentValidation.cs" />
     <Compile Include="Validation\Transaction\EstimateProfitLossDetailValidation.cs" />
     <Compile Include="Validation\Transaction\EstimateProfitLossValidation.cs" />
     <Compile Include="Validation\Transaction\InvoiceDetailValidation.cs" />

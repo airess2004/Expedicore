@@ -36,6 +36,10 @@ function dateTimeEnt(ent_datetime) {
 
 }
 
+function ClearErrorMessage() {
+    $('span[class=errormessage]').text('').remove();
+}
+
 function dateEnt(ent_date) {
     if (ent_date == "" || ent_date == null)
         return "";

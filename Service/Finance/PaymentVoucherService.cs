@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Service.Service
+namespace Service
 {
     public class PaymentVoucherService : IPaymentVoucherService
     {
@@ -56,6 +56,9 @@ namespace Service.Service
                                             ICashBankService _cashBankService)
         {
             paymentVoucher.Errors = new Dictionary<String, String>();
+            paymentVoucher.PaymentDate = DateTime.Today;
+            paymentVoucher.IsGBCH = false;
+
             CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
             return (_validator.ValidCreateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService) ?
                     _repository.CreateObject(paymentVoucher) : paymentVoucher);
@@ -84,18 +87,22 @@ namespace Service.Service
         public PaymentVoucher CalculateTotalAmount(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService)
         {
             IList<PaymentVoucherDetail> paymentVoucherDetails = _paymentVoucherDetailService.GetObjectsByPaymentVoucherId(paymentVoucher.Id);
-            decimal total = 0;
+            decimal totalIDR = 0;
+            decimal totalUSD = 0;
+
             foreach (PaymentVoucherDetail detail in paymentVoucherDetails)
             {
-                total += detail.AmountPaid;
+                totalIDR += detail.AmountIDR;
+                totalUSD += detail.AmountUSD;
             }
-            paymentVoucher.TotalAmount = total;
+            paymentVoucher.TotalAmountIDR = totalIDR;
+            paymentVoucher.TotalAmountUSD = totalUSD;
             paymentVoucher = _repository.UpdateObject(paymentVoucher);
             return paymentVoucher;
         }
 
         public PaymentVoucher ConfirmObject(PaymentVoucher paymentVoucher, DateTime ConfirmationDate, IPaymentVoucherDetailService _paymentVoucherDetailService,
-                                            ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService)
+                                            ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService,IPaymentRequestService _paymentRequestService)
         {
             paymentVoucher.ConfirmationDate = ConfirmationDate;
             if (_validator.ValidConfirmObject(paymentVoucher, this, _paymentVoucherDetailService, _cashBankService, _payableService))
@@ -104,9 +111,9 @@ namespace Service.Service
                 foreach (var detail in details)
                 {
                     detail.Errors = new Dictionary<string, string>();
-                    _paymentVoucherDetailService.ConfirmObject(detail, ConfirmationDate, this, _payableService);
+                    _paymentVoucherDetailService.ConfirmObject(detail, ConfirmationDate, this, _payableService,_paymentRequestService);
                 }
-                
+                ///
                 _repository.ConfirmObject(paymentVoucher);
                 CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
 
@@ -120,7 +127,7 @@ namespace Service.Service
         }
 
         public PaymentVoucher UnconfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
-                                            ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService)
+                                            ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService,IPaymentRequestService _paymentRequestService)
         {
             if (_validator.ValidUnconfirmObject(paymentVoucher))
             {
@@ -128,7 +135,7 @@ namespace Service.Service
                 foreach (var detail in details)
                 {
                     detail.Errors = new Dictionary<string, string>();
-                    _paymentVoucherDetailService.UnconfirmObject(detail, this, _payableService);
+                    _paymentVoucherDetailService.UnconfirmObject(detail, this, _payableService,_paymentRequestService);
                 }
                 CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
                 if (!paymentVoucher.IsGBCH)
@@ -161,7 +168,7 @@ namespace Service.Service
                 foreach(var paymentVoucherDetail in paymentVoucherDetails)
                 {
                     Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
-                    payable.PendingClearanceAmount -= paymentVoucherDetail.Amount;
+                    payable.PendingClearanceAmount -= paymentVoucherDetail.AmountUSD + paymentVoucherDetail.AmountIDR;
                     if (payable.PendingClearanceAmount == 0 && payable.RemainingAmount == 0)
                     {
                         payable.IsCompleted = true;
@@ -191,7 +198,7 @@ namespace Service.Service
                 foreach (var paymentVoucherDetail in paymentVoucherDetails)
                 {
                     Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
-                    payable.PendingClearanceAmount += paymentVoucherDetail.Amount;
+                    payable.PendingClearanceAmount += paymentVoucherDetail.AmountUSD + paymentVoucherDetail.AmountIDR;
                     if (payable.PendingClearanceAmount != 0 || payable.RemainingAmount != 0)
                     {
                         payable.IsCompleted = false;

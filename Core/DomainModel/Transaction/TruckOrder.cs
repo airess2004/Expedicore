@@ -10,6 +10,7 @@ namespace Core.DomainModel
     { 
         public int Id { get; set; }
         public int OfficeId { get; set; }
+        public int ShipmentOrderId { get; set; }
         public string NoJob { get; set; }
         public int EmployeeId { get; set; }
         public int ContactId { get; set; }

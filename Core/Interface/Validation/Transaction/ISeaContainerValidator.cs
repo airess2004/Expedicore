@@ -10,7 +10,7 @@ namespace Core.Interface.Validation
 {
     public interface ISeaContainerValidation
     {
-        SeaContainer VCreateObject(SeaContainer seacontainer, ISeaContainerService _seacontainerService);
+        SeaContainer VCreateObject(SeaContainer seacontainer, ISeaContainerService _seaContainerService, IShipmentOrderService _shipmentOrderService);
         SeaContainer VUpdateObject(SeaContainer seacontainer, ISeaContainerService _seacontainerService);
     }
 }

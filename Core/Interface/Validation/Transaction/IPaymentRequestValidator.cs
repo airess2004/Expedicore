@@ -15,5 +15,5 @@ namespace Core.Interface.Validation
         PaymentRequest VSoftDeleteObject(PaymentRequest paymentRequest, IPaymentRequestService _paymentRequestService);
         PaymentRequest VConfirmObject(PaymentRequest paymentRequest, IPaymentRequestDetailService _paymentRequestDetailService);
         PaymentRequest VUnconfirmObject(PaymentRequest paymentRequest, IPayableService _payableService, IPaymentVoucherDetailService _paymentVoucherDetailService);
-    }
+     }
 }

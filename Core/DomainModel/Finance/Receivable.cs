@@ -11,12 +11,13 @@ namespace Core.DomainModel
         public int ContactId { get; set; }
         public string ReceivableSource { get; set; }
         public int ReceivableSourceId { get; set; }
+        public int ReceivableSourceDetailId { get; set; } 
+
         public string Code { get; set; }
         public int CurrencyId { get; set; }
         public decimal Rate { get; set; }
         public int OfficeId { get; set; }
-        public int MasterCode { get; set; }
-
+         
         public DateTime DueDate { get; set; }
         public decimal Amount { get; set; }
         public decimal RemainingAmount { get; set; }
@@ -30,7 +31,6 @@ namespace Core.DomainModel
         public Nullable<DateTime> DeletedAt { get; set; }
 
         public virtual Contact Contact { get; set; }
-        public virtual ICollection<ReceiptVoucherDetail> ReceiptVoucherDetails { get; set; }
         public virtual Office Office { get; set; }
 
         public Dictionary<String, String> Errors { get; set; }

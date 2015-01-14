@@ -38,9 +38,10 @@ namespace Data.Repository
             return FindAll(p => p.ContactId == contactId && !p.IsDeleted).ToList();
         }
 
-        public Payable GetObjectBySource(string PayableSource, int PayableSourceId)
+        public Payable GetObjectBySource(string PayableSource, int PayableSourceId,int PayableSourceDetailId)
         {
-            Payable payable = Find(p => p.PayableSource == PayableSource && p.PayableSourceId == PayableSourceId && !p.IsDeleted);
+            Payable payable = Find(p => p.PayableSource == PayableSource && p.PayableSourceId == PayableSourceId 
+                && p.PayableSourceDetailId == PayableSourceDetailId && !p.IsDeleted);
             if (payable != null) { payable.Errors = new Dictionary<string, string>(); }
             return payable;
         }

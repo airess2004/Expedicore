@@ -12,8 +12,8 @@ namespace Core.Interface.Service
         IQueryable<SeaContainer> GetQueryable();
         SeaContainer GetObjectById(int Id);
         SeaContainer GetObjectByShipmentOrderId(int Id);
-        SeaContainer CreateUpdateObject(SeaContainer seacontainer);
-        SeaContainer CreateObject(SeaContainer seacontainer);
+        SeaContainer CreateUpdateObject(SeaContainer seaContainer, IShipmentOrderService _shipmentOrderService);
+        SeaContainer CreateObject(SeaContainer seacontainer, IShipmentOrderService shipmentOrderService);
         SeaContainer UpdateObject(SeaContainer seacontainer); 
         SeaContainer SoftDeleteObject(SeaContainer seacontainer);
     }

@@ -37,9 +37,9 @@ namespace Data.Repository
             return FindAll(p => p.ContactId == contactId && !p.IsDeleted).ToList();
         }
 
-        public Receivable GetObjectBySource(string ReceivableSource, int ReceivableSourceId)
+        public Receivable GetObjectBySource(string ReceivableSource, int ReceivableSourceId , int ReceivableSourceDetailId)
         {
-            Receivable receivable = Find(p => p.ReceivableSource == ReceivableSource && p.ReceivableSourceId == ReceivableSourceId && !p.IsDeleted);
+            Receivable receivable = Find(p => p.ReceivableSource == ReceivableSource && p.ReceivableSourceId == ReceivableSourceId  && p.ReceivableSourceDetailId == ReceivableSourceDetailId  && !p.IsDeleted);
             if (receivable != null) { receivable.Errors = new Dictionary<string, string>(); }
             return receivable;
         }

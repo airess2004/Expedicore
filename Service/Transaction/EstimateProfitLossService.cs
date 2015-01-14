@@ -42,7 +42,7 @@ namespace Service
             EstimateProfitLoss newestimateprofitloss = this.GetObjectByShipmentOrderId(estimateprofitloss.ShipmentOrderId);
             if (newestimateprofitloss == null)
             {
-                estimateprofitloss = this.CreateObject(estimateprofitloss,_shipmentOrderService);
+               // estimateprofitloss = this.CreateObject(estimateprofitloss,_shipmentOrderService,_exchangeRateService);
             }
             else
             {
@@ -56,18 +56,18 @@ namespace Service
             estimateprofitloss.Errors = new Dictionary<String, String>();
             if (isValid(_validator.VCreateObject(estimateprofitloss,this,_shipmentOrderService)))
             {
-                EstimateProfitLoss newEPL  = new EstimateProfitLoss();
+                EstimateProfitLoss newEPL = new EstimateProfitLoss();
                 newEPL.CloseEPL = false;
                 newEPL.IsDeleted = false;
                 newEPL.OfficeId = estimateprofitloss.OfficeId;
                 newEPL.CreatedById = estimateprofitloss.CreatedById;
                 newEPL.CreatedAt = DateTime.Today;
-                newEPL.EstIDRAgent = estimateprofitloss.EstIDRAgent;
-                newEPL.EstUSDAgent = estimateprofitloss.EstUSDAgent;
-                newEPL.EstIDRShipCons = estimateprofitloss.EstIDRShipCons;
-                newEPL.EstUSDShipCons = estimateprofitloss.EstUSDShipCons;
                 newEPL.ShipmentOrderId = estimateprofitloss.ShipmentOrderId;
+                //newEPL.ExchangeRateId = _exchangeRateService.GetLatestRate(DateTime.Today).Id;
+                newEPL.Printing = 0;
+                newEPL.Errors = estimateprofitloss.Errors;
                 estimateprofitloss = _repository.CreateObject(newEPL);
+
 
                 ShipmentOrder shipmentOrder = _shipmentOrderService.GetObjectById(estimateprofitloss.ShipmentOrderId);
                 if (shipmentOrder != null)
@@ -85,12 +85,55 @@ namespace Service
                             newSubJob.CreatedById = estimateprofitloss.CreatedById;
                             newSubJob.CreatedAt = DateTime.Today;
                             newSubJob.ShipmentOrderId = item.Id;
+                            newSubJob.Printing = 0;
                             _repository.CreateObject(newSubJob);
                         }
                     }
                 }
             }
             return estimateprofitloss;
+        }
+
+        public EstimateProfitLoss CalculateTotalUSDIDR(int eplId,IEstimateProfitLossDetailService _estimateProfitLossDetailService)
+        {
+            IList<EstimateProfitLossDetail> eplD = _estimateProfitLossDetailService.GetQueryable().Where(x => x.EstimateProfitLossId == eplId && x.IsDeleted == false).ToList();
+            decimal CostIDR = 0;
+            decimal CostUSD = 0;
+            decimal IncomeIDR = 0;
+            decimal IncomeUSD = 0;
+            foreach (var item in eplD)
+            {
+                if (item.IsIncome == true)
+                {
+                    if (item.AmountCrr == MasterConstant.Currency.IDR)
+                    {
+                        IncomeIDR += (item.AmountIDR.HasValue ? item.AmountIDR.Value : 0);
+                    }
+                    else
+                    {
+                        IncomeUSD += (item.AmountUSD.HasValue ? item.AmountUSD.Value : 0);
+
+                    }
+                }
+                else
+                {
+                    if (item.AmountCrr == MasterConstant.Currency.IDR)
+                    {
+                        CostIDR += (item.AmountIDR.HasValue ? item.AmountIDR.Value : 0);
+                    }
+                    else
+                    {
+                        CostUSD += (item.AmountUSD.HasValue ? item.AmountUSD.Value : 0);
+                    }
+                }
+            }
+            EstimateProfitLoss epl = GetObjectById(eplId);
+            epl.TotalCostIDR = CostIDR;
+            epl.TotalCostUSD = CostUSD;
+            epl.TotalIncomeIDR = IncomeIDR;
+            epl.TotalIncomeUSD = IncomeUSD;
+            epl = _repository.UpdateObject(epl);
+            return epl;
         }
 
         public EstimateProfitLoss UpdateObject(EstimateProfitLoss estimateprofitloss,IShipmentOrderService _shipmentOrderService)
@@ -117,7 +160,7 @@ namespace Service
             return estimateprofitloss;
         }
 
-        public EstimateProfitLoss ConfirmObject(EstimateProfitLoss estimateProfitLoss, DateTime confirmationDate, IEstimateProfitLossDetailService _estimateProfitLossDetailService, IPayableService _payableService)
+        public EstimateProfitLoss ConfirmObject(EstimateProfitLoss estimateProfitLoss, DateTime confirmationDate, IEstimateProfitLossDetailService _estimateProfitLossDetailService)
         {
             if (isValid(_validator.VConfirmObject(estimateProfitLoss,this)))
             { 
@@ -135,8 +178,8 @@ namespace Service
         }
 
         public EstimateProfitLoss UnconfirmObject(EstimateProfitLoss estimateProfitLoss, DateTime confirmationDate, 
-            IEstimateProfitLossDetailService _estimateProfitLossDetailService, IPayableService _payableService,
-            IInvoiceDetailService _invoiceDetailService, IPaymentRequestDetailService _paymentRequestDetailService)
+            IEstimateProfitLossDetailService _estimateProfitLossDetailService,IInvoiceDetailService _invoiceDetailService, 
+            IPaymentRequestDetailService _paymentRequestDetailService)
         {
             if (isValid(_validator.VUnConfirmObject(estimateProfitLoss, this,_estimateProfitLossDetailService,_invoiceDetailService,_paymentRequestDetailService)))
             {

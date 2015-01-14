@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<ExchangeRate> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public ExchangeRate GetObjectById(int Id)

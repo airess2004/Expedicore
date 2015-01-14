@@ -48,8 +48,12 @@ namespace Service
                 newCashBondDetail.Description = !String.IsNullOrEmpty(cashAdvanceDetail.Description) ? cashAdvanceDetail.Description.ToUpper() : "";
                 newCashBondDetail.AmountUSD = cashAdvanceDetail.AmountUSD;
                 newCashBondDetail.AmountIDR = cashAdvanceDetail.AmountIDR;
-                newCashBondDetail.PaymentRequestDetailId = cashAdvanceDetail.PaymentRequestDetailId;
+                newCashBondDetail.PayableId = cashAdvanceDetail.PayableId;
                 newCashBondDetail.ShipmentOrderId = cashAdvanceDetail.ShipmentOrderId;
+                newCashBondDetail.ShipmentNo = cashAdvanceDetail.ShipmentNo;
+                newCashBondDetail.OfficeId = cashAdvanceDetail.OfficeId;
+                newCashBondDetail.CreatedById = cashAdvanceDetail.CreatedById;
+                newCashBondDetail.Errors = new Dictionary<String, String>();
                 if (newCashBondDetail.ShipmentOrderId != null)
                 {
                     var so = _shipmentOrderService.GetObjectById(cashAdvanceDetail.ShipmentOrderId.Value);
@@ -60,7 +64,8 @@ namespace Service
                 }
 
                 cashAdvanceDetail = _repository.CreateObject(newCashBondDetail);
-                ReCalculateTotal(cashAdvanceDetail.CashAdvanceId, _cashAdvanceService);
+                CashAdvance cashAdvance = _cashAdvanceService.GetObjectById(cashAdvanceDetail.CashAdvanceId);
+                _cashAdvanceService.CalculateTotalAmount(cashAdvance, this);
             }
             return cashAdvanceDetail;
         }
@@ -75,8 +80,8 @@ namespace Service
                 var cashBondDetails = _repository.GetQueryable().Where(x => x.CashAdvanceId == cashBondId && x.IsDeleted == false).ToList();
                 foreach (var item in cashBondDetails)
                 {
-                    totalUSD += item.AmountUSD ?? 0;
-                    totalIDR += item.AmountIDR ?? 0;
+                    //totalUSD += item.AmountUSD ?? 0;
+                    //totalIDR += item.AmountIDR ?? 0;
                 }
 
                 cashBond.CashAdvanceUSD = totalUSD;
@@ -91,17 +96,38 @@ namespace Service
             if (isValid(_validator.VUpdateObject(cashAdvanceDetail, this)))
             {
                 cashAdvanceDetail = _repository.UpdateObject(cashAdvanceDetail);
-                ReCalculateTotal(cashAdvanceDetail.CashAdvanceId, _cashAdvanceService);
+                CashAdvance cashAdvance = _cashAdvanceService.GetObjectById(cashAdvanceDetail.CashAdvanceId);
+                _cashAdvanceService.CalculateTotalAmount(cashAdvance, this);
             }
             return cashAdvanceDetail;
         }
          
-        public CashAdvanceDetail SoftDeleteObject(CashAdvanceDetail cashAdvanceDetail)
+        public CashAdvanceDetail SoftDeleteObject(CashAdvanceDetail cashAdvanceDetail,ICashAdvanceService _cashAdvanceService)
         {
             cashAdvanceDetail = _repository.SoftDeleteObject(cashAdvanceDetail);
+            CashAdvance cashAdvance = _cashAdvanceService.GetObjectById(cashAdvanceDetail.CashAdvanceId);
+            _cashAdvanceService.CalculateTotalAmount(cashAdvance, this);
             return cashAdvanceDetail;
         }
 
+        public CashAdvanceDetail ConfirmObject(CashAdvanceDetail cashAdvanceDetail, DateTime ConfirmationDate)
+        {
+            cashAdvanceDetail.ConfirmationDate = ConfirmationDate;
+            if (isValid(_validator.VConfirmObject(cashAdvanceDetail, this)))
+            {
+                _repository.ConfirmObject(cashAdvanceDetail);
+            }
+            return cashAdvanceDetail;
+        }
+
+        public CashAdvanceDetail UnconfirmObject(CashAdvanceDetail cashAdvanceDetail)
+        {
+            if (isValid(_validator.VUnconfirmObject(cashAdvanceDetail, this)))
+            {
+                _repository.UnconfirmObject(cashAdvanceDetail);
+            }
+            return cashAdvanceDetail;
+        }
 
         public bool isValid(CashAdvanceDetail obj)
         {

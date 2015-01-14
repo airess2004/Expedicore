@@ -14,5 +14,8 @@ namespace Core.Interface.Service
         CashAdvance CreateObject(CashAdvance cashAdvance, IShipmentOrderService _shipmentOrderService, IContactService _contactService);
         CashAdvance UpdateObject(CashAdvance cashadvance);
         CashAdvance SoftDeleteObject(CashAdvance cashAdvance, ICashAdvanceDetailService _cashAdvanceDetailService);
+        CashAdvance CalculateTotalAmount(CashAdvance cashAdvance, ICashAdvanceDetailService _cashAdvanceDetailService);
+        CashAdvance ConfirmObject(CashAdvance cashAdvance, DateTime ConfirmationDate, ICashAdvanceDetailService _cashAdvanceDetailService);
+        CashAdvance UnconfirmObject(CashAdvance cashAdvance, ICashAdvanceDetailService _cashAdvanceDetailService);
     }
 }

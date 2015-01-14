@@ -40,7 +40,7 @@ $(document).ready(function () {
                  'CityCode', 'PortCode', 'IntCity', 'IntPort', 'CountryName', 'ContinentName', 'CreditTerm', '', '', 'NPWP', 'NPPKP', 'CreditLimitIDR',
                  '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
         colModel: [
-			{ name: 'deleted', index: 'deleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
+			{ name: 'deleted', index: 'IsDeleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
 			{ name: 'ContactCode', index: 'contactcode', width: 60, align: "center" },
 			{ name: 'CompanyStatus', index: 'companystatus', width: 30, align: "center" },
 			{ name: 'ContactName', index: 'contactname', width: 300 },
@@ -96,18 +96,18 @@ $(document).ready(function () {
         height: $(window).height() - 200,
         gridComplete:
 		  function () {
-		      //var ids = $(this).jqGrid('getDataIDs');
-		      //for (var i = 0; i < ids.length; i++) {
-		      //    var cl = ids[i];
-		      //    rowDel = $(this).getRowData(cl).deletedimg;
-		      //    if (rowDel == 'true') {
-		      //        img = "<img src ='" + base_url + "content/assets/images/remove.png' title='Data has been deleted !' width='16px' height='16px'>";
+		      var ids = $(this).jqGrid('getDataIDs');
+		      for (var i = 0; i < ids.length; i++) {
+		          var cl = ids[i];
+		          rowDel = $(this).getRowData(cl).deleted;
+		          if (rowDel == 'true') {
+		              img = "<img src ='" + base_url + "content/assets/images/remove.png' title='Data has been deleted !' width='16px' height='16px'>";
 
-		      //    } else {
-		      //        img = "";
-		      //    }
-		      //    $(this).jqGrid('setRowData', ids[i], { deletedimg: img });
-		      //}
+		          } else {
+		              img = "";
+		          }
+		          $(this).jqGrid('setRowData', ids[i], { deleted: img });
+		      }
 		  }
 
     });//END GRID
@@ -127,6 +127,7 @@ $(document).ready(function () {
         ClearData();
         clearForm('#frm');
         vStatusSaving = 0; //add data mode	
+        $('#rbcostatuspt,#cbcontact_typeagent').attr("checked", true);
         $('#form_div').dialog('open');
     });
 
@@ -191,19 +192,19 @@ $(document).ready(function () {
                             $('#AirportCode').val(result.AirportAbbrevation);
                             $('#Airport').val(result.AirportName);
 
-                            if (result.IsAgent == "true")
+                            if (result.IsAgent == true)
                                 $('#cbcontact_typeagent').attr('checked', 'checked');
-                            if (result.IsShipper == "true")
+                            if (result.IsShipper == true)
                                 $('#cbcontact_typeshipper').attr('checked', 'checked');
-                            if (result.IsConsignee == "true")
+                            if (result.IsConsignee == true)
                                 $('#cbcontact_typeconsignee').attr('checked', 'checked');
-                            if (result.IsEMKL == "true")
+                            if (result.IsEMKL == true)
                                 $('#cbcontact_typeemkl').attr('checked', 'checked');
-                            if (result.IsIATA == "true")
+                            if (result.IsIATA == true)
                                 $('#cbcontact_typeiata').attr('checked', 'checked');
-                            if (result.IsSSLine == "true")
+                            if (result.IsSSLine == true)
                                 $('#cbcontact_typessline').attr('checked', 'checked');
-                            if (result.IsDepo == "true")
+                            if (result.IsDepo == true)
                                 $('#cbcontact_typedepo').attr('checked', 'checked');
                             $('#form_div').dialog('open');
                         }
@@ -228,7 +229,7 @@ $(document).ready(function () {
             //}
             $('#delete_confirm_id').val(id);
             $('#delete_confirm_name').text(ret.ContactName);
-            $('#delete_confirm_btn_submit').data('Id', ret.id);
+            $('#delete_confirm_btn_submit').data('Id', id);
             $("#delete_confirm_div").dialog("open");
         } else {
             $.messager.alert('Information', 'Please Select Data...!!', 'info');

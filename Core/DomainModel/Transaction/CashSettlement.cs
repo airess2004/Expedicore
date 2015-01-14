@@ -36,6 +36,7 @@ namespace Core.DomainModel
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }
         public virtual CashAdvance CashAdvance { get; set; }
+        public virtual Employee Employee { get; set; } 
         public virtual Office Office { get; set; }
         public virtual Contact Contact { get; set; }
         public Dictionary<String, String> Errors { get; set; } 

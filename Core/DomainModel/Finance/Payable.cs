@@ -11,10 +11,11 @@ namespace Core.DomainModel
         public int ContactId { get; set; }
         public string PayableSource { get; set; }
         public int PayableSourceId { get; set; }
+        public int PayableSourceDetailId { get; set; }
+
         public string Code { get; set; }
         public int CurrencyId { get; set; }
         public int OfficeId { get; set; }
-        public int MasterCode { get; set; }
 
         public decimal Rate { get; set; }
         public DateTime DueDate { get; set; }

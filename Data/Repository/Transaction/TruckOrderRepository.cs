@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<TruckOrder> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
 

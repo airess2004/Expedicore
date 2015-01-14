@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Vat> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Vat GetObjectById(int Id)

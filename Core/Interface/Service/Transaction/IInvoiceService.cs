@@ -21,5 +21,9 @@ namespace Core.Interface.Service
             IReceivableService _receiveableService);
         Invoice UnconfirmObject(Invoice invoice, DateTime confirmationDate, IInvoiceDetailService _invoiceDetailService,
             IReceivableService _receivableService, IReceiptVoucherDetailService _receiptVoucherDetailService);
+        Invoice CalculateTotalUSDIDR(int invoiceId, IInvoiceDetailService _invoiceDetailService);
+        Invoice Paid(Invoice invoice);
+        Invoice Unpaid(Invoice invoice);
+        Invoice Print(int Id, string fd);
     }
 }

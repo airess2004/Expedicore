@@ -21,7 +21,6 @@ namespace Core.Interface.Validation
         PaymentVoucher VHasNotBeenDeleted(PaymentVoucher paymentVoucher);
         PaymentVoucher VHasBeenConfirmed(PaymentVoucher paymentVoucher);
         PaymentVoucher VHasNotBeenConfirmed(PaymentVoucher paymentVoucher);
-        PaymentVoucher VTotalAmountEqualDetailsAmount(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService);
         PaymentVoucher VAllPaymentVoucherDetailsAreConfirmable(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymetnVoucherService,
                                                                IPaymentVoucherDetailService paymentVoucherDetailService, ICashBankService _cashBankService,
                                                                IPayableService _payableService);
@@ -30,7 +29,7 @@ namespace Core.Interface.Validation
         PaymentVoucher VHasBeenReconciled(PaymentVoucher paymentVoucher);
         PaymentVoucher VHasNotBeenReconciled(PaymentVoucher paymentVoucher);
         PaymentVoucher VHasReconciliationDate(PaymentVoucher paymentVoucher);
-        PaymentVoucher VGeneralLedgerPostingHasNotBeenClosed(PaymentVoucher paymentVoucher, int CaseConfirmUnconfirm);
+       // PaymentVoucher VGeneralLedgerPostingHasNotBeenClosed(PaymentVoucher paymentVoucher, int CaseConfirmUnconfirm);
         PaymentVoucher VCreateObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService,
                                      IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService);
         PaymentVoucher VUpdateObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService,

@@ -43,7 +43,7 @@ namespace Service
             existPR = _repository.GetObjectById(paymentRequest.Id);
             if (existPR != null)
             {
-                var shipment = _shipmentOrderService.GetObjectById(existPR.ShipmentOrderID);
+                var shipment = _shipmentOrderService.GetObjectById(existPR.ShipmentOrderId);
                // int jobCode = (from j in _shipmentOrderRepo.GetJobList() where j.Id == shipment.JobId select j.JobCode).FirstOrDefault();
                 string shipmentNo = shipment.ShipmentOrderCode;
 
@@ -58,17 +58,19 @@ namespace Service
                 if (existPR.DebetCredit == MasterConstant.DebetCredit.Debet)
                 {
                     // Get Last PRNo as Contra
+                    debetCredit = MasterConstant.DebetCredit.Credit;
                     newPRContraNo = _repository.GetLastPRNo(paymentRequest.OfficeId, MasterConstant.DebetCredit.Credit) + 1;
                 }
                 // As Credit
                 else if (existPR.DebetCredit == MasterConstant.DebetCredit.Credit)
                 {
                     // Get Last PRNo as Contra
+                    debetCredit = MasterConstant.DebetCredit.Debet;
                     newPRContraNo = _repository.GetLastPRNo(paymentRequest.OfficeId, MasterConstant.DebetCredit.Credit) + 1;
                 }
 
                 // Get Last PRStatus
-                int prStatusContra = _repository.GetLastPRStatus(paymentRequest.OfficeId, existPR.ShipmentOrderID);
+                int prStatusContra = _repository.GetLastPRStatus(paymentRequest.OfficeId, existPR.ShipmentOrderId);
 
 
                 // Create Contra PR based on Updated PR
@@ -76,11 +78,12 @@ namespace Service
                 prNew.PRNo = newPRContraNo;
                 prNew.OfficeId = paymentRequest.OfficeId; 
                 prNew.CreatedAt = DateTime.Now;
-                prNew.ShipmentOrderID = existPR.ShipmentOrderID;
+                prNew.ShipmentOrderId = existPR.ShipmentOrderId;
                 prNew.CreatedById = paymentRequest.CreatedById;
                 prNew.ContactId = existPR.ContactId;
-                prNew.IsGeneralPR = existPR.IsGeneralPR;
-                prNew.Payment = existPR.Payment;
+                prNew.JenisPaymentRequest = existPR.JenisPaymentRequest;
+                prNew.PaymentIDR = existPR.PaymentIDR;
+                prNew.PaymentUSD = existPR.PaymentUSD;
                 prNew.PersonalId = existPR.PersonalId;
                 prNew.ContactTypeId = existPR.ContactTypeId;
                 prNew.DebetCredit = debetCredit;
@@ -93,7 +96,7 @@ namespace Service
                 prNew.Rate = existPR.Rate;
                 prNew.ExRateDate = existPR.ExRateDate;
                 prNew.PRNo = _repository.GetLastPRNo(paymentRequest.OfficeId, prNew.DebetCredit) + 1;
-                prNew.PRStatus = _repository.GetLastPRStatus(paymentRequest.OfficeId, paymentRequest.ShipmentOrderID) + 1;
+                prNew.PRStatus = _repository.GetLastPRStatus(paymentRequest.OfficeId, paymentRequest.ShipmentOrderId) + 1;
                 prNew.Printing = 0;
                 prNew.Reference = GeneratePaymentRequestReference(shipment.ShipmentOrderCode, prNew.PRNo.ToString());
                 //
@@ -115,7 +118,7 @@ namespace Service
                     prd.CreatedById = paymentRequest.CreatedById;
                     //prd.DataFrom = false; 
                     prd.Description = item.Description;
-                    prd.EstimateProfitLossDetailId = item.EstimateProfitLossDetailId;
+                    prd.EPLDetailId = item.EPLDetailId;
                     prd.PerQty = item.PerQty;
                     prd.Quantity = item.Quantity;
                     prd.Type = item.Type;
@@ -138,21 +141,21 @@ namespace Service
                 prNew.PRNo = _repository.GetLastPRNo(existPR.OfficeId, existPR.DebetCredit) + 1;
                 prNew.OfficeId = existPR.OfficeId; 
                 prNew.CreatedAt = DateTime.Now;
-                prNew.ShipmentOrderID = existPR.ShipmentOrderID;
+                prNew.ShipmentOrderId = existPR.ShipmentOrderId;
                 prNew.CreatedById = existPR.CreatedById; 
                 prNew.Printing = 0; 
                 prNew.ContactId = existPR.ContactId;
-                prNew.IsGeneralPR = existPR.IsGeneralPR; 
-                prNew.Payment = existPR.Payment; 
+                prNew.JenisPaymentRequest = existPR.JenisPaymentRequest; 
+                prNew.PaymentIDR = existPR.PaymentIDR; 
                 prNew.PersonalId = existPR.PersonalId;
                 prNew.ContactTypeId = existPR.ContactTypeId;
                 prNew.DebetCredit = existPR.DebetCredit;
-                prNew.PRStatus = _repository.GetLastPRStatus(paymentRequest.OfficeId,existPR.ShipmentOrderID);
+                prNew.PRStatus = _repository.GetLastPRStatus(paymentRequest.OfficeId,existPR.ShipmentOrderId);
                 prNew.PRContraNo = existPR.PRNo; prNew.PRContraStatus = "Edit";
                 prNew.Reference = GeneratePaymentRequestReference(shipmentNo, prNew.PRNo.ToString());
                 prNew.Rate = existPR.Rate;
                 prNew.ExRateDate = existPR.ExRateDate;
-                prNew.PRStatus = _repository.GetLastPRStatus(existPR.OfficeId, existPR.ShipmentOrderID) + 1;
+                prNew.PRStatus = _repository.GetLastPRStatus(existPR.OfficeId, existPR.ShipmentOrderId) + 1;
                 //
                 prNew = _repository.CreateObject(prNew);
 
@@ -171,7 +174,7 @@ namespace Service
                     prd.CreatedById = paymentRequest.CreatedById;
                     //prd.DataFrom = false;
                     prd.Description = item.Description;
-                    prd.EstimateProfitLossDetailId = item.EstimateProfitLossDetailId;
+                    prd.EPLDetailId = item.EPLDetailId;
                     prd.PerQty = item.PerQty;
                     prd.Quantity = item.Quantity;
                     prd.Type = item.Type;
@@ -191,6 +194,23 @@ namespace Service
             }
         }
 
+        public PaymentRequest Paid(PaymentRequest paymentRequest)
+        {
+            paymentRequest.Paid = true;
+            paymentRequest.DatePaid = DateTime.Today;
+            paymentRequest = _repository.UpdateObject(paymentRequest);
+            return paymentRequest;
+        }
+
+        public PaymentRequest Unpaid(PaymentRequest paymentRequest)
+        {
+            paymentRequest.Paid = false;
+            paymentRequest.DatePaid = null;
+            paymentRequest = _repository.UpdateObject(paymentRequest);
+            return paymentRequest;
+        }
+
+
         public PaymentRequest CreateObject(PaymentRequest paymentRequest,IShipmentOrderService _shipmentOrderService)
         {
             paymentRequest.Errors = new Dictionary<String, String>();
@@ -199,24 +219,28 @@ namespace Service
                 PaymentRequest newPR = new PaymentRequest();
                 newPR.OfficeId = paymentRequest.OfficeId;
                 newPR.CreatedById = paymentRequest.CreatedById;
-                newPR.CreatedAt = DateTime.Today;
+                newPR.CreatedAt = DateTime.Now;
                 newPR.ContactId = paymentRequest.ContactId;
                 newPR.ContactTypeId = paymentRequest.ContactTypeId;
                 newPR.DebetCredit = MasterConstant.DebetCredit.Credit;
-                newPR.IsGeneralPR = paymentRequest.IsGeneralPR;
-                newPR.Payment = paymentRequest.Payment;
+                newPR.JenisPaymentRequest = paymentRequest.JenisPaymentRequest;
+                newPR.PaymentIDR = paymentRequest.PaymentIDR;
+                newPR.PaymentUSD = paymentRequest.PaymentUSD;
                 newPR.PersonalId = paymentRequest.PersonalId;
-                newPR.ShipmentOrderID = paymentRequest.ShipmentOrderID;
+                newPR.ShipmentOrderId = paymentRequest.ShipmentOrderId;
                 newPR.Rate = paymentRequest.Rate;
                 newPR.PRNo = _repository.GetLastPRNo(paymentRequest.OfficeId,newPR.DebetCredit) + 1;
-                newPR.PRStatus = _repository.GetLastPRStatus(paymentRequest.OfficeId,paymentRequest.ShipmentOrderID) + 1;
+                newPR.PRStatus = _repository.GetLastPRStatus(paymentRequest.OfficeId,paymentRequest.ShipmentOrderId) + 1;
+                newPR.PaymentRequestDate = DateTime.Today;
                 newPR.Printing = 0;
-                ShipmentOrder shipment =_shipmentOrderService.GetObjectById(newPR.ShipmentOrderID);
+                newPR.CurrencyId = paymentRequest.CurrencyId;
+                ShipmentOrder shipment =_shipmentOrderService.GetObjectById(newPR.ShipmentOrderId);
                 if (shipment != null)
                  {
                      newPR.Reference = GeneratePaymentRequestReference(shipment.ShipmentOrderCode,newPR.PRNo.ToString());
                  }
-                paymentRequest = _repository.CreateObject(newPR);
+                newPR = _repository.CreateObject(newPR);
+                paymentRequest.Id = newPR.Id;
             }
             return paymentRequest;
         }
@@ -241,7 +265,7 @@ namespace Service
         private string GeneratePaymentRequestReference(string shipmentNo, string prNo)
         {
             string prReference = "";
-            prReference = "PR/" + shipmentNo.Trim().Substring(6, 12) + "/" + Replicate(prNo.ToString(), 6) + "/" + DateTime.Now.Year.ToString();
+            prReference = "PR/" + shipmentNo.Trim().Substring(shipmentNo.Trim().IndexOf("."), 12) + "/" + Replicate(prNo.ToString(), 6) + "/" + DateTime.Now.Year.ToString();
             return prReference;
         }
 
@@ -265,8 +289,8 @@ namespace Service
         {
             if (alljob == "y")
             {
-                var shipmentid = _repository.GetObjectById(Id).ShipmentOrderID;
-                var job = _repository.GetQueryable().Where(x => x.ShipmentOrderID == shipmentid).ToList();
+                var shipmentid = _repository.GetObjectById(Id).ShipmentOrderId;
+                var job = _repository.GetQueryable().Where(x => x.ShipmentOrderId == shipmentid).ToList();
                 foreach (var item in job)
                 {
                     PaymentRequest updatePR = _repository.GetObjectById(item.Id);
@@ -280,9 +304,9 @@ namespace Service
                         else
                         {
                             updatePR.Printing = 1;
-                            if (updatePR.PrintedOn == null)
+                            if (updatePR.PrintedAt == null)
                             {
-                                updatePR.PrintedOn = DateTime.Now;
+                                updatePR.PrintedAt = DateTime.Now;
                             }
                             ExchangeRate rateInfo = _exchangeRateService.GetQueryable()
                                 .Where(x => x.ExRateDate <= DateTime.Today && x.OfficeId == officeId)
@@ -339,9 +363,9 @@ namespace Service
                             updatePR.Rate = rateInfo.ExRate1;
                         }
                         updatePR.Printing = 1;
-                        if (updatePR.PrintedOn == null)
+                        if (updatePR.PrintedAt == null)
                         {
-                            updatePR.PrintedOn = DateTime.Now;
+                            updatePR.PrintedAt = DateTime.Now;
                         }
 
                         // CONTRA PR
@@ -372,16 +396,17 @@ namespace Service
         {
             if (isValid(_validator.VConfirmObject(paymentRequest,_paymentRequestDetailService)))
             {
-                IList<PaymentRequestDetail> paymentRequestDetails = _paymentRequestDetailService.GetQueryable().Where(x => x.PaymentRequestId == paymentRequest.Id).ToList();
+                IList<PaymentRequestDetail> paymentRequestDetails = _paymentRequestDetailService.GetQueryable().Where(x => x.PaymentRequestId == paymentRequest.Id && x.IsDeleted == false).ToList();
                 foreach (var paymentRequestDetail in paymentRequestDetails)
                 {
                     paymentRequestDetail.Errors = new Dictionary<string, string>();
                     paymentRequestDetail.ConfirmationDate = confirmationDate;
                     _paymentRequestDetailService.ConfirmObject(paymentRequestDetail);
+                    _payableService.CreateObject(paymentRequest.OfficeId,paymentRequest.ContactId.Value, MasterConstant.SourceDocument.PaymentRequest, paymentRequest.Id,paymentRequestDetail.Id, 
+                        paymentRequestDetail.AmountCrr ?? 0, paymentRequestDetail.Amount ?? 0, paymentRequest.Rate ?? 0, paymentRequest.PaymentRequestDate);
                 }
                 paymentRequest.ConfirmationDate = confirmationDate;
                 paymentRequest = _repository.ConfirmObject(paymentRequest);
-                _payableService.CreateObject(paymentRequest.ContactId.Value, MasterConstant.SourceDocument.PaymentRequest, paymentRequest.Id, paymentRequest.CurrencyId, paymentRequest.Payment.Value, paymentRequest.Rate.Value, paymentRequest.PaymentRequestDate);
       
             }
                  return paymentRequest;
@@ -391,15 +416,15 @@ namespace Service
         {
             if (isValid(_validator.VUnconfirmObject(paymentRequest,_payableService,_paymentVoucherDetailService)))
             {
-                IList<PaymentRequestDetail> paymentRequestDetails = _paymentRequestDetailService.GetQueryable().Where(x => x.PaymentRequestId == paymentRequest.Id).ToList();
+                IList<PaymentRequestDetail> paymentRequestDetails = _paymentRequestDetailService.GetQueryable().Where(x => x.PaymentRequestId == paymentRequest.Id && x.IsDeleted == false).ToList();
                 foreach (var paymentRequestDetail in paymentRequestDetails)
                 {
                     paymentRequestDetail.Errors = new Dictionary<string, string>();
                     _paymentRequestDetailService.UnconfirmObject(paymentRequestDetail);
+                    Payable payable = _payableService.GetObjectBySource(MasterConstant.SourceDocument.PaymentRequest, paymentRequest.Id,paymentRequestDetail.Id);
+                    _payableService.SoftDeleteObject(payable);
                 }
                 paymentRequest = _repository.UnconfirmObject(paymentRequest);
-                Payable payable = _payableService.GetObjectBySource(MasterConstant.SourceDocument.PaymentRequest, paymentRequest.Id);
-                _payableService.SoftDeleteObject(payable);
             }
             return paymentRequest;
         }
@@ -415,14 +440,25 @@ namespace Service
 
         public PaymentRequest CalculateTotalPaymentRequest(PaymentRequest paymentRequest, IPaymentRequestDetailService _paymentRequestDetailService)
         {
-                decimal total = 0;
-                var prDetailList = _paymentRequestDetailService.GetQueryable().Where(x => x.PaymentRequestId == paymentRequest.Id && x.OfficeId == paymentRequest.OfficeId);
+                decimal totalIDR = 0;
+                decimal totalUSD = 0;
+                var prDetailList = _paymentRequestDetailService.GetQueryable().Where(x => x.PaymentRequestId == paymentRequest.Id 
+                    && x.IsDeleted == false);
+
                 foreach (var item in prDetailList)
                 {
-
-                    total += item.Amount.Value;
+                    if (item.AmountCrr == MasterConstant.Currency.IDR)
+                    {
+                        totalIDR += item.Amount.HasValue ? item.Amount.Value : 0;
+                    }
+                    else
+                    {
+                        totalUSD += item.Amount.HasValue ? item.Amount.Value : 0;
+                    }
+                  
                 }
-                paymentRequest.Payment = total;
+                paymentRequest.PaymentIDR = totalIDR;
+                paymentRequest.PaymentUSD = totalUSD;
                 _repository.UpdateObject(paymentRequest);
                 return paymentRequest;
         }

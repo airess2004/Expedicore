@@ -14,7 +14,7 @@ namespace Core.DomainModel
         public int Sequence { get; set; }
         public int MasterCode { get; set; }
         public Nullable<bool> IsIncome { get; set; } 
-        public int CustomerId { get; set; } 
+        public int ContactId { get; set; } 
         public Nullable<int> CustomerTypeId { get; set; } 
         public int CostId { get; set; }  
         public string Description { get; set; } 
@@ -22,8 +22,9 @@ namespace Core.DomainModel
         public Nullable<int> Type { get; set; } 
         public Nullable<decimal> Quantity { get; set; } 
         public Nullable<decimal> PerQty { get; set; } 
-        public Nullable<int> AmountCrr { get; set; } 
-        public Nullable<decimal> Amount { get; set; } 
+        public Nullable<int> AmountCrr { get; set; }
+        public Nullable<decimal> AmountUSD { get; set; }
+        public Nullable<decimal> AmountIDR { get; set; } 
         public Nullable<bool> Sign { get; set; } 
         public Nullable<bool> DataFrom { get; set; } 
         public Nullable<bool> StatusMemo { get; set; } 
@@ -44,10 +45,10 @@ namespace Core.DomainModel
 
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }
-        public virtual Office Office { get; set; }
+        public virtual Office Office { get; set; } 
+        public virtual Contact Contact { get; set; }
         public virtual Cost Cost { get; set; }  
         public virtual EstimateProfitLoss EstimateProfitLoss { get; set; }
-        public virtual ShipmentOrder ShipmentOrder { get; set; }
 
     }
 }

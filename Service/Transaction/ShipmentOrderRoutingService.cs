@@ -41,19 +41,55 @@ namespace Service
             return _repository.GetListByShipmentOrderId(Id);
         }
 
-
-        public ShipmentOrderRouting CreateUpdateObject(ShipmentOrderRouting shipmentorderrouting)
+         
+        public ShipmentOrderRouting CreateUpdateObject(ShipmentOrderRouting shipmentOrderRouting)
         {
-            ShipmentOrderRouting newshipmentorderrouting = this.GetObjectByShipmentOrderId(shipmentorderrouting.ShipmentOrderId);
-            if (newshipmentorderrouting == null)
+            ShipmentOrderRouting existShipmentOrderRouting = GetQueryable().Where(x => x.ShipmentOrderId == shipmentOrderRouting.ShipmentOrderId && x.Id == shipmentOrderRouting.Id).FirstOrDefault();
+            if (existShipmentOrderRouting == null)
             {
-                shipmentorderrouting = this.CreateObject(shipmentorderrouting);
+                ShipmentOrderRouting newShipmentOrderRouting = new ShipmentOrderRouting { 
+                        AirportFromId = shipmentOrderRouting.AirportFromId,
+                        AirportToId = shipmentOrderRouting.AirportToId,
+                        CityId = shipmentOrderRouting.CityId,
+                        OfficeId = shipmentOrderRouting.OfficeId,
+                        ETD = shipmentOrderRouting.ETD,
+                        FlightId = shipmentOrderRouting.FlightId,
+                        FlightNo = shipmentOrderRouting.FlightNo,
+                        PortId = shipmentOrderRouting.PortId,
+                        ShipmentOrderId = shipmentOrderRouting.ShipmentOrderId,
+                        VesselId = shipmentOrderRouting.VesselId,
+                        VesselName = shipmentOrderRouting.VesselName,
+                        VesselType = shipmentOrderRouting.VesselType,
+                        Voyage = shipmentOrderRouting.Voyage,
+                        CreatedById = shipmentOrderRouting.CreatedById,
+                        MasterCode = _repository.GetLastMasterCode(shipmentOrderRouting.OfficeId) + 1,
+                        CreatedAt = DateTime.Now,
+                        Errors = new Dictionary<String, String>()
+                };
+                shipmentOrderRouting = CreateObject(newShipmentOrderRouting);
             }
             else
             {
-                shipmentorderrouting = this.UpdateObject(shipmentorderrouting);
+                existShipmentOrderRouting.AirportFromId = shipmentOrderRouting.AirportFromId;
+                existShipmentOrderRouting.AirportToId = shipmentOrderRouting.AirportToId;
+                existShipmentOrderRouting.CityId = shipmentOrderRouting.CityId;
+                existShipmentOrderRouting.OfficeId = shipmentOrderRouting.OfficeId;
+                existShipmentOrderRouting.ETD = shipmentOrderRouting.ETD;
+                existShipmentOrderRouting.FlightId = shipmentOrderRouting.FlightId;
+                existShipmentOrderRouting.FlightNo = shipmentOrderRouting.FlightNo;
+                existShipmentOrderRouting.PortId = shipmentOrderRouting.PortId;
+                existShipmentOrderRouting.ShipmentOrderId = shipmentOrderRouting.ShipmentOrderId;
+                existShipmentOrderRouting.VesselId = shipmentOrderRouting.VesselId;
+                existShipmentOrderRouting.VesselName = shipmentOrderRouting.VesselName;
+                existShipmentOrderRouting.VesselType = shipmentOrderRouting.VesselType;
+                existShipmentOrderRouting.Voyage = shipmentOrderRouting.Voyage;
+                existShipmentOrderRouting.UpdatedById = shipmentOrderRouting.UpdatedById;
+                existShipmentOrderRouting.UpdatedAt = DateTime.Now;
+                existShipmentOrderRouting.Errors = new Dictionary<String, String>();
+                shipmentOrderRouting = UpdateObject(existShipmentOrderRouting);
             }
-            return shipmentorderrouting;
+            shipmentOrderRouting = GetObjectById(shipmentOrderRouting.Id);
+            return shipmentOrderRouting;
         }
 
         public ShipmentOrderRouting CreateObject(ShipmentOrderRouting shipmentorderrouting)

@@ -18,7 +18,7 @@ namespace Data.Repository
 
         public IQueryable<PaymentVoucher> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public IList<PaymentVoucher> GetAll()

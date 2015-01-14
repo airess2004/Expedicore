@@ -14,7 +14,7 @@ namespace Validation.Validation
         public InvoiceDetail VvalidInvoice(InvoiceDetail invoiceDetail, IInvoiceService _invoiceService)
         { 
             Invoice existInvoice = _invoiceService.GetObjectById(invoiceDetail.InvoiceId);
-            if (existInvoice != null)
+            if (existInvoice == null)
             {
                 invoiceDetail.Errors.Add("Generic", "Invalid Invoice");
             }

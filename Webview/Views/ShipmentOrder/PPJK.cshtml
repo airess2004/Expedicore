@@ -1,6 +1,6 @@
 ﻿@*@model infoss.Models.ShipmentOrderModels*@
 @{
-    ViewBag.Title = "Shipment Order PPJK";
+    ViewBag.Title = "Job Order PPJK";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -28,20 +28,10 @@
 
         <div id="seaimport_form_toolbar" class="form_toolbar">
             <a id="seaimport_form_btn_save" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">SAVE</a>
-            <a id="seaimport_form_btn_cancel" href="@Url.Action("Index", new { type = "6" })" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-back'">Back</a>
+            <a id="seaimport_form_btn_cancel" href="@Url.Action("Index", new { type = "10" })" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-back'">Back</a>
 
             <a id="seaimport_form_btn_print_do" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print DO</a>
             <a id="seaimport_form_btn_open_close_job" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-book'">Close Job</a>
-        </div>
-        <div id="form_toolbar_nav" class="form_toolbar">
-            <div style="float: right">
-                <a id="nav_first" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-first'">First</a>
-                <a id="nav_prev" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-prev'">Prev</a>
-                <input id="nav_searchjobnumber" type="text" size="5" />
-                <input id="nav_searchsubjobno" type="text" size="1" />
-                <a id="nav_next" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-next'">Next</a>
-                <a id="nav_last" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow-last'">Last</a>
-            </div>
         </div>
 
         <div id="seaimportdetail_content" style="overflow: auto;">
@@ -49,14 +39,14 @@
                 <!-- Shipment Order -->
                 <div style="padding: 10px; display: inline-block;" id="shipmentorder_content">
                     <div class="easyui-panel" style="width: auto !important">
-                        <h2>Shipment Order</h2>
+                        <h2>Job Order</h2>
                         <table width="100%" border="0" style="padding: 10px;">
                             <tr>
                                 <td>
                                     <table width="100%" border="0" cellpadding="1" cellspacing="1">
                                         <tr>
                                             <td width="180px" nowrap>
-                                                <label>Shipment Order Number</label></td>
+                                                <label>Job Order Number</label></td>
                                             <td width="">
                                                 <input id="txtSIshipmentno" type="text" disabled="disabled" size="25" maxlength="25"></td>
                                             <td rowspan="5" valign="top" align="right">
@@ -99,18 +89,35 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td nowrap>
-                                                <label>Ref. PIB No.</label></td>
-                                            <td colspan="2">
-                                                <input id="txtSIrefSI" type="text" class="editable upper" /></td>
+                                            <td nowrap="nowrap">BL / AWB No.</td>
+                                            <td colspan="3">
+                                                <input id="txtSIhouseblno" type="text" class="editable upper number" disabled="disabled" />
+                                                &nbsp;&nbsp;&nbsp;
+                                                    HBL / HWB No.
+                                                    &nbsp;
+                                                    <input id="txtSIsecondhblno" type="text" class="editable upper number" disabled="disabled" /></td>
                                         </tr>
                                         <tr>
-                                            <td nowrap>
-                                                <label>Date PIB</label></td>
-                                            <td colspan="2">
-                                                <input id="txtSIDateSI" class="editable easyui-datebox" name="date" type="text" title="mm/dd/yyyy" size="12" maxlength="10">
+                                            <td nowrap="nowrap">PO No. </td>
+                                            <td colspan="3">
+                                                <input id="txtSIoceanmstblnr" type="text" class="editable upper number" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jo.Customs</td>
+                                            <td colspan="3">
+                                                <input id="txtSIvolumebl" type="text" class="editable upper number" disabled="disabled"  />
+                                                &nbsp;&nbsp;&nbsp;
+                                                    
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                   
+
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>Invoice No.</td>
+                                            <td> <input id="txtSIvolumeinvoice" type="text" class="editable upper number"  disabled="disabled" /></td>
+                                        </tr>
+                                        
                                     </table>
                                 </td>
                             </tr>
@@ -227,12 +234,23 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>ETD</td>
-                                                    <td colspan="3">
-                                                        <input type="text" id="txtSIetd" class="editable easyui-datebox" size="10" maxlength="10" /></td>
-                                                    <td>ETA</td>
-                                                    <td>
-                                                        <input type="text" id="txtSIeta" class="editable easyui-datebox" size="10" maxlength="10" /></td>
+                                                    <td colspan="6" >
+                                                        <table width ="100%">
+                                                        <tr>
+                                                            <td>ETD</td>
+                                                        <td colspan="3">
+                                                            <input type="text" id="txtSIetd" class="editable easyui-datebox" size="10" maxlength="10" /></td>
+                                                        <td>ETA</td>
+                                                        <td>
+                                                            <input type="text" id="txtSIeta" class="editable easyui-datebox" size="10" maxlength="10" /></td>
+                                                        <td>TA</td>
+                                                        <td>
+                                                            <input type="text" id="txtSIta" class="editable easyui-datebox" size="10" maxlength="10" /></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    
+                                                    
                                                 </tr>
                                             </table>
                                             <br />
@@ -241,7 +259,6 @@
                                                 <tr class="tableRow ui-jqgrid-labels ui-widget-content">
                                                     <th class="tableCell ui-state-default ui-th-column ui-th-ltr">No</th>
                                                     <th class="tableCell ui-state-default ui-th-column ui-th-ltr">Vessel</th>
-                                                    <th class="tableCell ui-state-default ui-th-column ui-th-ltr">Type</th>
                                                     <th class="tableCell ui-state-default ui-th-column ui-th-ltr">Voyage</th>
                                                     <th class="tableCell ui-state-default ui-th-column ui-th-ltr">ETD</th>
                                                     <th class="tableCell ui-state-default ui-th-column ui-th-ltr">City</th>
@@ -253,24 +270,6 @@
                                                     <td>
                                                         <input id="txtSInmvessel" name="txtSInmvessel" type="text" size="26" disabled="disabled" />
                                                         <input id="btnSIvessel" name="btnSIvessel" type="button" style="cursor: pointer;" class="ui-corner-all ui-state-default" value=".." />
-                                                    </td>
-                                                    <td>
-                                                        <select id="ddlSEvesseltype" name="ddlSEvesseltype">
-                                                            @*@if (Model.VesselTypeList.ToList().Count == 1)
-                                                            {
-                                                                <option value="@Model.VesselTypeList[0]">
-                                                                    @Model.VesselTypeList[0]
-                                                                </option>
-                                                            }
-                                                            else
-                                                            {
-                                                                <option value="0"></option>
-                                                                foreach (var c in Model.VesselTypeList.ToList())
-                                                                {
-                                                                <option value="@c">@c</option>
-                                                                }
-                                                            }*@
-                                                        </select>
                                                     </td>
                                                     <td>
                                                         <input id="txtSIvesselvoy" name="txtSIvesselvoy" type="text" size="7" maxlength="10" class="editable" />
@@ -452,29 +451,17 @@
                                 <td>
                                     <table width="100%" border="0" cellpadding="1" cellspacing="1" style="margin-top: 20px">
                                         <tr>
-                                            <td nowrap="nowrap">BL / AWB No.</td>
+                                            <td nowrap>
+                                                <label>Ref. PIB No.</label></td>
                                             <td colspan="3">
-                                                <input id="txtSIhouseblno" type="text" class="editable upper number" disabled="disabled" />
-                                                &nbsp;&nbsp;&nbsp;
-                                                    HBL / HWB No.
-                                                    &nbsp;
-                                                    <input id="txtSIsecondhblno" type="text" class="editable upper number" disabled="disabled" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td nowrap="nowrap">Jo.PTP </td>
-                                            <td colspan="3">
-                                                <input id="txtSIoceanmstblnr" type="text" class="editable upper number" disabled="disabled" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>JO CUST</td>
-                                            <td colspan="3">
-                                                <input id="txtSIvolumebl" class="editable easyui-numberbox" data-options="precision:2,groupSeparator:','" type="text" style="text-align: right;" disabled="disabled" />
-                                                &nbsp;&nbsp;&nbsp;
-                                                    Invoice No.
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <input id="txtSIvolumeinvoice" class="editable easyui-numberbox" data-options="precision:2,groupSeparator:','" type="text" size="20" style="text-align: right;" disabled="disabled" />
-
+                                                <input id="txtSIrefSI" type="text" class="editable upper" />
+                                             
+                                                <label>Date PIB</label>
+                                                <input id="txtSIDateSI" class="editable easyui-datebox" name="date" type="text" title="mm/dd/yyyy" size="12" maxlength="10">
                                             </td>
+                                        </tr>
+                                        <tr>
+                                           
                                         </tr>
                                         <tr>
                                             <td>SSLine Name</td>
@@ -486,7 +473,7 @@
                                             <td>
                                                 <input id="txtSIwarehousename" type="text" class="editable upper number" /></td>
                                         </tr>
-                                        <tr>
+                                        <tr hidden>
                                             <td>EMKL Name</td>
                                             <td>
                                                 <input id="txtSIkdemkl" type="text" size="5" disabled="disabled" />
@@ -497,7 +484,7 @@
                                             <td>
                                                 <input id="txtSIkins" type="text" class="editable upper number" /></td>
                                         </tr>
-                                        <tr>
+                                        <tr hidden>
                                             <td>Depo Name</td>
                                             <td>
                                                 <input id="txtSIkddepo" type="text" size="5" disabled="disabled" />

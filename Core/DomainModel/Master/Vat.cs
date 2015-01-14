@@ -12,7 +12,7 @@ namespace Core.DomainModel
          
         public string Name { get; set; }
         public int OfficeId { get; set; }
-        public int Value { get; set; }
+        public decimal Value { get; set; }
         public int MasterCode { get; set; }
 
         public bool IsDeleted { get; set; }

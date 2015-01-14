@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Airline> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Airline GetObjectById(int Id)

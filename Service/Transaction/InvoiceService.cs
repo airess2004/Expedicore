@@ -57,16 +57,16 @@ namespace Service
                     int newInvContraNo = 0;
                     string debetCredit = "";
                     // As Debet
-                    if (existInvoice.DebetCredit == "D")
+                    if (existInvoice.DebetCredit == MasterConstant.DebetCredit.Debet)
                     {
-                        debetCredit = "C";
+                        debetCredit = MasterConstant.DebetCredit.Credit;
                         // Get Last PRNo as Contra
                         newInvContraNo = _repository.GetInvoiceNo(existInvoice.OfficeId, debetCredit) + 1;
                     }
                     // As Credit
-                    else if (existInvoice.DebetCredit == "C")
+                    else if (existInvoice.DebetCredit == MasterConstant.DebetCredit.Credit)
                     {
-                        debetCredit = "D";
+                        debetCredit = MasterConstant.DebetCredit.Debet;
                         // Get Last PRNo as Contra
                         newInvContraNo = _repository.GetInvoiceNo(existInvoice.OfficeId, debetCredit) + 1;
                     }
@@ -76,6 +76,7 @@ namespace Service
                    
                     // Create Contra Invoice based on Updated Invoice
                     Invoice invNew = new Invoice();
+                   
                     invNew.InvoicesNo = newInvContraNo; 
                     invNew.OfficeId = existInvoice.OfficeId; 
                     invNew.CreatedAt = DateTime.Now;
@@ -89,7 +90,8 @@ namespace Service
                     invNew.BillName = existInvoice.BillName;
                     invNew.BillAddress = existInvoice.BillAddress;
                     invNew.JenisInvoices = existInvoice.JenisInvoices;
-                    invNew.Payment = existInvoice.Payment;
+                    invNew.PaymentUSD = existInvoice.PaymentUSD;
+                    invNew.PaymentIDR = existInvoice.PaymentIDR;
                     invNew.DebetCredit = debetCredit;
                     invNew.IsDeleted = true;
                     invNew.DeletedAt = DateTime.Now;
@@ -100,7 +102,8 @@ namespace Service
                     invNew.InvHeader = existInvoice.InvHeader;
                     invNew.Rate = existInvoice.Rate;
                     invNew.ExRateDate = existInvoice.ExRateDate;
-                    invNew.TotalVat = existInvoice.TotalVat;
+                    invNew.TotalVatIDR = existInvoice.TotalVatIDR;
+                    invNew.TotalVatUSD = existInvoice.TotalVatUSD;
                     invNew.DueDate = existInvoice.DueDate;
                     invNew.InvoiceStatus = invStatusContra;
                     invNew.LinkTo = "Cancel " + existInvoice.DebetCredit + "N No. " + existInvoice.InvoicesNo;
@@ -167,7 +170,7 @@ namespace Service
                     invNew.BillName = existInvoice.BillName;
                     invNew.BillAddress = existInvoice.BillAddress;
                     invNew.JenisInvoices = existInvoice.JenisInvoices;
-                    invNew.Payment = existInvoice.Payment;
+                    invNew.PaymentUSD = existInvoice.PaymentUSD;
                     invNew.DebetCredit = existInvoice.DebetCredit;
                     invNew.CustomerTypeId = existInvoice.CustomerTypeId;
                     invNew.InvoicesEdit = "F";
@@ -176,7 +179,7 @@ namespace Service
                     invNew.InvoicesAgent = existInvoice.InvoicesAgent;
                     invNew.Rate = existInvoice.Rate;
                     invNew.ExRateDate = existInvoice.ExRateDate;
-                    invNew.TotalVat = existInvoice.TotalVat;
+                    invNew.TotalVatIDR = existInvoice.TotalVatIDR;
                     invNew.DueDate = existInvoice.DueDate;
                     invNew.LinkTo = "Edit " + existInvoice.DebetCredit + "N No. " + existInvoice.InvoicesNo;
 
@@ -232,16 +235,16 @@ namespace Service
                 int invNo = 0;
                 string debetCredit = "";
                 // As Debet
-                if (existInvoice.DebetCredit == "D")
+                if (existInvoice.DebetCredit == MasterConstant.DebetCredit.Debet)
                 {
-                    debetCredit = "C";
+                    debetCredit = MasterConstant.DebetCredit.Credit;
                     // Get Last invNo as Contra
                     invNo = _repository.GetInvoiceNo(existInvoice.OfficeId,debetCredit) + 1;
                 }
                 // As Credit
-                else if (existInvoice.DebetCredit == "C")
+                else if (existInvoice.DebetCredit == MasterConstant.DebetCredit.Credit)
                 {
-                    debetCredit = "D";
+                    debetCredit = MasterConstant.DebetCredit.Debet;
                     // Get Last invNo as Contra
                     invNo = _repository.GetInvoiceNo(existInvoice.OfficeId, debetCredit) + 1;
                 }
@@ -261,7 +264,8 @@ namespace Service
                 invNew.BillName = existInvoice.BillName;
                 invNew.BillAddress = existInvoice.BillAddress;
                 invNew.JenisInvoices = existInvoice.JenisInvoices;
-                invNew.Payment = existInvoice.Payment;
+                invNew.PaymentUSD = existInvoice.PaymentUSD;
+                invNew.PaymentIDR = existInvoice.PaymentIDR;
                 invNew.DebetCredit = debetCredit;
                 invNew.IsDeleted = true;
                 invNew.DeletedAt = DateTime.Now;
@@ -272,7 +276,8 @@ namespace Service
                 invNew.InvHeader = existInvoice.InvHeader;
                 invNew.Rate = existInvoice.Rate;
                 invNew.ExRateDate = existInvoice.ExRateDate;
-                invNew.TotalVat = existInvoice.TotalVat;
+                invNew.TotalVatIDR = existInvoice.TotalVatIDR;
+                invNew.TotalVatUSD = existInvoice.TotalVatUSD;
                 invNew.DueDate = existInvoice.DueDate;
                 invNew.InvoiceStatus = existInvoice.InvoiceStatus + 1;
                 invNew.LinkTo = "Cancel " + existInvoice.DebetCredit + "N No. " + existInvoice.InvoicesNo;
@@ -315,6 +320,39 @@ namespace Service
                 }
         }
 
+        public Invoice CalculateTotalUSDIDR(int invoiceId, IInvoiceDetailService _invoiceDetailService)
+        {
+            IList<InvoiceDetail> eplD = _invoiceDetailService.GetQueryable().Where(x => x.InvoiceId == invoiceId && x.IsDeleted == false).ToList();
+            decimal paymentIDR = 0;
+            decimal paymentUSD = 0;
+            decimal vatIDR = 0; 
+            decimal vatUSD = 0;
+            decimal amount = 0;
+            foreach (var item in eplD)
+            {
+                amount = item.Amount.HasValue ? item.Amount.Value : 0;
+                if (item.AmountCrr == MasterConstant.Currency.IDR)
+                {
+                    paymentIDR += amount * (item.Sign == true ? 1 : -1);
+                    vatIDR += (item.AmountVat.HasValue ? item.AmountVat.Value : 0);
+                }
+                else
+                {
+                    paymentUSD += amount * (item.Sign == true ? 1 : -1);
+                    vatUSD += (item.AmountVat.HasValue ? item.AmountVat.Value : 0);
+                }
+
+            }
+            Invoice invoice = GetObjectById(invoiceId);
+            invoice.PaymentIDR = paymentIDR;
+            invoice.PaymentUSD = paymentUSD;
+            invoice.TotalVatIDR = vatIDR;
+            invoice.TotalVatUSD = vatUSD;
+            invoice = _repository.UpdateObject(invoice);
+            return invoice;
+        }
+
+
         public Invoice CreateObject(Invoice invoice,IShipmentOrderService _shipmentOrderService,
             IContactService _contactService,IExchangeRateService _exchangeRateService)
         {
@@ -326,7 +364,7 @@ namespace Service
                 newInvoice.OfficeId = invoice.OfficeId;
                 newInvoice.CreatedById = invoice.CreatedById;
                 newInvoice.CreatedAt = DateTime.Today;
-
+                newInvoice.InvoiceDate = DateTime.Today;
                 newInvoice.ShipmentOrderId = invoice.ShipmentOrderId;
                 switch (invoice.InvoicesTo)
                 { 
@@ -339,12 +377,12 @@ namespace Service
                 }
 
                 newInvoice.ContactId = invoice.ContactId;
-                var customer = _contactService.GetObjectById(invoice.ContactId);
-                if (customer != null)
-                {
-                    var duedate = customer.CreditTermInDays;
-                    newInvoice.DueDate = duedate;
-                }
+                //var customer = _contactService.GetObjectById(invoice.ContactId);
+                //if (customer != null)
+                //{
+                //    var duedate = customer.CreditTermInDays;
+                //    newInvoice.DueDate = duedate;
+                //}
                 newInvoice.CustomerName = !String.IsNullOrEmpty(invoice.CustomerName) ? invoice.CustomerName.ToUpper() : "";
                 newInvoice.CustomerAddress = !String.IsNullOrEmpty(invoice.CustomerAddress) ? invoice.CustomerAddress.ToUpper() : "";
                 newInvoice.DebetCredit = invoice.DebetCredit;
@@ -353,23 +391,22 @@ namespace Service
                 newInvoice.InvoicesEdit = "F";
                 newInvoice.InvHeader = invoice.InvHeader;
                 newInvoice.JenisInvoices = invoice.JenisInvoices;
-                newInvoice.Payment = invoice.Payment;
                 newInvoice.CurrencyId = invoice.CurrencyId;
                 newInvoice.BillId = invoice.BillId;
-                ExchangeRate LatestRate = _exchangeRateService.GetLatestRate(invoice.InvoiceDate);
-                newInvoice.Rate = LatestRate.ExRate1;
-                newInvoice.ExRateDate = LatestRate.ExRateDate;
-                newInvoice.ExRateId = LatestRate.Id;
+               // ExchangeRate LatestRate = _exchangeRateService.GetLatestRate(invoice.InvoiceDate);
+               // newInvoice.Rate = LatestRate.ExRate1;
+               // newInvoice.ExRateDate = LatestRate.ExRateDate;
+               // newInvoice.ExRateId = LatestRate.Id;
                 if (invoice.BillId > 0)
                 {
                     newInvoice.BillName = !String.IsNullOrEmpty(invoice.BillName) ? invoice.BillName.ToUpper() : "";
                     newInvoice.BillAddress = !String.IsNullOrEmpty(invoice.BillAddress) ? invoice.BillAddress.ToUpper() : "";
                 }
                 newInvoice.ShipmentOrderId = invoice.ShipmentOrderId;
-                newInvoice.TotalVat = invoice.TotalVat;
                 newInvoice.InvoicesNo = _repository.GetInvoiceNo(invoice.OfficeId, invoice.DebetCredit) + 1;
                 newInvoice.InvoiceStatus = _repository.GetNewInvoiceStatus(invoice.OfficeId, invoice.ShipmentOrderId) + 1;
                 newInvoice = _repository.CreateObject(newInvoice);
+                invoice.Id = newInvoice.Id;
             }
             return invoice;
         }
@@ -378,33 +415,50 @@ namespace Service
         {
             if (isValid(_validator.VConfirmObject(invoice,_invoiceDetailService)))
             {
-                IList<InvoiceDetail> invoiceDetails = _invoiceDetailService.GetQueryable().Where(x => x.InvoiceId == invoice.Id).ToList();
+                IList<InvoiceDetail> invoiceDetails = _invoiceDetailService.GetQueryable().Where(x => x.InvoiceId == invoice.Id && x.IsDeleted == false).ToList();
                 foreach (var invoiceDetail in invoiceDetails)
                 {
                     invoiceDetail.Errors = new Dictionary<string, string>();
                     invoiceDetail.ConfirmationDate = confirmationDate;
                     _invoiceDetailService.ConfirmObject(invoiceDetail);
+                    _receiveableService.CreateObject(invoice.OfficeId,invoice.ContactId, MasterConstant.SourceDocument.Invoice,invoice.Id, invoiceDetail.Id, invoiceDetail.AmountCrr.Value, (invoiceDetail.Amount ?? 0) + (invoiceDetail.AmountVat ?? 0), invoice.Rate ?? 0, invoice.InvoiceDate.AddDays(invoice.DueDate ?? 0));
                 }
                 invoice.ConfirmationDate = confirmationDate;
                 invoice = _repository.ConfirmObject(invoice);
-                _receiveableService.CreateObject(invoice.ContactId, MasterConstant.SourceDocument.Invoice, invoice.Id, invoice.CurrencyId, invoice.Payment.Value, invoice.Rate.Value, invoice.InvoiceDate.AddDays(invoice.DueDate.Value));
             }
+            return invoice;
+        }
+
+        public Invoice Paid(Invoice invoice)
+        {
+                invoice.Paid = true;
+                invoice.PaidOn = DateTime.Today;
+                invoice = _repository.UpdateObject(invoice);
+            return invoice;
+        }
+
+        public Invoice Unpaid(Invoice invoice)
+        { 
+            invoice.Paid = false;
+            invoice.PaidOn = null;
+            invoice = _repository.UpdateObject(invoice);
             return invoice;
         }
 
         public Invoice UnconfirmObject(Invoice invoice, DateTime confirmationDate, IInvoiceDetailService _invoiceDetailService, IReceivableService _receivableService, IReceiptVoucherDetailService _receiptVoucherDetailService)
         { 
-            if (isValid(_validator.VUnConfirmObject(invoice,_receivableService,_receiptVoucherDetailService)))
+            if (isValid(_validator.VUnConfirmObject(invoice,_receivableService,_receiptVoucherDetailService,_invoiceDetailService)))
             {
-                IList<InvoiceDetail> invoiceDetails = _invoiceDetailService.GetQueryable().Where(x => x.InvoiceId == invoice.Id).ToList();
+                IList<InvoiceDetail> invoiceDetails = _invoiceDetailService.GetQueryable().Where(x => x.InvoiceId == invoice.Id && x.IsDeleted == false).ToList();
                 foreach (var invoiceDetail in invoiceDetails)
                 {
                     invoiceDetail.Errors = new Dictionary<string, string>();
                     _invoiceDetailService.UnconfirmObject(invoiceDetail);
+                    Receivable receivable = _receivableService.GetObjectBySource(MasterConstant.SourceDocument.Invoice, invoice.Id,invoiceDetail.Id);
+                    _receivableService.SoftDeleteObject(receivable);
                 }
                 invoice = _repository.UnconfirmObject(invoice);
-                Receivable receivable = _receivableService.GetObjectBySource(MasterConstant.SourceDocument.Invoice, invoice.Id);
-                _receivableService.SoftDeleteObject(receivable);
+               
             }
             return invoice;
         }
@@ -437,12 +491,36 @@ namespace Service
           
         public Invoice SoftDeleteObject(Invoice invoice,IInvoiceDetailService _invoiceDetailService)
         {
-            invoice = _repository.SoftDeleteObject(invoice);
-            IList<InvoiceDetail> estimateProfitLossDetail = _invoiceDetailService.GetQueryable().
-                                                                       Where(x => x.InvoiceId == invoice.Id).ToList();
-            foreach(var item in estimateProfitLossDetail)
+            if (isValid(_validator.VSoftDeleteObject(invoice, this)))
             {
-                _invoiceDetailService.SoftDeleteObject(item,this,_invoiceDetailService);
+                invoice = _repository.SoftDeleteObject(invoice);
+                //IList<InvoiceDetail> invoiceDetail = _invoiceDetailService.GetQueryable().
+                //                                                           Where(x => x.InvoiceId == invoice.Id).ToList();
+                //if (invoiceDetail != null)
+                //{
+                //    foreach (var item in invoiceDetail)
+                //    {
+                //        _invoiceDetailService.SoftDeleteObject(item, this, _invoiceDetailService);
+                //    }
+                //}
+            }
+            return invoice;
+        }
+          
+        public Invoice Print(int Id,string fd )
+        {
+            Invoice invoice = GetObjectById(Id);
+            if (isValid(_validator.VPrint(invoice)))
+            {
+                if (fd == MasterConstant.Print.Fixed)
+                {
+                    invoice.Printing = invoice.Printing == null ? 1 : (invoice.Printing.Value + 1);
+                    if (invoice.PrintedAt == null)
+                    {
+                        invoice.PrintedAt = DateTime.Now;
+                    }
+                    _repository.UpdateObject(invoice);
+                }
             }
             return invoice;
         }
@@ -465,8 +543,8 @@ namespace Service
                             totalVatIDR -= item.AmountVat.HasValue ? item.AmountVat.Value : 0;
                         }
                 }
-                invoice.Payment = totalIDR;
-                invoice.TotalVat = totalVatIDR;
+                invoice.PaymentUSD = totalIDR;
+                invoice.TotalVatIDR = totalVatIDR;
                 _repository.UpdateObject(invoice);
                 return invoice;
         }

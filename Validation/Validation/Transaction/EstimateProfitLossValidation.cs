@@ -28,14 +28,33 @@ namespace Validation.Validation
             }
             return estimateprofitloss;
         }
+         
+        public EstimateProfitLoss VIsConfirmed(EstimateProfitLoss estimateprofitloss, IEstimateProfitLossService _estimateprofitlossService)
+        {
+            EstimateProfitLoss epl = _estimateprofitlossService.GetObjectById(estimateprofitloss.Id);
+            if (epl.IsConfirmed == true)
+            {
+                estimateprofitloss.Errors.Add("Generic", "EPL is Confirmed");
+            }
+            return estimateprofitloss;
+        }
 
+        public EstimateProfitLoss VIsUnconfirmed(EstimateProfitLoss estimateprofitloss, IEstimateProfitLossService _estimateprofitlossService)
+        { 
+            EstimateProfitLoss epl = _estimateprofitlossService.GetObjectById(estimateprofitloss.Id);
+            if (epl.IsConfirmed == false)
+            {
+                estimateprofitloss.Errors.Add("Generic", "EPL is Unconfirmed");
+            }
+            return estimateprofitloss;
+        }
 
         public EstimateProfitLoss ValreadyAssignShipmentOrder(EstimateProfitLoss estimateprofitloss, IEstimateProfitLossService _estimateprofitlossService)
         { 
             EstimateProfitLoss epl = _estimateprofitlossService.GetObjectByShipmentOrderId(estimateprofitloss.ShipmentOrderId);
             if (epl != null)
             {
-                estimateprofitloss.Errors.Add("Generic", "ShipmentOrder : " + epl.Id + " sudah di gunakan di EPL : " + epl.MasterCode);
+                estimateprofitloss.Errors.Add("Generic", "ShipmentOrder : " + epl.ShipmentOrder.ShipmentOrderCode + " sudah di buat EPL");
             }
             return estimateprofitloss;
         }
@@ -84,13 +103,13 @@ namespace Validation.Validation
                     InvoiceDetail invoiceDetail = _invoiceDetailService.GetQueryable().Where(x => x.EPLDetailId == eplDetail.Id && x.IsDeleted == false).FirstOrDefault();
                     if (invoiceDetail != null)
                     {
-                       estimateprofitloss.Errors.Add("Generic","EPL telah digunakan di Invoice : " + invoiceDetail.InvoiceId);
+                       estimateprofitloss.Errors.Add("Generic","EPL telah digunakan di Invoice : " + invoiceDetail.Invoices.InvoicesNo);
                        return estimateprofitloss;
                     }
-                    PaymentRequestDetail paymentRequestDetail = _paymentRequestDetailService.GetQueryable().Where(x => x.EstimateProfitLossDetailId == eplDetail.Id && x.IsDeleted == false).FirstOrDefault();
+                    PaymentRequestDetail paymentRequestDetail = _paymentRequestDetailService.GetQueryable().Where(x => x.EPLDetailId == eplDetail.Id && x.IsDeleted == false).FirstOrDefault();
                     if (paymentRequestDetail != null)
                     {
-                        estimateprofitloss.Errors.Add("Generic", "EPL telah digunakan di PaymentRequest : " + paymentRequestDetail.PaymentRequestId);
+                        estimateprofitloss.Errors.Add("Generic", "EPL telah digunakan di PaymentRequest : " + paymentRequestDetail.PaymentRequest.PRNo);
                         return estimateprofitloss;
                     }
                 }
@@ -122,15 +141,19 @@ namespace Validation.Validation
            IEstimateProfitLossDetailService _estimateProfitLossDetailService, IInvoiceDetailService _invoiceDetailService ,
             IPaymentRequestDetailService _paymentRequestDetailService)
         {
+            VIsUnconfirmed(estimateprofitloss, _estimateprofitlossService);
+            if (!isValid(estimateprofitloss)) { return estimateprofitloss; }
             VvalidEPL(estimateprofitloss, _estimateprofitlossService);
             if (!isValid(estimateprofitloss)) { return estimateprofitloss; }
-            ValreadyAssignInvoiceOrPaymentRequest(estimateprofitloss, _estimateProfitLossDetailService, _invoiceDetailService, _paymentRequestDetailService);
-            if (!isValid(estimateprofitloss)) { return estimateprofitloss; }
+            //ValreadyAssignInvoiceOrPaymentRequest(estimateprofitloss, _estimateProfitLossDetailService, _invoiceDetailService, _paymentRequestDetailService);
+            //if (!isValid(estimateprofitloss)) { return estimateprofitloss; }
             return estimateprofitloss;
         }
 
         public EstimateProfitLoss VConfirmObject(EstimateProfitLoss estimateprofitloss, IEstimateProfitLossService _estimateprofitlossService)
         {
+            VIsConfirmed(estimateprofitloss, _estimateprofitlossService);
+            if (!isValid(estimateprofitloss)) { return estimateprofitloss; }
             VvalidEPL(estimateprofitloss, _estimateprofitlossService);
             if (!isValid(estimateprofitloss)) { return estimateprofitloss; }
             return estimateprofitloss;

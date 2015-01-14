@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Office> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Office GetObjectById(int Id)

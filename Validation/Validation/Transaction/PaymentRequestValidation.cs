@@ -14,7 +14,7 @@ namespace Validation.Validation
     {
         public PaymentRequest VCurrency(PaymentRequest paymentRequest)
         {
-            if (paymentRequest.CurrencyId != MasterConstant.Currency.IDR || paymentRequest.CurrencyId != MasterConstant.Currency.USD)
+            if (paymentRequest.CurrencyId != MasterConstant.Currency.IDR && paymentRequest.CurrencyId != MasterConstant.Currency.USD)
             {
                 paymentRequest.Errors.Add("CurrencyId", "Invalid Currency");
             }
@@ -41,7 +41,7 @@ namespace Validation.Validation
 
         public PaymentRequest VIsConfirmed(PaymentRequest paymentRequest)
         {
-            if (paymentRequest.IsConfirmed == false)
+            if (paymentRequest.IsConfirmed == true)
             {
                 paymentRequest.Errors.Add("Generic", "PaymentRequest Is Confirmed");
             }
@@ -50,8 +50,8 @@ namespace Validation.Validation
 
         public PaymentRequest VvalidShipmentOrder(PaymentRequest paymentRequest, IShipmentOrderService _shipmentOrderService)
         {
-            ShipmentOrder shipmentOrder = _shipmentOrderService.GetObjectById(paymentRequest.ShipmentOrderID);
-            if (shipmentOrder != null)
+            ShipmentOrder shipmentOrder = _shipmentOrderService.GetObjectById(paymentRequest.ShipmentOrderId);
+            if (shipmentOrder == null)
             {
                 paymentRequest.Errors.Add("ShipmentOrder", "Invalid ShipmentOrder");
             }
@@ -133,7 +133,7 @@ namespace Validation.Validation
 
         public PaymentRequest VvPaymentRequest(PaymentRequest paymentRequest, IPaymentRequestService _paymentRequestService)
         {
-            PaymentRequest existPaymentRequest = _paymentRequestService.GetObjectById(paymentRequest.ShipmentOrderID);
+            PaymentRequest existPaymentRequest = _paymentRequestService.GetObjectById(paymentRequest.ShipmentOrderId);
             if (paymentRequest != null)
             {
                 existPaymentRequest.Errors.Add("Generic", "Invalid PaymentRequest");
@@ -148,13 +148,18 @@ namespace Validation.Validation
             return existPaymentRequest;
         }
 
-        public PaymentRequest VPayableHasNoOtherAssociation(PaymentRequest paymentRequest, IPayableService _payableService, IPaymentVoucherDetailService _paymentVoucherDetailService)
+        public PaymentRequest VPayableHasNoOtherAssociation(PaymentRequest paymentRequest, IPayableService _payableService, 
+            IPaymentVoucherDetailService _paymentVoucherDetailService,IPaymentRequestDetailService _paymentRequestDetailService)
         {
-            Payable payable = _payableService.GetObjectBySource(MasterConstant.SourceDocument.Invoice, paymentRequest.Id);
-            PaymentVoucherDetail paymentVoucherDetail = _paymentVoucherDetailService.GetObjectsByPayableId(payable.Id).FirstOrDefault();
-            if (paymentVoucherDetail != null)
+            IList<PaymentRequestDetail> paymentRequestDetail = _paymentRequestDetailService.GetQueryable().Where(x => x.PaymentRequestId == paymentRequest.Id).ToList();
+            foreach (var item in paymentRequestDetail)
             {
-                paymentRequest.Errors.Add("Generic", "Payment Request Sudah di Buat PaymentVoucheer : " + paymentVoucherDetail.PaymentVoucherId);
+                Payable payable = _payableService.GetObjectBySource(MasterConstant.SourceDocument.Invoice, paymentRequest.Id,item.Id);
+                PaymentVoucherDetail paymentVoucherDetail = _paymentVoucherDetailService.GetObjectsByPayableId(payable.Id).FirstOrDefault();
+                if (paymentVoucherDetail != null)
+                {
+                    paymentRequest.Errors.Add("Generic", "Payment Request Sudah di Buat PaymentVoucheer : " + paymentVoucherDetail.PaymentVoucherId);
+                }
             }
             return paymentRequest;
         }
@@ -205,8 +210,8 @@ namespace Validation.Validation
             if (!isValid(paymentRequest)) { return paymentRequest; }
             VIsDeleted(paymentRequest);
             if (!isValid(paymentRequest)) { return paymentRequest; }
-            VPayableHasNoOtherAssociation(paymentRequest, _payableService, _paymentVoucherDetailService);
-            if (!isValid(paymentRequest)) { return paymentRequest; }
+           // VPayableHasNoOtherAssociation(paymentRequest, _payableService, _paymentVoucherDetailService);
+           // if (!isValid(paymentRequest)) { return paymentRequest; }
             return paymentRequest;
         }
 

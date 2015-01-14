@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<CashAdvance> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public CashAdvance GetObjectById(int Id)
@@ -71,6 +71,21 @@ namespace Data.Repository
         {
             CashAdvance data = Find(x => x.Id == Id);
             return (Delete(data) == 1) ? true : false;
+        }
+
+        public CashAdvance ConfirmObject(CashAdvance model)
+        {
+            model.IsConfirmed = true;
+            Update(model);
+            return model;
+        }
+
+        public CashAdvance UnconfirmObject(CashAdvance model)
+        {
+            model.ConfirmationDate = null;
+            model.IsConfirmed = false;
+            Update(model);
+            return model;
         }
 
     }

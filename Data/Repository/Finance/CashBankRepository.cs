@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<CashBank> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public IList<CashBank> GetAll()
@@ -34,6 +34,19 @@ namespace Data.Repository
             CashBank cb = Find(x => x.Id == Id && !x.IsDeleted);
             if (cb != null) { cb.Errors = new Dictionary<string, string>(); }
             return cb;
+        }
+
+        public int GetLastMasterCode(int officeId)
+        {
+            CashBank data = FindAll(x => x.OfficeId == officeId).OrderByDescending(x => x.MasterCode).FirstOrDefault();
+            if (data != null)
+            {
+                return data.MasterCode;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public CashBank GetObjectByName(string Name)

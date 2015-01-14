@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<TemporaryPayment> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public TemporaryPayment GetObjectById(int Id)

@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<CashSettlement> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public CashSettlement GetObjectById(int Id)

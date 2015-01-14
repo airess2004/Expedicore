@@ -30,6 +30,7 @@ namespace Data.Mapping
                .WithMany()
                .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);
+           
             Ignore(u => u.Errors);
         }
     }

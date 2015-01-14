@@ -16,5 +16,6 @@ namespace Core.Interface.Repository
         CashBank UpdateObject(CashBank cashBank);
         CashBank SoftDeleteObject(CashBank cashBank);
         bool DeleteObject(int Id);
+        int GetLastMasterCode(int officeId);
     }
 }

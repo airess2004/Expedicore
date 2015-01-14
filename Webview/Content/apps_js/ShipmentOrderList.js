@@ -1,7 +1,10 @@
 ﻿$(document).ready(function () {
 
     $('#find_shipmentorder').dialog('close');
-
+    $("#form_div").dialog('close');
+    $('#item_div').dialog('close');
+    $('#confirm_div').dialog('close');
+    
     var type = getQueryStringByName('type');
     if (type == undefined || type == "") {
         type = '1';
@@ -23,30 +26,26 @@
         url: base_url + 'shipmentorder/GetList',
         postData: { 'JobId': function () { return $("#jobtype").val(); } },
         datatype: "json",
-        colNames: ['Del', 'Shipment', 'Load', 'Status', 'Principle By',
-				'Shipper Name', 'Agent Name', 'Consignee Name', 'Notify Party', 'ETD', 'ETA', 'First Feeder',
-				'Second Feeder', 'Delivery P.N', 'HBL / HAWB', 'OBL / MAWB',
+        colNames: ['Del', 'Shipment', 'Load', 
+				'Shipper Name', 'Agent Name', 'Consignee Name', 'ETD', 'ETA', 'Vessel',
+				 'Delivery P.N', 'HBL / HAWB', 'OBL / MAWB',
 				'Total Sub', 'Close', 'Entry Date', 'User'],
-        colModel: [{ name: 'deleted', index: 'deleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
+        colModel: [{ name: 'deleted', index: 'IsDeleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
 				  { name: 'shipmentno', index: 'ShipmentOrderId', width: 130, align: "center" },
 				  { name: 'loadstatus', index: 'loadstatus', width: 60, align: "center" },
-				  { name: 'shipmentstatus', index: 'shipmentstatus', width: 60, align: "center" },
-				  { name: 'jobowner', index: 'jobownername', width: 100, align: "center" },
 				  { name: 'shippername', index: 'shippername', width: 200 },
 				  { name: 'agentname', index: 'agentname', width: 250 },
 				  { name: 'consigneename', index: 'ConsigneeName', width: 200 },
-				  { name: 'npartyname', index: 'npartyname', width: 200, hidden: true },
 				  { name: 'etd', index: 'etd', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
 				  { name: 'eta', index: 'eta', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
-				  { name: 'firstfeeder', index: 'FeederVessel', width: 200, search: false, sortable: false },
-				  { name: 'secondfeeder', index: 'MotherVessel', width: 200, search: false, sortable: false },
-				  { name: 'destination', index: 'DeliveryPortName', width: 200 },
-				  { name: 'hbl', index: 'HouseBL', width: 150 },
-				  { name: 'obl', index: 'MasterBL', width: 150 },
-				  { name: 'totalsub', index: 'totalsub', width: 80, align: "right" },
-				  { name: 'jobclose', index: 'jobclose', width: 60, align: "center" },
-				  { name: 'entrydate', index: 'createdon', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
-				  { name: 'usercode', index: 'usercode', width: 100 }
+				  { name: 'firstfeeder', index: 'Vessel', width: 200, search: false, sortable: false },
+				  { name: 'destination', index: 'DeliveryPlaceName', width: 200 },
+				  { name: 'hbl', index: 'HouseBLNo', width: 150 },
+				  { name: 'obl', index: 'SecondBLNo', width: 150 },
+				  { name: 'totalsub', index: 'TotalSub', width: 80, align: "right" },
+				  { name: 'jobclose', index: 'JobClosed', width: 60, align: "center" },
+				  { name: 'entrydate', index: 'CreatedAt', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+				  { name: 'usercode', index: 'CreateBy', width: 100 }
         ],
         page: 'last', // last page
         pager: jQuery('#pager_list_shipment'),
@@ -375,5 +374,516 @@
 
     // ************************************************************** END Find / Search **************************************************************
 
+    $("#listdetail").jqGrid({
+        url: base_url,
+        datatype: "json",
+        colNames: ['Doc.Name', 'Desciption','Submit Date','CreatedDate','CreatedBy'
+        ],
+        colModel: [
+                  { name: 'code', index: 'DocumentName', width: 70, sortable: false },
+                  { name: 'description', index: 'description', width: 180, sortable: false },
+				  { name: 'submitdate', index: 'SubmitDate', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+				  { name: 'entrydate', index: 'CreatedAt', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+                  { name: 'createdby', index: 'CreatedBy', width: 180, sortable: false },
+        ],
+        //page: '1',
+        //pager: $('#pagerdetail'),
+        rowNum: 20,
+        rowList: [20, 30, 60],
+        sortname: 'DocumentName',
+        viewrecords: true,
+        scrollrows: true,
+        shrinkToFit: false,
+        sortorder: "ASC",
+        width: $("#form_div").width() - 3,
+        height: $(window).height() - 500,
+        gridComplete:
+		  function () {
+		  }
+    });//END GRID Detail
+    $("#listdetail").jqGrid('navGrid', '#pagerdetail1', { del: false, add: false, edit: false, search: false });
+    //.jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false });
+    function ClearData() {
+        $('#form_btn_save').data('kode', '');
+        $('#item_btn_submit').data('kode', '');
+        ClearErrorMessage();
+    }
+
+    function clearForm(form) {
+
+        $(':input', form).each(function () {
+            var type = this.type;
+            var tag = this.tagName.toLowerCase(); // normalize case
+            if (type == 'text' || type == 'password' || tag == 'textarea') {
+                this.value = "";
+            }
+            else if (type == 'checkbox' || type == 'radio')
+                this.checked = false;
+            else if (tag == 'select')
+                this.selectedIndex = 0;
+            if ($(this).hasClass('easyui-numberbox'))
+                $(this).numberbox('clear');
+        });
+    }
+
+    $('#btn_add_new_detail').click(function () {
+        ClearData();
+        clearForm('#item_div');
+        $('#item_div').dialog('open');
+    });
+
+    $('#btn_edit_detail').click(function () {
+        ClearData();
+        clearForm("#item_div");
+        var id = jQuery("#listdetail").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#listdetail").jqGrid('getRowData', id);
+            ClearData();
+            clearForm('#item_div');
+            $("#DocumentName").val(ret.code);
+            $("#Description").val(ret.description);
+            $("#item_btn_submit").data('kode',id);
+            $('#item_div').dialog('open');
+
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#btn_del_detail').click(function () {
+        var id = jQuery("#listdetail").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#listdetail").jqGrid('getRowData', id);
+            $.messager.confirm('Confirm', 'Are you sure you want to delete record?', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: base_url + "ShipmentOrder/DeleteDocument",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            Id: id,
+                        }),
+                        success: function (result) {
+                            if (JSON.stringify(result.Errors) != '{}') {
+                                for (var key in result.Errors) {
+                                    if (key != null && key != undefined && key != 'Generic') {
+                                        $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                        $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                    }
+                                    else {
+                                        $.messager.alert('Warning', result.Errors[key], 'warning');
+                                    }
+                                }
+                            }
+                            else {
+                                ReloadGridDetail();
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#form_btn_cancel').click(function () {
+        clearForm('#frm');
+        $("#form_div").dialog('close');
+    });
+
+
+    $('#btn_document').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            if (ret.deleted != '') {
+                $.messager.alert('Warning', 'RECORD HAS BEEN DELETED !', 'warning');
+                return;
+            }
+            ClearData();
+            clearForm('#item_div');
+            $('#id').val(id);
+            $('#Code').val(ret.shipmentno);
+            ReloadGridDetail();
+            $('#form_div').dialog('open');
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $("#item_btn_submit").click(function () {
+
+        ClearErrorMessage();
+
+        var submitURL = '';
+        var id = $("#item_btn_submit").data('kode');
+
+        // Update
+        if (id != undefined && id != '' && !isNaN(id) && id > 0) {
+            submitURL = base_url + 'ShipmentOrder/UpdateDocument';
+        }
+            // Insert
+        else {
+            submitURL = base_url + 'ShipmentOrder/InsertDocument';
+        }
+
+        $.ajax({
+            contentType: "application/json",
+            type: 'POST',
+            url: submitURL,
+            data: JSON.stringify({
+                Id: id, ShipmentOrderId: $("#id").val(), DocumentName: $("#DocumentName").val(), Description: $("#Description").val(),
+                SubmitDate: $("#submitdate").datebox('getValue')
+            }),
+            async: false,
+            cache: false,
+            timeout: 30000,
+            error: function () {
+                return false;
+            },
+            success: function (result) {
+                if (JSON.stringify(result.Errors) != '{}') {
+                    for (var key in result.Errors) {
+                        if (key != null && key != undefined && key != 'Generic') {
+                            $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                        }
+                        else {
+                            $.messager.alert('Warning', result.Errors[key], 'warning');
+                        }
+                    }
+                }
+                else {
+                    ReloadGridDetail();
+                    $("#item_div").dialog('close')
+                }
+            }
+        });
+    });
+
+    function ReloadGridDetail() {
+        $("#listdetail").setGridParam({ url: base_url + 'ShipmentOrder/GetListDocument?ShipmentOrderId=' + $("#id").val(), postData: { filters: null }, page: 'first' }).trigger("reloadGrid");
+    }
+
+
+    // item_btn_cancel
+    $('#item_btn_cancel').click(function () {
+        clearForm('#item_div');
+        $("#item_div").dialog('close');
+    });
+
+    $('#confirm_btn_cancel').click(function () {
+        $('#confirm_div').dialog('close');
+    });
+
+    $('#btn_SPPB').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        var job = "SPPB";
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            $.ajax({
+                dataType: "json",
+                url: base_url + "ShipmentOrder/GetInfoDocument?Id=" + id + "&Name=" + job,
+                success: function (result) {
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
+                    else {
+                        $('#idconfirm').val(id).data('kode', result.id);
+                        $('#NoJobCode').val(ret.shipmentno);
+                        $('#Job').val(job);
+                        $('#TimeCheck').datebox('setValue', result.SubmitDate);
+                        $("#confirm_div").dialog("open");
+                    }
+                }
+            });
+
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#btn_DOKORI').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        var job = "DOK ORI";
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            $.ajax({
+                dataType: "json",
+                url: base_url + "ShipmentOrder/GetInfoDocument?Id=" + id + "&Name=" + job,
+                success: function (result) {
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
+                    else {
+                        $('#idconfirm').val(id).data('kode',result.id);
+                        $('#NoJobCode').val(ret.shipmentno);
+                        $('#Job').val(job);
+                        $('#TimeCheck').datebox('setValue', result.SubmitDate);
+                        $("#confirm_div").dialog("open");
+                    }
+                  }
+              });
+           
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#btn_STRIPPING').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        var job = "STRIPPING";
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            $.ajax({
+                dataType: "json",
+                url: base_url + "ShipmentOrder/GetInfoDocument?Id=" + id + "&Name=" + job,
+                success: function (result) {
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
+                    else {
+                        $('#idconfirm').val(id).data('kode',result.id);
+                        $('#NoJobCode').val(ret.shipmentno);
+                        $('#Job').val(job);
+                        $('#TimeCheck').datebox('setValue', result.SubmitDate);
+                        $("#confirm_div").dialog("open");
+                    }
+                }
+            });
+           
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#btn_SP2').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        var job = "BUAT SP2";
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            $.ajax({
+                dataType: "json",
+                url: base_url + "ShipmentOrder/GetInfoDocument?Id=" + id + "&Name=" + job,
+                success: function (result) {
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
+                    else {
+                        $('#idconfirm').val(id).data('kode', result.id);
+                        $('#NoJobCode').val(ret.shipmentno);
+                        $('#Job').val(job);
+                        $('#TimeCheck').datebox('setValue', result.SubmitDate);
+                        $("#confirm_div").dialog("open");
+                    }
+                }
+            });
+
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#btn_H3').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        var job = "H+3";
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            $.ajax({
+                dataType: "json",
+                url: base_url + "ShipmentOrder/GetInfoDocument?Id=" + id + "&Name=" + job,
+                success: function (result) {
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
+                    else {
+                        $('#idconfirm').val(id).data('kode', result.id);
+                        $('#NoJobCode').val(ret.shipmentno);
+                        $('#Job').val(job);
+                        $('#TimeCheck').datebox('setValue', result.SubmitDate);
+                        $("#confirm_div").dialog("open");
+                    }
+                }
+            });
+
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#btn_PBM').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        var job = "PBM";
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            $.ajax({
+                dataType: "json",
+                url: base_url + "ShipmentOrder/GetInfoDocument?Id=" + id + "&Name=" + job,
+                success: function (result) {
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
+                    else {
+                        $('#idconfirm').val(id).data('kode', result.id);
+                        $('#NoJobCode').val(ret.shipmentno);
+                        $('#Job').val(job);
+                        $('#TimeCheck').datebox('setValue', result.SubmitDate);
+                        $("#confirm_div").dialog("open");
+                    }
+                }
+            });
+
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#btn_MUAT').click(function () {
+        var id = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        var job = "MUAT";
+        if (id) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', id);
+            $.ajax({
+                dataType: "json",
+                url: base_url + "ShipmentOrder/GetInfoDocument?Id=" + id + "&Name=" + job,
+                success: function (result) {
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
+                    else {
+                        $('#idconfirm').val(id).data('kode', result.id);
+                        $('#NoJobCode').val(ret.shipmentno);
+                        $('#Job').val(job);
+                        $('#TimeCheck').datebox('setValue', result.SubmitDate);
+                        $("#confirm_div").dialog("open");
+                    }
+                }
+            });
+
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+
+    $('#confirm_btn_submit').click(function () {
+        ClearErrorMessage();
+
+        var submitURL = '';
+        var id = $("#idconfirm").data('kode');
+
+        // Update
+        if (id != undefined && id != '' && !isNaN(id) && id > 0) {
+            submitURL = base_url + 'ShipmentOrder/UpdateDocument';
+        }
+            // Insert
+        else {
+            submitURL = base_url + 'ShipmentOrder/InsertDocument';
+        }
+
+        $.ajax({
+            url: submitURL,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                Id: id, DocumentName: $("#Job").val(), IsLegacy: true, ShipmentOrderId: $('#idconfirm').val(),
+                SubmitDate: $('#TimeCheck').datebox('getValue')
+            }),
+            success: function (result) {
+                if (JSON.stringify(result.Errors) != '{}') {
+                    for (var key in result.Errors) {
+                        if (key != null && key != undefined && key != 'Generic') {
+                            $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                        }
+                        else {
+                            $.messager.alert('Warning', result.Errors[key], 'warning');
+                        }
+                    }
+                }
+                else {
+                    $("#confirm_div").dialog('close');
+                }
+            }
+        });
+    });
+
+    // Print Payment Voucher
+    $('#btn_print').click(function () {
+        var id = $('#jobtype option:selected').text();
+        var value = $('#jobtype').val();
+        var buttonID = $(this).attr('id');
+
+        var pvId = jQuery("#list_shipment").jqGrid('getGridParam', 'selrow');
+        if (pvId) {
+            var ret = jQuery("#list_shipment").jqGrid('getRowData', pvId);
+            PrintPaymentVoucher(pvId);
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+        //        }
+        //    }
+        //});
+    });
+
+    function PrintPaymentVoucher(pvId) {
+        window.open(base_url + "ShipmentOrder/Print?Id=" + pvId);
+    }
 
 }); //END DOCUMENT READY

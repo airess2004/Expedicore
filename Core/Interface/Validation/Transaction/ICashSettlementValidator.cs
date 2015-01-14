@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Core.Interface.Validation
 {
-    public interface ICashSettlementValidation
+    public interface ICashSettlementValidation 
     {
         CashSettlement VCreateObject(CashSettlement cashSettlement, ICashSettlementService _cashSettlementService);
         CashSettlement VUpdateObject(CashSettlement cashSettlement, ICashSettlementService _cashSettlementService);
+        CashSettlement VConfirmObject(CashSettlement cashSettlement, ICashSettlementService _cashSettlementService);
+        CashSettlement VUnconfirmObject(CashSettlement cashSettlement, ICashSettlementService _cashSettlementService);
     }
 }

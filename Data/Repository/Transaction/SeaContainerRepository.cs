@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<SeaContainer> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public SeaContainer GetObjectById(int Id)

@@ -22,7 +22,7 @@ namespace Data.Repository
 
         public IQueryable<Truck> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Truck GetObjectById(int Id)

@@ -18,6 +18,8 @@ namespace Core.DomainModel
         public int OfficeId { get; set; }
         public int CostType { get; set; } // 1 : Sea , 2 : Air 
         public bool IsDeleted { get; set; }
+        public decimal ChargeUSD { get; set; }
+        public decimal ChargeIDR { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CreatedById { get; set; }
         public Nullable<DateTime> UpdatedAt { get; set; }

@@ -26,9 +26,9 @@ namespace Data.Mapping
                .WithMany()
                .HasForeignKey(u => u.PaymentRequestId)
                .WillCascadeOnDelete(false);
-            HasRequired(u => u.EstimateProfitLossDetails)
+            HasOptional(u => u.EstimateProfitLossDetails)
               .WithMany()
-              .HasForeignKey(u => u.EstimateProfitLossDetailId)
+              .HasForeignKey(u => u.EPLDetailId)
               .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
                .WithMany()

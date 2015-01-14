@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Employee> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Employee GetObjectById(int Id)

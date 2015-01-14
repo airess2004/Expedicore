@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<ContainerYard> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public ContainerYard GetObjectById(int Id)

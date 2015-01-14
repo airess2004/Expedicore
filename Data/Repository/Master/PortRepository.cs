@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Port> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Port GetObjectById(int Id)

@@ -31,6 +31,7 @@
     $('#lookup_div_so_freight_hbl_payable').dialog('close');
     $('#containerSEcontainerno').mask("aaaa 999999-9");
     $('#mst_vessel_form_div').dialog('close');
+
     // End Initialize
 
     /*================================================ JQuery Tabs ================================================*/
@@ -107,34 +108,36 @@
         $.ajax({
             contentType: "application/json",
             type: 'POST',
-            url: base_url + "shipmentorder/InsertUpdateShipmentSeaContainer",
+            url: base_url + "SeaContainer/InsertUpdate",
             data: JSON.stringify({
-                ShipmentId: shipmentId, SeaContainerId: $(this).data('id'), ContainerNo: $('#containerSEcontainerno').val(), SealNo: $('#containerSEsealno').val(),
+                ShipmentOrderId: shipmentId, Id: $(this).data('id'), ContainerNo: $('#containerSEcontainerno').val(), SealNo: $('#containerSEsealno').val(),
                 Size: $('#containerSEsize').val(), Type: $('#containerSEtype').val(), GrossWeight: $('#containerSEgrossweight').numberbox('getValue'),
                 NetWeight: $('#containerSEnetweight').numberbox('getValue'), CBM: $('#containerSEcbm').numberbox('getValue'),
                 PartOf: $('#containerSEpartof').val(), Commodity: $('#containerSEcommodity').val(), PackagingCode: $('#containerSEpackaging').val(),
                 NoOfPieces: $('#containerSEnoofpieces').val()
             }),
             success: function (result) {
-                if (result.isValid) {
-                    console.log(result.objResult);
-                    $.messager.alert('Information', result.message, 'info', function () {
-                        //$.messager.alert('Warning', result.message, 'warning');
-                        addContainerTable(result.objResult.SeaContainerId, $('#containerSEcontainerno').val(), $('#containerSEsealno').val(),
-                            $('#containerSEsize').val(), $('#containerSEtype').val(),
-                            $('#containerSEgrossweight').numberbox('getValue'), $('#containerSEnetweight').numberbox('getValue'), $('#containerSEcbm').numberbox('getValue'),
-                            $('#containerSEcommodity').val(), $('#containerSEnoofpieces').val(),
-                            $('#containerSEpackaging').val(), $('#containerSEpartof').val());
-
-                        $(this).data('id', '');
-
-                    });
+                if (JSON.stringify(result.Errors) != '{}') {
+                    for (var key in result.Errors) {
+                        if (key != null && key != undefined && key != 'Generic') {
+                            $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                        }
+                        else {
+                            $.messager.alert('Warning', result.Errors[key], 'warning');
+                        }
+                    }
                 }
                 else {
-                    $.messager.alert('Warning', result.message, 'warning');
+                    $.messager.alert('Information', 'Save Success..', 'info');
+                    console.log(result);
+                    addContainerTable(result.Id, $('#containerSEcontainerno').val(), $('#containerSEsealno').val(),
+                          $('#containerSEsize').val(), $('#containerSEtype').val(),
+                          $('#containerSEgrossweight').numberbox('getValue'), $('#containerSEnetweight').numberbox('getValue'), $('#containerSEcbm').numberbox('getValue'),
+                          $('#containerSEcommodity').val(), $('#containerSEnoofpieces').val(),
+                          $('#containerSEpackaging').val(), $('#containerSEpartof').val());
+                    $(this).data('id', '');
                 }
-
-
             }
         });
     });
@@ -148,25 +151,29 @@
                 $.ajax({
                     contentType: "application/json",
                     type: 'POST',
-                    url: base_url + "shipmentorder/DeleteShipmentSeaContainer",
+                    url: base_url + "SeaContainer/Delete",
                     data: JSON.stringify({
                         Id: delID.data('id')
                     }),
                     success: function (result) {
-                        if (result.isValid) {
-                            console.log(result.objResult);
-                            $.messager.alert('Information', result.message, 'info', function () {
+                        if (JSON.stringify(result.Errors) != '{}') {
+                            for (var key in result.Errors) {
+                                if (key != null && key != undefined && key != 'Generic') {
+                                    $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                    $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                }
+                                else {
+                                    $.messager.alert('Warning', result.Errors[key], 'warning');
+                                }
+                            }
+                        }
+                        else {
+                            console.log(result);
                                 delID.parent().parent().remove();
                                 // Summarize Container size
                                 summarizeContainerSize()
                                 // End Summarize Container size
-                            });
                         }
-                        else {
-                            $.messager.alert('Warning', result.message, 'warning');
-                        }
-
-
                     }
                 });
 
@@ -294,13 +301,13 @@
         else {
             var trow = $("<tr>").addClass("tableRow").addClass('ui-widget-content');
             $("<td>").addClass("tableCell").text(containerno.toUpperCase()).appendTo(trow);
-            $("<td>").addClass("tableCell").text(sealno.toUpperCase()).appendTo(trow);
+            $("<td>").addClass("tableCell").text(sealno).appendTo(trow);
             $("<td>").addClass("tableCell").text(size).appendTo(trow);
             $("<td>").addClass("tableCell").text(type).appendTo(trow);
             $("<td>").addClass("tableCell").text(Number(grossweight).toFixed(4)).appendTo(trow);
             $("<td>").addClass("tableCell").text(Number(netweight).toFixed(4)).appendTo(trow);
             $("<td>").addClass("tableCell").text(Number(cbm).toFixed(4)).appendTo(trow);
-            $("<td>").addClass("tableCell").text(commodity.toUpperCase()).appendTo(trow);
+            $("<td>").addClass("tableCell").text(commodity).appendTo(trow);
             $("<td>").addClass("tableCell").text(noofpieces).appendTo(trow);
             $("<td>").addClass("tableCell").text(packaging).appendTo(trow);
             $("<td>").addClass("tableCell").text(partof).appendTo(trow);
@@ -464,15 +471,13 @@
 
         $.ajax({
             dataType: "json",
-            url: base_url + "shipmentorder/GetShipmentOrderInfo?Id=" + shipmentId,
+            url: base_url + "shipmentorder/GetInfo?Id=" + shipmentId,
             success: function (result) {
-                if (!result.isValid)
-                    $.messager.alert('Information', result.message, 'info', function () {
-                        window.location = base_url + "shipmentorder?type=" + jobId;
-                    });
+                if (result.Id == null)
+                    $.messager.alert('Information', 'Data Not Found...!!', 'info');
                 else {
                     // Open / Close Job
-                    if (result.objJob.JobClosed) {
+                    if (result.JobClosed) {
                         $('#seaimport_form_btn_open_close_job').linkbutton({
                             iconCls: 'icon-book',
                             text: 'Open Job'
@@ -481,53 +486,25 @@
 
                     // Set Title
                     $('#seaimportdetail').panel({
-                        title: ".: Shipment Order - EMKL Sea Import - " + result.objJob.ShipmentNo + " :."
+                        title: ".: Job Order - PPJK - " + result.ShipmentOrderCode + " :."
                     });
 
-                    $("#txtSIshipmentno").val(result.objJob.ShipmentNo);
-                    jobNumber = result.objJob.JobNumber;
-                    subJobNumber = result.objJob.SubJobNo;
-                    $('#nav_searchjobnumber').val(result.objJob.JobNumber);
-                    $('#nav_searchsubjobno').val(result.objJob.SubJobNo);
-                    $("#txtSItotalsubship").val(result.objJob.TotalSub);
-                    $("#ddlSIjobowner").val(result.objJob.JobOwner);
-                    // Marketing
-                    $("#txtSIkdmarketing").val(result.objJob.MarketCode).data('kode', result.objJob.MarketCode).data("companycode", result.objJob.MarketCompany);
-                    $("#txtSInmmarketing").val(result.objJob.MarketName);
-                    // Ref. SI From Shipper
-                    $("#txtSIrefSI").val(result.objJob.SIReference);
-                    // Date SI From Shipper
-                    $("#txtSIDateSI").datebox('setValue', dateEnt(result.objJob.SIDate));
-                    // Conversion
-                    switch (result.objJob.Conversion) {
-                        case "T": $("#optSIconversionyes").attr('checked', true); break;
-                        case "F": $("#optSIconversionno").attr('checked', true); break;
-                        default: $("#optSIconversionyes").attr('checked', true); break;
-                    }
+                    $("#txtSIshipmentno").val(result.ShipmentOrderCode);
+                    jobNumber = result.JobNumber;
+                    subJobNumber = result.SubJobNo;
+                    $('#nav_searchjobnumber').val(result.JobNumber);
+                    $('#nav_searchsubjobno').val(result.SubJobNo);
+                    $("#txtSItotalsubship").val(result.TotalSub);
+
                     // Load Status
-                    switch (result.objJob.LoadStatus) {
+                    switch (result.LoadStatus) {
                         case "FCL": $("#rbSIfcl").attr('checked', true); break;
                         case "LCL": $("#rbSIlcl").attr('checked', true); break;
                         default: $("#rbSIfcl").attr('checked', true); break;
                     }
-                    // ShipmentStatus
-                    switch (result.objJob.ShipmentStatus) {
-                        case 'F': $("#optSIfreehand").attr('checked', true);
-                            $("#btnSImarketing").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
-                            break;
-                        case 'N': $("#optSInominate").attr('checked', true); break;
-                        case 'C': $("#optSIcorporate").attr('checked', true); break;
-                        default: $("#optSIfreehand").attr('checked', true); break;
-                    }
-                    // ContainerStatus
-                    switch (result.objJob.ContainerStatus) {
-                        case 'G': $("#optSIgroupage").attr('checked', true); break;
-                        case 'P': $("#optSIpartof").attr('checked', true); break;
-                        case 'N': $("#optSInone").attr('checked', true); break;
-                        default: $("#optSIgroupage").attr('checked', true); break;
-                    }
+                  
                     // JobStatus
-                    switch (result.objJob.JobStatus) {
+                    switch (result.JobStatus) {
                         case 'LCL Console': $("#optSIjobLCLConsole").attr('checked', true); break;
                         case 'LCL Co-Load': $("#optSIjobLCLCoload").attr('checked', true); break;
                         case 'LCL Submarine': $("#optSIjobLCLSubmarine").attr('checked', true); break;
@@ -535,40 +512,28 @@
                         case 'Other service': $("#optSIjobOtherservice").attr('checked', true); break;
                         default: $("#optSIjobFCL").attr('checked', true); break;
                     }
-                    // Type Of Service
-                    switch (result.objJob.ServiceNo) {
-                        case 1: $("#rbSIfcl_fcl").attr('checked', true); break;
-                        case 2: $("#rbSIfcl_lcl").attr('checked', true); break;
-                        case 3: $("#rbSIlcl_fcl").attr('checked', true); break;
-                        case 4: $("#rbSIlcl_lcl").attr('checked', true); break;
-                        case 5: $("#rbSIlcl_lcl_g").attr('checked', true); break;
-                        default: $("#rbSIfcl_fcl").attr('checked', true); break;
-                    }
+
+                   
                     // Agent
-                    $("#txtSIkdagent").val(result.objJob.AgentCode).data('kode', result.objJob.AgentId);
-                    $("#txtSInmagent").val(result.objJob.AgentName);
-                    $("#txtSIagentaddress").val(result.objJob.AgentAddress);
-                    // Transipment
-                    $("#txtSIkdtranshipment").val(result.objJob.TranshipmentCode).data('kode', result.objJob.TranshipmentId);
-                    $("#txtSInmtranshipment").val(result.objJob.TranshipmentName);
-                    $("#txtSItranshipaddress").val(result.objJob.TranshipmentAddress);
+                    $("#txtSIkdagent").val(result.AgentCode).data('kode', result.AgentId);
+                    $("#txtSInmagent").val(result.AgentName);
+                    $("#txtSIagentaddress").val(result.AgentAddress);
+                  
                     // Shipper
-                    $("#txtSInmshipper").val(result.objJob.ShipperName);
-                    $("#txtSIshipperaddress").val(result.objJob.ShipperAddress);
+                    $("#txtSIkdshipper").val(result.ShipperCode).data('kode', result.ShipperId);
+                    $("#txtSInmshipper").val(result.ShipperName);
+                    $("#txtSIshipperaddress").val(result.ShipperAddress);
                     // Consignee
-                    $("#txtSIkdconsignee").val(result.objJob.ConsigneeCode).data('kode', result.objJob.ConsigneeId);
-                    $("#txtSInmconsignee").val(result.objJob.ConsigneeName);
-                    $("#txtSIconsigneeaddress").val(result.objJob.ConsigneeAddress);
-                    // Party
-                    $("#txtSIkdnparty").val(result.objJob.NPartyCode).data('kode', result.objJob.NPartyId);
-                    $("#txtSInmnparty").val(result.objJob.NPartyName);
-                    $("#txtSInpartyaddress").val(result.objJob.NPartyAddress);
+                    $("#txtSIkdconsignee").val(result.ConsigneeCode).data('kode', result.ConsigneeId);
+                    $("#txtSInmconsignee").val(result.ConsigneeName);
+                    $("#txtSIconsigneeaddress").val(result.ConsigneeAddress);
+                  
                     // Ref. SI From Shipper
-                    $("#txtSIrefSI").val(result.objJob.SIReference);
+                    $("#txtSIrefSI").val(result.SIReference);
                     // Date SI From Shipper
-                    $("#txtSIDateSI").datebox('setValue', dateEnt(result.objJob.SIDate));
+                    $("#txtSIDateSI").datebox('setValue', dateEnt(result.SIDate));
                     // Goods Received at Origin
-                    $("#txtSIgrorigin").datebox('setValue', dateEnt(result.objJob.GoodsRecDate));
+                    $("#txtSIgrorigin").datebox('setValue', dateEnt(result.GoodsRecDate));
 
                     // Create HTML Table for Freight OBL Payable At
                     createAgentTable($("#lookup_table_freight_obl_payable"));
@@ -577,38 +542,37 @@
                     createConsigneeTable($("#lookup_table_freight_hbl_payable"));
 
                     // Freight Info - Vessel
-                    $("#txtSIetd").datebox('setValue', dateEnt(result.objJob.ETD));
-                    $("#txtSIeta").datebox('setValue', dateEnt(result.objJob.ETA));
-                    initETA = dateEnt(result.objJob.ETA);
+                    $("#txtSIetd").datebox('setValue', dateEnt(result.ETD));
+                    $("#txtSIeta").datebox('setValue', dateEnt(result.ETA));
+                    $("#txtSIta").datebox('setValue', dateEnt(result.TA));
+                    initETA = dateEnt(result.ETA);
 
-                    if (result.objJob.ShipmentRoutingList != null) {
-                        if (result.objJob.ShipmentRoutingList.length > 0) {
-                            for (var i = 1; i <= result.objJob.ShipmentRoutingList.length; i++) {
+                    if (JSON.stringify(result.ShipmentOrderRoutings) != '[]') {
+                        if (result.ShipmentOrderRoutings.length > 0) {
+                            for (var i = 1; i <= result.ShipmentOrderRoutings.length; i++) {
                                 if (i > 1) {
                                     var clonedRow = $('#tblVessel tr:eq(1)').clone();
                                     clonedRow.find('input').not('input[type="button"]').val('').data("kode", '');
                                     $('#tblVessel').append(clonedRow);
 
                                     // ReInitiate ETD as datebox
-                                    $('#tblVessel tr:last td:eq(4)').html('<input id="txtSIvesseletd" name="txtSIvesseletd" class="editable easyui-datebox" type="text" title="mm/dd/yyyy" size="8" maxlength="10" />');
-                                    $('#tblVessel tr:last td:eq(4)').find('#txtSIvesseletd').datebox();
+                                    $('#tblVessel tr:last td:eq(3)').html('<input id="txtSIvesseletd" name="txtSIvesseletd" class="editable easyui-datebox" type="text" title="mm/dd/yyyy" size="8" maxlength="10" />');
+                                    $('#tblVessel tr:last td:eq(3)').find('#txtSIvesseletd').datebox();
                                 }
 
-                                var Id = result.objJob.ShipmentRoutingList[i - 1].Id;
-                                var vesselId = result.objJob.ShipmentRoutingList[i - 1].VesselId;
-                                var vesselName = result.objJob.ShipmentRoutingList[i - 1].VesselName;
-                                var vesselType = result.objJob.ShipmentRoutingList[i - 1].VesselType;
-                                var voyage = result.objJob.ShipmentRoutingList[i - 1].Voyage;
-                                var vesselETD = result.objJob.ShipmentRoutingList[i - 1].ETD;
-                                var cityId = result.objJob.ShipmentRoutingList[i - 1].CityId;
-                                var cityInt = result.objJob.ShipmentRoutingList[i - 1].IntCity;
-                                var cityName = result.objJob.ShipmentRoutingList[i - 1].CityName;
+                                var Id = result.ShipmentOrderRoutings[i - 1].Id;
+                                var vesselId = result.ShipmentOrderRoutings[i - 1].VesselId;
+                                var vesselName = result.ShipmentOrderRoutings[i - 1].VesselName;
+                                var voyage = result.ShipmentOrderRoutings[i - 1].Voyage;
+                                var vesselETD = result.ShipmentOrderRoutings[i - 1].ETD;
+                                var cityId = result.ShipmentOrderRoutings[i - 1].CityId;
+                                var cityInt = result.ShipmentOrderRoutings[i - 1].IntCity;
+                                var cityName = result.ShipmentOrderRoutings[i - 1].CityName;
 
                                 $('#tblVessel tr:eq(' + i + ') td:eq(0)').text(i);
                                 $('#tblVessel tr:eq(' + i + ') td').find('input[name="txtSInmvessel"]').val(vesselName).data("kode", vesselId);
-                                $('#tblVessel tr:eq(' + i + ') td').find('select[name="ddlSEvesseltype"]').val(vesselType);
                                 $('#tblVessel tr:eq(' + i + ') td').find('input[name="txtSIvesselvoy"]').val(voyage);
-                                $('#tblVessel tr:eq(' + i + ') td:eq(4)').find('#txtSIvesseletd').datebox('setValue', dateEnt(vesselETD));
+                                $('#tblVessel tr:eq(' + i + ') td:eq(3)').find('#txtSIvesseletd').datebox('setValue', dateEnt(vesselETD));
                                 $('#tblVessel tr:eq(' + i + ') td').find('input[name="txtSIvesselintcity"]').val(cityInt).data("kode", cityId);
                                 $('#tblVessel tr:eq(' + i + ') td').find('input[name="txtSInmvesselcity"]').val(cityName);
                                 $('#tblVessel tr:eq(' + i + ') td').find('a[name = "savevessel"]').attr('rel', Id);
@@ -618,46 +582,51 @@
                     }
 
                     //// Feeder
-                    //$("#txtSIfeedervessel").val(result.objJob.FirstVessel);
-                    //$("#txtSIvoyfeedervessel").val(result.objJob.FirstVoyage);
-                    //$("#txtSIfeedervesseletd").datebox('setValue', dateEnt(result.objJob.FirstETD));
+                    //$("#txtSIfeedervessel").val(result.FirstVessel);
+                    //$("#txtSIvoyfeedervessel").val(result.FirstVoyage);
+                    //$("#txtSIfeedervesseletd").datebox('setValue', dateEnt(result.FirstETD));
                     //// Connecting
-                    //$("#txtSIconectvessel").val(result.objJob.ConnectingVessel);
-                    //$("#txtSIvoyconnectvessel").val(result.objJob.ConnectingVoyage);
-                    //$("#txtSIkdcityconnectvessel").val(result.objJob.ConnectingIntCity).data("kode", result.objJob.ConnectingCityCode);
-                    //$("#txtSInmcityconnectvessel").val(result.objJob.ConnectingCityName);
-                    //$("#txtSIconnectingetd").datebox('setValue', dateEnt(result.objJob.ConnectingETD));
+                    //$("#txtSIconectvessel").val(result.ConnectingVessel);
+                    //$("#txtSIvoyconnectvessel").val(result.ConnectingVoyage);
+                    //$("#txtSIkdcityconnectvessel").val(result.ConnectingIntCity).data("kode", result.ConnectingCityCode);
+                    //$("#txtSInmcityconnectvessel").val(result.ConnectingCityName);
+                    //$("#txtSIconnectingetd").datebox('setValue', dateEnt(result.ConnectingETD));
                     // Port Of Loading
-                    $("#txtSIkdportofloading").val(result.objJob.LoadingIntPort).data("kode", result.objJob.LoadingPortCode);
-                    $("#txtSInmportofloading").val(result.objJob.LoadingPortName);
+                    $("#txtSIkdportofloading").val(result.LoadingIntPort).data("kode", result.LoadingPortId);
+                    $("#txtSInmportofloading").val(result.LoadingPortName);
                     // Place Of Receipt
-                    $("#txtSIkdplaceofreceipt").val(result.objJob.ReceiptPlaceIntCity).data("kode", result.objJob.ReceiptPlaceCode);
-                    $("#txtSInmplaceofreceipt").val(result.objJob.ReceiptPlaceName);
+                    $("#txtSIkdplaceofreceipt").val(result.ReceiptPlaceIntName).data("kode", result.ReceiptPlaceId);
+                    $("#txtSInmplaceofreceipt").val(result.ReceiptPlaceName);
                     // Port Of Discharge
-                    $("#txtSIkdportofdischarge").val(result.objJob.DischargeIntPort).data("kode", result.objJob.DischargePortCode);
-                    $("#txtSInmportofdischarge").val(result.objJob.DischargePortName);
+                    $("#txtSIkdportofdischarge").val(result.DischargeIntPort).data("kode", result.DischargePortId);
+                    $("#txtSInmportofdischarge").val(result.DischargePortName);
                     // Place Of Delivery
-                    $("#txtSIkdplaceofdelivery").val(result.objJob.DeliveryPlaceIntCity).data("kode", result.objJob.DeliveryPlaceCode);
-                    $("#txtSInmplaceofdelivery").val(result.objJob.DeliveryPlaceName);
+                    $("#txtSIkdplaceofdelivery").val(result.DeliveryPlaceIntCity).data("kode", result.DeliveryPlaceId);
+                    $("#txtSInmplaceofdelivery").val(result.DeliveryPlaceName);
                     //// Mother
-                    //$("#txtSImothervessel").val(result.objJob.FeederVessel);
-                    //$("#txtSIvoymothervessel").val(result.objJob.FeederVoyage);
-                    //$("#txtSIetamothervessel").datebox('setValue', dateEnt(result.objJob.FeederETA));
-                    //initETA = dateEnt(result.objJob.FeederETA);
+                    //$("#txtSImothervessel").val(result.FeederVessel);
+                    //$("#txtSIvoymothervessel").val(result.FeederVoyage);
+                    //$("#txtSIetamothervessel").datebox('setValue', dateEnt(result.FeederETA));
+                    //initETA = dateEnt(result.FeederETA);
                     // End Freight Info - Vessel
 
                     // Freight Info - Container
-                    if (result.objJob.SeaContainerList != null) {
-                        if (result.objJob.SeaContainerList.length > 0) {
-                            for (var i = 0; i < result.objJob.SeaContainerList.length; i++) {
-                                //alert(result.objJob.SeaContainerList[0].ContainerNo);
-                                addContainerTable(result.objJob.SeaContainerList[i].SeaContainerId,
-                                    result.objJob.SeaContainerList[i].ContainerNo, result.objJob.SeaContainerList[i].SealNo,
-                                    result.objJob.SeaContainerList[i].Size.toString(),
-                                    result.objJob.SeaContainerList[i].Type.toString(), result.objJob.SeaContainerList[i].GrossWeight, result.objJob.SeaContainerList[i].NetWeight,
-                                    result.objJob.SeaContainerList[i].CBM, result.objJob.SeaContainerList[i].Commodity, result.objJob.SeaContainerList[i].NoOfPieces,
-                                    result.objJob.SeaContainerList[i].PackagingCode.toString(),
-                                    result.objJob.SeaContainerList[i].PartOf);
+                    if (JSON.stringify(result.SeaContainerList) != '[]') {
+                        if (result.SeaContainerList.length > 0) {
+                            for (var i = 0; i < result.SeaContainerList.length; i++) {
+                                //alert(result.SeaContainerList[0].ContainerNo);
+                                addContainerTable(result.SeaContainerList[i].Id,
+                                    result.SeaContainerList[i].ContainerNo,
+                                    result.SeaContainerList[i].SealNo,
+                                    result.SeaContainerList[i].Size.toString(),
+                                    result.SeaContainerList[i].Type.toString(),
+                                    result.SeaContainerList[i].GrossWeight,
+                                    result.SeaContainerList[i].NetWeight,
+                                    result.SeaContainerList[i].CBM,
+                                    result.SeaContainerList[i].Commodity,
+                                    result.SeaContainerList[i].NoOfPieces,
+                                    result.SeaContainerList[i].PackagingCode.toString(),
+                                    result.SeaContainerList[i].PartOf);
                             }
                         }
                     }
@@ -666,12 +635,12 @@
                     // End Freight Info - Container
 
                     // Freight Info - Description
-                    $("#txtSIdesc").text(result.objJob.GoodDescription);
+                    $("#txtSIdesc").text(result.GoodDescription);
                     // End Freight Info - Description
 
                     // Freight Info - Freight
                     // OBL Status
-                    switch (result.objJob.OBLStatus) {
+                    switch (result.OBLStatus) {
                         case 'P': $("#optSIoblprepaid").attr('checked', true); break;
                         case 'C':
                             $("#optSIoblcollect").attr('checked', true);
@@ -680,17 +649,17 @@
                             break;
                     }
                     // OBL Collect
-                    $("#txtSIkdoblcollect").val(result.objJob.OBLCollectIntCity).data("kode", result.objJob.OBLCollectCode);
-                    $("#txtSInmoblcollect").val(result.objJob.OBLCollectCityName);
+                    $("#txtSIkdoblcollect").val(result.OBLCollectIntCity).data("kode", result.OBLCollectCode);
+                    $("#txtSInmoblcollect").val(result.OBLCollectCityName);
                     // Save to temp data for updating Prepaid or Collect
-                    $("#btnSIoblcollect").data("tempkode", result.objJob.OBLCollectCode).data("tempcint", result.objJob.OBLCollectIntCity).data("tempcname", result.objJob.OBLCollectCityName);
+                    $("#btnSIoblcollect").data("tempkode", result.OBLCollectCode).data("tempcint", result.OBLCollectIntCity).data("tempcname", result.OBLCollectCityName);
                     // OBL Payable
-                    $("#txtSIkdoblpayable").val(result.objJob.OBLPayableCode).data("kode", result.objJob.OBLPayableId);
-                    $("#txtSInmoblpayable").val(result.objJob.OBLPayableAgentName);
+                    $("#txtSIkdoblpayable").val(result.OBLPayableCode).data("kode", result.OBLPayableId);
+                    $("#txtSInmoblpayable").val(result.OBLPayableAgentName);
                     // Save to temp data for updating Prepaid or Collect
-                    $("#btnSIoblpayable").data("tempkode", result.objJob.OBLPayableCode).data("tempaname", result.objJob.OBLPayableAgentName);
+                    $("#btnSIoblpayable").data("tempkode", result.OBLPayableCode).data("tempaname", result.OBLPayableAgentName);
                     // HBL Status
-                    switch (result.objJob.HBLStatus) {
+                    switch (result.HBLStatus) {
                         case 'P': $("#optSIhblprepaid").attr('checked', true); break;
                         case 'C':
                             $("#optSIhblcollect").attr('checked', true);
@@ -698,44 +667,24 @@
                             $("#btnSIhblpayable").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
                             break;
                     }
-                    // HBL Collect
-                    $("#txtSIkdhblcollect").val(result.objJob.HBLCollectIntCity).data("kode", result.objJob.HBLCollectCode);
-                    $("#txtSInmhblcollect").val(result.objJob.HBLCollectCityName);
-                    // Save to temp data for updating Prepaid or Collect
-                    $("#btnSIhblcollect").data("tempkode", result.objJob.HBLCollectCode).data("tempcint", result.objJob.HBLCollectIntCity).data("tempcname", result.objJob.HBLCollectCityName);
-                    // HBL Payable
-                    $("#txtSIkdhblpayable").val(result.objJob.HBLPayableCode).data("kode", result.objJob.HBLPayableId);
-                    $("#txtSInmhblpayable").val(result.objJob.HBLPayableConsigneeName);
-                    // Save to temp data for updating Prepaid or Collect
-                    $("#btnSIhblpayable").data("tempkode", result.objJob.HBLPayableCode).data("tempaname", result.objJob.HBLPayableConsigneeName);
-
-                    $('#ddlSIoblcurrency').val(result.objJob.OBLCurrency);
-                    $('#txtSIoblamount').val(result.objJob.OBLAmount);
-                    $('#ddlSIhblcurrency').val(result.objJob.HBLCurrency);
-                    $('#txtSIhblamount').val(result.objJob.HBLAmount);
-                    // End Freight Info - Freight
-
                     // Freight Info - Bill Of Lading
-                    $("#txtSIhouseblno").val(result.objJob.HouseBLNo);
-                    $("#txtSIsecondhblno").val(result.objJob.SecondBLNo);
-                    $("#txtSIwarehousename").val(result.objJob.WareHouseName);
-                    $("#txtSIkins").val(result.objJob.KINS);
-                    $("#txtSIcargofreightcompany").val(result.objJob.CFName);
-                    $("#txtSIoceanmstblnr").val(result.objJob.OceanMSTBLNo);
-                    $("#txtSIvolumebl").val(result.objJob.VolumeBL);
-                    $("#txtSIvolumeinvoice").val(result.objJob.VolumeInvoice);
+                    $("#txtSIhouseblno").val(result.HouseBLNo);
+                    $("#txtSIsecondhblno").val(result.SecondBLNo);
+                    $("#txtSIwarehousename").val(result.WareHouseName);
+                    $("#txtSIkins").val(result.KINS);
+                    $("#txtSIcargofreightcompany").val(result.CFName);
+                    $("#txtSIoceanmstblnr").val(result.JobOrderPTP);
+                    $("#txtSIvolumebl").val(result.JobOrderCustomer);
+                    $("#txtSIvolumeinvoice").val(result.InvoiceNo);
                     // SSLine
-                    $("#txtSIkdssline").val(result.objJob.SSLineCode).data('kode', result.objJob.SSLineId);
-                    $("#txtSInmssline").val(result.objJob.SSLineName);
+                    $("#txtSIkdssline").val(result.SSLineCode).data('kode', result.SSLineId);
+                    $("#txtSInmssline").val(result.SSLineName);
                     // EMKL
-                    $("#txtSIkdemkl").val(result.objJob.EMKLCode).data('kode', result.objJob.EMKLId);
-                    $("#txtSInmemkl").val(result.objJob.EMKLName);
+                    $("#txtSIkdemkl").val(result.EMKLCode).data('kode', result.EMKLId);
+                    $("#txtSInmemkl").val(result.EMKLName);
                     // Depo
-                    $("#txtSIkddepo").val(result.objJob.DepoCode).data('kode', result.objJob.DepoId);
-                    $("#txtSInmdepo").val(result.objJob.DepoName);
-                    // END Freight Info - Bill Of Lading
-
-                    // Enable Form
+                    $("#txtSIkddepo").val(result.DepoCode).data('kode', result.DepoId);
+                    $("#txtSInmdepo").val(result.DepoName);
                     EnableseaimportForm();
                 }
             }
@@ -781,25 +730,14 @@
         $("#btnSIagent").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
         $("#txtSInmagent").removeAttr("disabled");
         $("#txtSIagentaddress").removeAttr("disabled");
-        // Delivery
-        $("#btnSIdelivery").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
-        $("#txtSInmdelivery").removeAttr("disabled");
-        $("#txtSIdeliveryaddress").removeAttr("disabled");
-        // Transipment
-        $("#btnSItranshipment").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
-        $("#txtSInmtranshipment").removeAttr("disabled");
-        $("#txtSItranshipaddress").removeAttr("disabled");
         // Shipper
+        $("#btnSIshipper").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
         $("#txtSInmshipper").removeAttr("disabled");
         $("#txtSIshipperaddress").removeAttr("disabled");
         // Consignee
         $("#btnSIconsignee").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
         $("#txtSInmconsignee").removeAttr("disabled");
         $("#txtSIconsigneeaddress").removeAttr("disabled");
-        // Party
-        $("#btnSInparty").removeAttr("disabled").addClass('ui-state-default').removeClass('ui-state-disabled');
-        $("#txtSInmnparty").removeAttr("disabled");
-        $("#txtSInpartyaddress").removeAttr("disabled");
 
         // Freight Info - Vessel
         // Place of Receipt
@@ -1018,73 +956,27 @@
     // Shipment Order - Agent, Delivery, Tranship
     // Browse Agent
     $('#btnSIagent').click(function () {
-        if ($("#ddlSIjobowner").val() == "0") {
-            $.messager.alert('Information', "Please Choose The Owner Of This Job First...!!", 'info');
-            return;
-        }
         vlookupSOagent = 'agent'
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_agent');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsAgent', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'MstContact/GetLookUpAgent', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_agent').dialog('open');
     });
-    // Browse Delivery
-    $('#btnSIdelivery').click(function () {
-        if ($("#ddlSIjobowner").val() == "0") {
-            $.messager.alert('Information', "Please Choose The Owner Of This Job First...!!", 'info');
-            return;
-        }
-        vlookupSOagent = 'delivery'
-        // Clear Search string jqGrid
-        $('input[id*="gs_"]').val("");
-        var lookupGrid = $('#lookup_table_so_agent');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsAgent', postData: { filters: null }, search: false }).trigger("reloadGrid");
-        $('#lookup_div_so_agent').dialog('open');
-    });
-    // Browse Tranship
-    $('#btnSItranshipment').click(function () {
-        if ($("#ddlSIjobowner").val() == "0") {
-            $.messager.alert('Information', "Please Choose The Owner Of This Job First...!!", 'info');
-            return;
-        }
-        vlookupSOagent = 'transhipment'
-        // Clear Search string jqGrid
-        $('input[id*="gs_"]').val("");
-        var lookupGrid = $('#lookup_table_so_agent');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsAgent', postData: { filters: null }, search: false }).trigger("reloadGrid");
-        $('#lookup_div_so_agent').dialog('open');
-    });
+   
     // Cancel or Close
     $('#lookup_btn_cancel_so_agent').click(function () {
         $('#lookup_div_so_agent').dialog('close');
     });
+
     // ADD or Select Data
     $('#lookup_btn_add_so_agent').click(function () {
         var id = jQuery("#lookup_table_so_agent").jqGrid('getGridParam', 'selrow');
         if (id) {
             var ret = jQuery("#lookup_table_so_agent").jqGrid('getRowData', id);
-            switch (vlookupSOagent) {
-                case "agent":
-                    $('#txtSIkdagent').val(ret.code).data("kode", id);
-                    $('#txtSInmagent').val(ret.name);
-                    $('#txtSIagentaddress').val(ret.address);
-                    // transhipment
-                    $('#txtSIkdtranshipment').val(ret.code).data("kode", id);
-                    $('#txtSInmtranshipment').val(ret.name);
-                    $('#txtSItranshipaddress').val(ret.address);
-
-                    createAgentTable($("#lookup_table_freight_obl_payable"));
-                    break;
-                case "transhipment":
-                    $('#txtSIkdtranshipment').val(ret.code).data("kode", id);
-                    $('#txtSInmtranshipment').val(ret.name);
-                    $('#txtSItranshipaddress').val(ret.address);
-
-                    createAgentTable($("#lookup_table_freight_obl_payable"));
-                    break;
-            }
-
+                    $('#txtSIkdagent').val(ret.MasterCode).data("kode", id);
+                    $('#txtSInmagent').val(ret.ContactName);
+                    $('#txtSIagentaddress').val(ret.ContactAddress);
 
             var mydata = [
                     { "id": ret.code, "cell": [ret.code, ret.name] }
@@ -1099,23 +991,23 @@
     });
 
     jQuery("#lookup_table_so_agent").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         postData: { 'jobowner': function () { return $("#ddlSIjobowner").val(); } },
         //loadonce:true,
         colNames: ['Code', 'Name', '', '', '', 'City'],
-        colModel: [{ name: 'code', index: 'contactcode', width: 80, align: "center" },
-                  { name: 'name', index: 'contactname', width: 200 },
-                  { name: 'address', index: 'a.address', hidden: true },
-                  { name: 'citycode', index: 'a.citycode', hidden: true },
+        colModel: [{ name: 'MasterCode', index: 'MasterCode', width: 80, align: "center" },
+                  { name: 'ContactName', index: 'ContactName', width: 200 },
+                  { name: 'ContactAddress', index: 'ContactAddress', hidden: true },
+                  { name: 'citycode', index: 'citycode', hidden: true },
                   { name: 'intcity', index: 'intcity', hidden: true },
                   { name: 'cityname', index: 'cityname' }],
         pager: jQuery('#lookup_pager_so_agent'),
         rowNum: 50,
         scrollrows: true,
         viewrecords: true,
-        sortname: "contactcode",
+        sortname: "MasterCode",
         sortorder: "asc",
         width: 460,
         height: 350
@@ -1124,6 +1016,68 @@
            .jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false });
     // End Shipment Order - Agent, Delivery, Tranship
 
+    // Browse Shipper
+    $('#btnSIshipper').click(function () {
+        // Clear Search string jqGrid
+        $('input[id*="gs_"]').val("");
+        var lookupGrid = $('#lookup_table_so_shipper');
+        lookupGrid.setGridParam({ url: base_url + 'MstContact/GetLookUpShipper', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        $('#lookup_div_so_shipper').dialog('open');
+    });
+
+    // Cancel or Close
+    $('#lookup_btn_cancel_so_shipper').click(function () {
+        $('#lookup_div_so_shipper').dialog('close');
+    });
+
+    // ADD or Select Data
+    $('#lookup_btn_add_so_shipper').click(function () {
+        var id = jQuery("#lookup_table_so_shipper").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#lookup_table_so_shipper").jqGrid('getRowData', id);
+            $('#txtSIkdshipper').val(ret.MasterCode).data("kode", id);
+            $('#txtSInmshipper').val(ret.ContactName);
+            $('#txtSIshipperaddress').val(ret.ContactAddress);
+
+            var mydata = [
+                    { "id": ret.code, "cell": [ret.code, ret.name] }
+            ];
+
+            $("#grid").setGridParam({ data: mydata }).trigger("reloadGrid");
+
+            $('#lookup_div_so_shipper').dialog('close');
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        };
+    });
+
+    jQuery("#lookup_table_so_shipper").jqGrid({
+        url: base_url,
+        datatype: "json",
+        mtype: 'GET',
+        postData: { 'jobowner': function () { return $("#ddlSIjobowner").val(); } },
+        //loadonce:true,
+        colNames: ['Code', 'Name', '', '', '', 'City'],
+        colModel: [{ name: 'MasterCode', index: 'MasterCode', width: 80, align: "center" },
+                  { name: 'ContactName', index: 'ContactName', width: 200 },
+                  { name: 'ContactAddress', index: 'ContactAddress', hidden: true },
+                  { name: 'citycode', index: 'citycode', hidden: true },
+                  { name: 'intcity', index: 'intcity', hidden: true },
+                  { name: 'cityname', index: 'cityname' }],
+        pager: jQuery('#lookup_pager_so_shipper'),
+        rowNum: 50,
+        scrollrows: true,
+        viewrecords: true,
+        sortname: "MasterCode",
+        sortorder: "asc",
+        width: 460,
+        height: 350
+    });
+    $("#lookup_table_so_shipper").jqGrid('navGrid', '#toolbar_lookup_table_so_shipper', { del: false, add: false, edit: false, search: false })
+           .jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false });
+    // End Shipment Order - Shipper, Delivery, Tranship
+
+
     // ------------------------------------------------------------------ Shipment Order - Consignee, NParty
     // Browse Consignee
     $('#btnSIconsignee').click(function () {
@@ -1131,7 +1085,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_consignee');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsConsignee', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'MstContact/GetLookUpConsignee', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_consignee').dialog('open');
     });
     // Browse NParty
@@ -1140,7 +1094,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_consignee');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsConsignee', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'MstContact/LookUpContactAsConsignee', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_consignee').dialog('open');
     });
     // Cancel Or Close
@@ -1154,9 +1108,9 @@
             var ret = jQuery("#lookup_table_so_consignee").jqGrid('getRowData', id);
             switch (vlookupSOconsignee) {
                 case "consignee":
-                    $('#txtSIkdconsignee').val(ret.code).data("kode", id);
-                    $('#txtSInmconsignee').val(ret.name);
-                    $('#txtSIconsigneeaddress').val(ret.address);
+                    $('#txtSIkdconsignee').val(ret.MasterCode).data("kode", id);
+                    $('#txtSInmconsignee').val(ret.ContactName);
+                    $('#txtSIconsigneeaddress').val(ret.ContactAddress);
 
                     $('#txtSIkdnparty').val(ret.code).data("kode", id);
                     $('#txtSInmnparty').val(ret.name);
@@ -1179,23 +1133,22 @@
     });
 
     jQuery("#lookup_table_so_consignee").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
-        colNames: ['Code', '', 'Name', '', '', '', 'City'],
-        colModel: [{ name: 'code', index: 'contactcode', width: 80, align: "center" },
-                  { name: 'companystatus', index: 'companystatus', width: 200, hidden: true },
-                  { name: 'name', index: 'contactname', width: 200 },
-                  { name: 'address', index: 'a.address', hidden: true },
-                  { name: 'citycode', index: 'a.citycode', hidden: true },
+        colNames: ['Code', 'Name', '', '', '', 'City'],
+        colModel: [{ name: 'MasterCode', index: 'MasterCode', width: 80, align: "center" },
+                  { name: 'ContactName', index: 'ContactName', width: 200 },
+                  { name: 'ContactAddress', index: 'ContactAddress', hidden: true },
+                  { name: 'citycode', index: 'citycode', hidden: true },
                   { name: 'intcity', index: 'intcity', hidden: true },
                   { name: 'cityname', index: 'cityname' }],
         pager: jQuery('#lookup_pager_so_consignee'),
         rowNum: 50,
         scrollrows: true,
         viewrecords: true,
-        sortname: "contactcode",
+        sortname: "MasterCode",
         sortorder: "asc",
         width: 460,
         height: 350
@@ -1232,7 +1185,7 @@
     });
 
     jQuery("#lookup_table_so_marketing").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
@@ -1262,7 +1215,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_city');
-        lookupGrid.setGridParam({ url: base_url + 'City/LookUpCities', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'CityLocation/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_city').dialog('open');
     });
 
@@ -1272,7 +1225,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_city');
-        lookupGrid.setGridParam({ url: base_url + 'City/LookUpCities', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'CityLocation/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_city').dialog('open');
     });
 
@@ -1283,7 +1236,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_city');
-        lookupGrid.setGridParam({ url: base_url + 'City/LookUpCities', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'CityLocation/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_city').dialog('open');
     });
 
@@ -1293,7 +1246,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_city');
-        lookupGrid.setGridParam({ url: base_url + 'City/LookUpCities', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'CityLocation/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_city').dialog('open');
     });
 
@@ -1303,7 +1256,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_city');
-        lookupGrid.setGridParam({ url: base_url + 'City/LookUpCities', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'CityLocation/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_city').dialog('open');
     });
     // Cancel or Close
@@ -1364,19 +1317,20 @@
     });
 
     jQuery("#lookup_table_so_city").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
         colNames: ['Code', 'Name', 'Int'],
-        colModel: [{ name: 'code', index: 'citycode', width: 100, align: "center" },
-                  { name: 'name', index: 'cityname', width: 320 },
-                  { name: 'int', index: 'intcity' }],
+        colModel: [{ name: 'code', index: 'MasterCode', width: 100, align: "center" },
+                  { name: 'name', index: 'Name', width: 320 },
+                  { name: 'int', index: 'Abbrevation' }],
         pager: jQuery('#lookup_pager_so_city'),
         rowNum: 20,
         viewrecords: true,
         gridview: true,
         scroll: 1,
+        sortname: "MasterCode",
         sortorder: "asc",
         width: 460,
         height: 350
@@ -1392,7 +1346,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_port');
-        lookupGrid.setGridParam({ url: base_url + 'Port/LookUpPorts', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'Port/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_port').dialog('open');
     });
     // Browse PortOfLoading
@@ -1401,7 +1355,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_port');
-        lookupGrid.setGridParam({ url: base_url + 'Port/LookUpPorts', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'Port/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_port').dialog('open');
     });
     // Cancel or Close
@@ -1436,16 +1390,16 @@
     });
 
     jQuery("#lookup_table_so_port").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
         colNames: ['Code', 'Name', 'Int', 'CityName', 'IntCity', 'CountryName', 'IntCountry', 'CityCode'],
-        colModel: [{ name: 'code', index: 'portcode', width: 100, align: "center" },
-                  { name: 'name', index: 'portname', width: 320 },
-                  { name: 'int', index: 'intport', hidden: true },
-                  { name: 'cityname', index: 'a.cityname', hidden: true },
-                  { name: 'intcity', index: 'a.intcity', hidden: true },
+        colModel: [{ name: 'code', index: 'MasterCode', width: 100, align: "center" },
+                  { name: 'name', index: 'Name', width: 320 },
+                  { name: 'int', index: 'Abbrevation', hidden: true },
+                  { name: 'cityname', index: 'CityName', hidden: true },
+                  { name: 'intcity', index: 'CityAbbrevation', hidden: true },
                   { name: 'countryname', index: 'a.countryname', hidden: true },
                   { name: 'intcountry', index: 'a.intcountry', hidden: true },
                   { name: 'citycode', index: 'a.citycode', hidden: true }
@@ -1455,6 +1409,7 @@
         viewrecords: true,
         gridview: true,
         scroll: 1,
+        sortname: "MasterCode",
         sortorder: "asc",
         width: 460,
         height: 350
@@ -1469,7 +1424,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_ssline');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsSSline', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'MstContact/GetLookUpSSLine', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_ssline').dialog('open');
     });
     // Cancel or Close
@@ -1491,15 +1446,15 @@
     });
 
     jQuery("#lookup_table_so_ssline").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
         colNames: ['Code', 'Name', '', '', '', 'City'],
-        colModel: [{ name: 'code', index: 'contactcode', width: 80, align: "center" },
+        colModel: [{ name: 'code', index: 'MasterCode', width: 80, align: "center" },
                   { name: 'name', index: 'contactname', width: 200 },
-                  { name: 'address', index: 'address', hidden: true },
-                  { name: 'citycode', index: 'a.citycode', hidden: true },
+                  { name: 'address', index: 'contactaddress', hidden: true },
+                  { name: 'citycode', index: 'citycode', hidden: true },
                   { name: 'intcity', index: 'intcity', hidden: true },
                   { name: 'cityname', index: 'cityname' }],
         pager: jQuery('#lookup_pager_so_ssline'),
@@ -1508,7 +1463,7 @@
         gridview: true,
         scroll: 1,
         sortorder: "asc",
-        sortname: "contactcode",
+        sortname: "MasterCode",
         width: 460,
         height: 350
     });
@@ -1522,7 +1477,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_depo');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsDepo', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'MstContact/GetLookUpDepo', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_depo').dialog('open');
     });
 
@@ -1546,15 +1501,15 @@
     });
 
     jQuery("#lookup_table_so_depo").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
         colNames: ['Code', 'Name', '', '', '', 'City'],
-        colModel: [{ name: 'code', index: 'contactcode', width: 80, align: "center" },
-                  { name: 'name', index: 'contactname', width: 200 },
-                  { name: 'address', index: 'address', hidden: true },
-                  { name: 'citycode', index: 'a.citycode', hidden: true },
+        colModel: [{ name: 'code', index: 'MasterCode', width: 80, align: "center" },
+                  { name: 'name', index: 'ContactName', width: 200 },
+                  { name: 'address', index: 'ContactAddress', hidden: true },
+                  { name: 'citycode', index: 'citycode', hidden: true },
                   { name: 'intcity', index: 'intcity', hidden: true },
                   { name: 'cityname', index: 'cityname' }],
         pager: jQuery('#lookup_pager_so_depo'),
@@ -1563,7 +1518,7 @@
         gridview: true,
         scroll: 1,
         sortorder: "asc",
-        sortname: "contactcode",
+        sortname: "MasterCode",
         width: 460,
         height: 350
     });
@@ -1577,7 +1532,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_emkl');
-        lookupGrid.setGridParam({ url: base_url + 'Contact/LookUpContactAsEMKL', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'MstContact/GetLookUpEMKL', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_emkl').dialog('open');
     });
 
@@ -1601,12 +1556,12 @@
     });
 
     jQuery("#lookup_table_so_emkl").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
         colNames: ['Code', 'Name', '', '', '', 'City'],
-        colModel: [{ name: 'code', index: 'contactcode', width: 80, align: "center" },
+        colModel: [{ name: 'code', index: 'MasterCode', width: 80, align: "center" },
                   { name: 'name', index: 'contactname', width: 200 },
                   { name: 'address', index: 'address', hidden: true },
                   { name: 'citycode', index: 'a.citycode', hidden: true },
@@ -1618,7 +1573,7 @@
         gridview: true,
         scroll: 1,
         sortorder: "asc",
-        sortname: "contactcode",
+        sortname: "MasterCode",
         width: 460,
         height: 350
     });
@@ -1656,7 +1611,7 @@
     });
 
     jQuery("#lookup_table_bl_blform").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
@@ -1740,13 +1695,13 @@
         $("<td>").addClass("tableCell").text($("#txtSInmagent").val()).appendTo(trow);
         trow.appendTo(tbody);
 
-        if ($("#txtSIkdagent").val().trim() != $("#txtSIkdtranshipment").val().trim()) {
-            trow = $("<tr>").addClass("tableRow");
-            $("<td>").addClass("tableCell").text($("#txtSIkdtranshipment").data('kode')).appendTo(trow);
-            $("<td>").addClass("tableCell").text($("#txtSIkdtranshipment").val()).appendTo(trow);
-            $("<td>").addClass("tableCell").text($("#txtSInmtranshipment").val()).appendTo(trow);
-            trow.appendTo(tbody);
-        }
+        //if ($("#txtSIkdagent").val().trim() != $("#txtSIkdtranshipment").val().trim()) {
+        //    trow = $("<tr>").addClass("tableRow");
+        //    $("<td>").addClass("tableCell").text($("#txtSIkdtranshipment").data('kode')).appendTo(trow);
+        //    $("<td>").addClass("tableCell").text($("#txtSIkdtranshipment").val()).appendTo(trow);
+        //    $("<td>").addClass("tableCell").text($("#txtSInmtranshipment").val()).appendTo(trow);
+        //    trow.appendTo(tbody);
+        //}
     }
     // End Shipment Order - Freight OBL Payable At
 
@@ -1796,13 +1751,13 @@
         $("<td>").addClass("tableCell").text($("#txtSInmconsignee").val()).appendTo(trow);
         trow.appendTo(tbody);
 
-        if ($("#txtSIkdconsignee").val().trim() != $("#txtSIkdnparty").val().trim()) {
-            trow = $("<tr>").addClass("tableRow");
-            $("<td>").addClass("tableCell").text($("#txtSIkdnparty").data('kode')).appendTo(trow);
-            $("<td>").addClass("tableCell").text($("#txtSIkdnparty").val()).appendTo(trow);
-            $("<td>").addClass("tableCell").text($("#txtSInmnparty").val()).appendTo(trow);
-            trow.appendTo(tbody);
-        }
+        //if ($("#txtSIkdconsignee").val().trim() != $("#txtSIkdnparty").val().trim()) {
+        //    trow = $("<tr>").addClass("tableRow");
+        //    $("<td>").addClass("tableCell").text($("#txtSIkdnparty").data('kode')).appendTo(trow);
+        //    $("<td>").addClass("tableCell").text($("#txtSIkdnparty").val()).appendTo(trow);
+        //    $("<td>").addClass("tableCell").text($("#txtSInmnparty").val()).appendTo(trow);
+        //    trow.appendTo(tbody);
+        //}
 
     }
     // End Shipment Order - Freight Payable At, Shipping Instruction - Freight OBL Collect At
@@ -1860,7 +1815,7 @@
     });
 
     jQuery("#lookup_table_so_container").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         postData: { jobNumber: jobNumber, subJobNumber: 0 },
@@ -1898,7 +1853,7 @@
         // Clear Search string jqGrid
         $('input[id*="gs_"]').val("");
         var lookupGrid = $('#lookup_table_so_vessel');
-        lookupGrid.setGridParam({ url: base_url + 'Vessel/LookUpVessel', postData: { filters: null }, search: false }).trigger("reloadGrid");
+        lookupGrid.setGridParam({ url: base_url + 'Vessel/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
         $('#lookup_div_so_vessel').dialog('open');
     });
 
@@ -1932,20 +1887,30 @@
     // Save Add New
     $('#mst_vessel_form_btn_save').click(function () {
         $.ajax({
-            url: base_url + "vessel/InsertMstVessel",
+            url: base_url + "Vessel/Insert",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-                VesselName: $('#txtmstvesselname').val(),
-                IntVessel: $('#txtmstintvessel').val()
+                Name: $('#txtmstvesselname').val(),
+                Abbrevation: $('#txtmstintvessel').val()
             }),
             success: function (result) {
-                $.messager.alert('Result', result, 'info', function () {
+                if (JSON.stringify(result.Errors) != '{}') {
+                    for (var key in result.Errors) {
+                        if (key != null && key != undefined && key != 'Generic') {
+                            $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                        }
+                        else {
+                            $.messager.alert('Warning', result.Errors[key], 'warning');
+                        }
+                    }
+                }
+                else {
                     $('#mst_vessel_form_div').dialog('close');
-                });
-
-                var lookupGrid = $('#lookup_table_so_vessel');
-                lookupGrid.setGridParam({ url: base_url + 'Vessel/LookUpVessel', postData: { filters: null }, search: false }).trigger("reloadGrid");
+                    var lookupGrid = $('#lookup_table_so_vessel');
+                    lookupGrid.setGridParam({ url: base_url + 'Vessel/GetLookUp', postData: { filters: null }, search: false }).trigger("reloadGrid");
+                }
             }
         });
     });
@@ -1956,19 +1921,20 @@
     });
 
     jQuery("#lookup_table_so_vessel").jqGrid({
-        url: base_url + 'index.html',
+        url: base_url,
         datatype: "json",
         mtype: 'GET',
         //loadonce:true,
         colNames: ['Code', 'VesselName', 'Int'],
-        colModel: [{ name: 'code', index: 'vesselid', width: 40, align: "center", hidden: true },
-                  { name: 'name', index: 'vesselname' },
-                  { name: 'intcode', index: 'intvessel', width: 40, hidden: true }],
+        colModel: [{ name: 'code', index: 'MasterCode', width: 40, align: "center", hidden: true },
+                  { name: 'name', index: 'Name' },
+                  { name: 'intcode', index: 'Abbrevation', width: 40, hidden: true }],
         pager: jQuery('#lookup_pager_so_airline'),
         rowNum: 20,
         viewrecords: true,
         gridview: true,
         scroll: 1,
+        sortname : "MasterCode",
         sortorder: "asc",
         width: 460,
         height: 350
@@ -1984,7 +1950,6 @@
         var rowIndex = $(this).closest('td').parent()[0].sectionRowIndex;
         var vesselId = $('#tblVessel tr:eq(' + rowIndex + ')').find('input[name="txtSInmvessel"]').data("kode");
         var vesselName = $('#tblVessel tr:eq(' + rowIndex + ')').find('input[name="txtSInmvessel"]').val();
-        var vesselType = $('#tblVessel tr:eq(' + rowIndex + ')').find('select[name="ddlSEvesseltype"]').val();
         var vesselETD = $('#tblVessel tr:eq(' + rowIndex + ')').find('input[name="txtSIvesseletd"]').val();
         var voyage = $('#tblVessel tr:eq(' + rowIndex + ')').find('input[name="txtSIvesselvoy"]').val();
         var cityId = $('#tblVessel tr:eq(' + rowIndex + ')').find('input[name="txtSIvesselintcity"]').data("kode");
@@ -1993,20 +1958,26 @@
         $.ajax({
             contentType: "application/json",
             type: 'POST',
-            url: base_url + "shipmentorder/InsertUpdateShipmentRouting",
+            url: base_url + "ShipmentOrderRouting/InsertUpdate",
             data: JSON.stringify({
-                ShipmentId: shipmentId, Id: $(this).attr('rel'), VesselId: vesselId, VesselName: vesselName, VesselType: vesselType,
+                ShipmentOrderId: shipmentId, Id: $(this).attr('rel'), VesselId: vesselId, VesselName: vesselName,
                 ETD: vesselETD, Voyage: voyage, CityId: cityId
             }),
             success: function (result) {
-                if (result.isValid) {
-                    $.messager.alert('Information', result.message, 'info', function () {
-                        objSaveButton.attr('rel', result.objResult.Id);
-                        //$(this).attr('rel', result.objResult.Id);
-                    });
+                if (JSON.stringify(result.Errors) != '{}') {
+                    for (var key in result.Errors) {
+                        if (key != null && key != undefined && key != 'Generic') {
+                            $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                        }
+                        else {
+                            $.messager.alert('Warning', result.Errors[key], 'warning');
+                        }
+                    }
                 }
                 else {
-                    $.messager.alert('Warning', result.message, 'warning');
+                    $.messager.alert('Information', 'Save Success..', 'info');
+                    objSaveButton.attr('rel', result.Id);
                 }
             }
         });
@@ -2034,26 +2005,33 @@
                     $.ajax({
                         contentType: "application/json",
                         type: 'POST',
-                        url: base_url + "shipmentorder/deleteShipmentRouting",
+                        url: base_url + "ShipmentOrderRouting/Delete",
                         data: JSON.stringify({
                             Id: delID
                         }),
                         success: function (result) {
-                            if (result.isValid) {
-                                $.messager.alert('Information', result.message, 'info', function () {
-                                    $('#tblVessel tr:eq(' + rowIndex + ')').remove();
-                                    // Reset Number
-                                    var i = 1;
-                                    $('#tblVessel tr').each(function () {
-                                        if (i > 1) {
-                                            $(this).find('td:eq(0)').html(i - 1);
-                                        }
-                                        i++;
-                                    });
-                                });
+                            if (JSON.stringify(result.Errors) != '{}') {
+                                for (var key in result.Errors) {
+                                    if (key != null && key != undefined && key != 'Generic') {
+                                        $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                        $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                    }
+                                    else {
+                                        $.messager.alert('Warning', result.Errors[key], 'warning');
+                                    }
+                                }
                             }
                             else {
-                                $.messager.alert('Warning', result.message, 'warning');
+                                $.messager.alert('Information', 'Delete Success..', 'info');
+                                $('#tblVessel tr:eq(' + rowIndex + ')').remove();
+                                // Reset Number
+                                var i = 1;
+                                $('#tblVessel tr').each(function () {
+                                    if (i > 1) {
+                                        $(this).find('td:eq(0)').html(i - 1);
+                                    }
+                                    i++;
+                                });
                             }
                         }
                     });
@@ -2071,8 +2049,8 @@
         $('#tblVessel tr:last td:eq(0)').html($('#tblVessel tr').length - 1);
 
         // ReInitiate ETD as datebox
-        $('#tblVessel tr:last td:eq(4)').html('<input id="txtSIvesseletd" name="txtSIvesseletd" class="editable easyui-datebox" type="text" title="mm/dd/yyyy" size="8" maxlength="10" />');
-        $('#tblVessel tr:last td:eq(4)').find('#txtSIvesseletd').datebox();
+        $('#tblVessel tr:last td:eq(3)').html('<input id="txtSIvesseletd" name="txtSIvesseletd" class="editable easyui-datebox" type="text" title="mm/dd/yyyy" size="8" maxlength="10" />');
+        $('#tblVessel tr:last td:eq(3)').find('#txtSIvesseletd').datebox();
 
         // Reset ID
         $('#tblVessel tr:last td').find('a[name = "savevessel"]').attr('rel', '');
@@ -2101,10 +2079,7 @@
             result.message = 'Invalid Agent Code or Name...';
             result.isValid = false;
         }
-        if ($('#txtSIkdtranshipment').val().trim().length == 0 || $('#txtSInmtranshipment').val().trim().length == 0) {
-            result.message = 'Invalid Transhipment Code or Name...';
-            result.isValid = false;
-        }
+
         if ($('#txtSInmconsignee').val().trim().length == 0 || $('#txtSIkdconsignee').val().trim().length == 0) {
             result.message = 'Invalid Consignee Code or Name...';
             result.isValid = false;
@@ -2237,49 +2212,61 @@
             $.ajax({
                 contentType: "application/json",
                 type: 'POST',
-                url: base_url + "shipmentorder/Update",
+                url: base_url + "ShipmentOrder/Update",
                 data: JSON.stringify({
                     Id: shipmentId,
-                    JobNumber: jobNumber, SubJobNo: subJobNumber, JobOwner: $('#ddlSIjobowner').val(),
-                    MarketCode: $('#txtSIkdmarketing').data("kode"), MarketCompany: $('#txtSIkdmarketing').data("companycode"), MarketName: $('#txtSInmmarketing').val(),
-                    LoadStatus: loadStatus, ShipmentStatus: shipmentStatus, JobStatus: jobStatus,
+                    JobNumber: jobNumber,
+                    SubJobNo: subJobNumber,
+                    LoadStatus: loadStatus,
+                    ShipmentStatus: shipmentStatus,
+                    JobStatus: jobStatus,
                     SIReference: $('#txtSIrefSI').val(), SIDate: $('#txtSIDateSI').datebox('getValue'),
                     // Agent, Delivery etc
-                    AgentCode: $('#txtSIkdagent').data('kode'), AgentName: $('#txtSInmagent').val(), AgentAddress: $('#txtSIagentaddress').val(),
-                    TranshipmentCode: $('#txtSIkdtranshipment').data('kode'), TranshipmentName: $('#txtSInmtranshipment').val(), TranshipmentAddress: $('#txtSItranshipaddress').val(),
-                    ShipperName: $('#txtSInmshipper').val(), ShipperAddress: $('#txtSIshipperaddress').val(),
-                    ConsigneeCode: $('#txtSIkdconsignee').data('kode'), ConsigneeName: $('#txtSInmconsignee').val(), ConsigneeAddress: $('#txtSIconsigneeaddress').val(),
-                    NPartyCode: $('#txtSIkdnparty').data('kode'), NPartyName: $('#txtSInmnparty').val(), NPartyAddress: $('#txtSInpartyaddress').val(),
+                    AgentId: $('#txtSIkdagent').data('kode'), AgentName: $('#txtSInmagent').val(), AgentAddress: $('#txtSIagentaddress').val(),
+                    ShipperId: $('#txtSIkdshipper').data('kode'), ShipperName: $('#txtSInmshipper').val(), ShipperAddress: $('#txtSIshipperaddress').val(),
+                    ConsigneeId: $('#txtSIkdconsignee').data('kode'), ConsigneeName: $('#txtSInmconsignee').val(), ConsigneeAddress: $('#txtSIconsigneeaddress').val(),
                     // Vessel
-                    LoadingPortCode: $('#txtSIkdportofloading').data("kode"), LoadingPortName: $('#txtSInmportofloading').val(),
-                    ReceiptPlaceCode: $('#txtSIkdplaceofreceipt').data("kode"), ReceiptPlaceName: $('#txtSInmplaceofreceipt').val(),
-                    DischargePortCode: $('#txtSIkdportofdischarge').data("kode"), DischargePortName: $('#txtSInmportofdischarge').val(),
-                    DeliveryPlaceCode: $('#txtSIkdplaceofdelivery').data("kode"), DeliveryPlaceName: $('#txtSInmplaceofdelivery').val(),
-                    ETD: $("#txtSIetd").datebox('getValue'), ETA: $("#txtSIeta").datebox('getValue'),
-                    // Freight
-                    HBLStatus: HBLStatus, HBLCollectCode: $("#txtSIkdhblcollect").data("kode"), HBLPayableCode: $("#txtSIkdhblpayable").data("kode"),
-                    HBLCurrency: $('#ddlSIhblcurrency').val(), HBLAmount: $('#txtSIhblamount').val(),
-                    // Container
-                    SeaContainerList: seaContainer,
+                    LoadingPortId: $('#txtSIkdportofloading').data("kode"), LoadingPortName: $('#txtSInmportofloading').val(),
+                    ReceiptPlaceId: $('#txtSIkdplaceofreceipt').data("kode"), ReceiptPlaceName: $('#txtSInmplaceofreceipt').val(),
+                    DischargePortId: $('#txtSIkdportofdischarge').data("kode"), DischargePortName: $('#txtSInmportofdischarge').val(),
+                    DeliveryPlaceId: $('#txtSIkdplaceofdelivery').data("kode"), DeliveryPlaceName: $('#txtSInmplaceofdelivery').val(),
+                    ETD: $("#txtSIetd").datebox('getValue'),
+                    ETA: $("#txtSIeta").datebox('getValue'),
+                    TA: $("#txtSIta").datebox('getValue'),
                     // Description
                     GoodDescription: $("#txtSIdesc").val(),
                     HouseBLNo: $('#txtSIhouseblno').val(), SecondBLNo: $('#txtSIsecondhblno').val(),
-                    OceanMSTBLNo: $('#txtSIoceanmstblnr').val(), VolumeBL: $('#txtSIvolumebl').val(), Invoice: $('#txtSIvolumeinvoice').val(),
-                    SSLineCode: $('#txtSIkdssline').data('kode'), EMKLCode: $('#txtSIkdemkl').data('kode'), DepoCode: $('#txtSIkddepo').data('kode'),
+                    JobOrderPTP: $('#txtSIoceanmstblnr').val(), JobOrderCustomer: $('#txtSIvolumebl').val(), InvoiceNo: $('#txtSIvolumeinvoice').val(),
+                    SSLineId: $('#txtSIkdssline').data('kode'), EMKLId: $('#txtSIkdemkl').data('kode'), DepoId: $('#txtSIkddepo').data('kode'),
                     WareHouseName: $('#txtSIwarehousename').val(), KINS: $('#txtSIkins').val(), CFName: $('#txtSIcargofreightcompany').val()
                 }),
                 success: function (result) {
-                    if (result.isValid) {
-                        $.messager.alert('Information', result.message, 'info');
-                    }
-                    else {
-                        $.messager.alert('Warning', result.message, 'warning');
-
-                        // Set Back Feeder ETD Value
-                        if (result.message.indexOf("You can't revise date ETA") !== -1) {
-                            $("#txtSIeta").datebox('setValue', initETA);
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
                         }
                     }
+                    else {
+                        $.messager.alert('Information', 'Save Success..', 'info');
+                    }
+
+                    //if (result.isValid) {
+                    //    $.messager.alert('Information', result.message, 'info');
+                    //}
+                    //else {
+                    //    $.messager.alert('Warning', result.message, 'warning');
+
+                    //    // Set Back Feeder ETD Value
+                    //    if (result.message.indexOf("You can't revise date ETA") !== -1) {
+                    //        $("#txtSIeta").datebox('setValue', initETA);
+                    //    }
+                    //}
                 }
             });
         }

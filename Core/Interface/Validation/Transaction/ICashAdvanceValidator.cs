@@ -12,5 +12,7 @@ namespace Core.Interface.Validation
     {
         CashAdvance VCreateObject(CashAdvance cashAdvance, ICashAdvanceService _cashAdvanceService);
         CashAdvance VUpdateObject(CashAdvance cashAdvance, ICashAdvanceService _cashAdvanceService);
+        CashAdvance VConfirmObject(CashAdvance cashAdvance, ICashAdvanceService _cashAdvanceService);
+        CashAdvance VUnconfirmObject(CashAdvance cashAdvance, ICashAdvanceService _cashAdvanceService); 
     }
 }

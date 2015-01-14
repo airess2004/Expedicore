@@ -21,12 +21,12 @@ namespace Data.Repository
 
         public IQueryable<Invoice> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Invoice GetObjectById(int Id)
         {
-            Invoice data = Find(x => x.Id == Id && !x.IsDeleted);
+            Invoice data = Find(x => x.Id == Id);
             if (data != null) { data.Errors = new Dictionary<string, string>(); }
             return data;
         }

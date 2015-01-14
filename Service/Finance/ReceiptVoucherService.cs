@@ -9,8 +9,9 @@ using System.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Constant;
 
-namespace Service.Service
+namespace Service
 {
     public class ReceiptVoucherService : IReceiptVoucherService
     {
@@ -57,6 +58,9 @@ namespace Service.Service
                                             IReceivableService _receivableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             receiptVoucher.Errors = new Dictionary<String, String>();
+            receiptVoucher.ReceiptDate = DateTime.Today;
+            receiptVoucher.IsGBCH = false;
+
             return (_validator.ValidCreateObject(receiptVoucher, this, _receiptVoucherDetailService, _receivableService, _contactService, _cashBankService) ?
                     _repository.CreateObject(receiptVoucher) : receiptVoucher);
         }
@@ -64,12 +68,16 @@ namespace Service.Service
         public ReceiptVoucher CalculateTotalAmount(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService)
         {
             IList<ReceiptVoucherDetail> receiptVoucherDetails = _receiptVoucherDetailService.GetObjectsByReceiptVoucherId(receiptVoucher.Id);
-            decimal total = 0;
+            decimal totalIDR = 0;
+            decimal totalUSD = 0;
+
             foreach (ReceiptVoucherDetail detail in receiptVoucherDetails)
             {
-                total += detail.AmountPaid;
+                totalUSD += detail.AmountUSD;
+                totalIDR += detail.AmountIDR;
             }
-            receiptVoucher.TotalAmount = total;
+            receiptVoucher.TotalAmountIDR = totalIDR;
+            receiptVoucher.TotalAmountUSD = totalUSD;
             receiptVoucher = _repository.UpdateObject(receiptVoucher);
             return receiptVoucher;
         }
@@ -83,7 +91,7 @@ namespace Service.Service
                 CashBankId = cashBankId,
                 ContactId = contactId,
                 ReceiptDate = receiptDate,
-                TotalAmount = totalAmount,
+                TotalAmountIDR = totalAmount,
                 IsGBCH = IsGBCH,
                 DueDate = DueDate,
                 //IsBank = IsBank
@@ -93,7 +101,11 @@ namespace Service.Service
 
         public ReceiptVoucher UpdateObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService, IContactService _contactService, ICashBankService _cashBankService)
         {
-            return (_validator.ValidUpdateObject(receiptVoucher, this, _receiptVoucherDetailService, _receivableService, _contactService, _cashBankService) ? _repository.UpdateObject(receiptVoucher) : receiptVoucher);
+            if (_validator.ValidUpdateObject(receiptVoucher, this, _receiptVoucherDetailService, _receivableService, _contactService, _cashBankService))
+            {
+                receiptVoucher = _repository.UpdateObject(receiptVoucher) ;
+            }
+            return receiptVoucher;
         }
 
         public ReceiptVoucher UpdateAmount(ReceiptVoucher receiptVoucher)
@@ -112,7 +124,7 @@ namespace Service.Service
         }
 
         public ReceiptVoucher ConfirmObject(ReceiptVoucher receiptVoucher, DateTime ConfirmationDate, IReceiptVoucherDetailService _receiptVoucherDetailService,
-                                     ICashBankService _cashBankService, IReceivableService _receivableService, ICashMutationService _cashMutationService)
+                                     ICashBankService _cashBankService, IReceivableService _receivableService, ICashMutationService _cashMutationService,IInvoiceService _invoiceService)
         {
             receiptVoucher.ConfirmationDate = ConfirmationDate;
             if (_validator.ValidConfirmObject(receiptVoucher, this, _receiptVoucherDetailService, _cashBankService, _receivableService))
@@ -121,7 +133,7 @@ namespace Service.Service
                 foreach (var detail in details)
                 {
                     detail.Errors = new Dictionary<string, string>();
-                    _receiptVoucherDetailService.ConfirmObject(detail, ConfirmationDate, this, _receivableService);
+                    _receiptVoucherDetailService.ConfirmObject(detail, ConfirmationDate, this, _receivableService,_invoiceService);
                 }
                 _repository.ConfirmObject(receiptVoucher);
                 CashBank cashBank = _cashBankService.GetObjectById(receiptVoucher.CashBankId);
@@ -135,7 +147,7 @@ namespace Service.Service
         }
 
         public ReceiptVoucher UnconfirmObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService,
-                                            ICashBankService _cashBankService, IReceivableService _receivableService, ICashMutationService _cashMutationService)
+                                            ICashBankService _cashBankService, IReceivableService _receivableService, ICashMutationService _cashMutationService, IInvoiceService _invoiceService)
         {
             if (_validator.ValidUnconfirmObject(receiptVoucher, _receiptVoucherDetailService, _cashBankService))
             {
@@ -143,7 +155,7 @@ namespace Service.Service
                 foreach (var detail in details)
                 {
                     detail.Errors = new Dictionary<string, string>();
-                    _receiptVoucherDetailService.UnconfirmObject(detail, this, _receivableService);
+                    _receiptVoucherDetailService.UnconfirmObject(detail, this, _receivableService,_invoiceService);
                 }
                 CashBank cashBank = _cashBankService.GetObjectById(receiptVoucher.CashBankId);
                 if (!receiptVoucher.IsGBCH)
@@ -176,7 +188,7 @@ namespace Service.Service
                 foreach(var receiptVoucherDetail in receiptVoucherDetails)
                 {
                     Receivable receivable = _receivableService.GetObjectById(receiptVoucherDetail.ReceivableId);
-                    receivable.PendingClearanceAmount -= receiptVoucherDetail.Amount;
+                    receivable.PendingClearanceAmount -= receiptVoucherDetail.AmountIDR + receiptVoucherDetail.AmountUSD;
                     if (receivable.PendingClearanceAmount == 0 && receivable.RemainingAmount == 0)
                     {
                         receivable.IsCompleted = true;
@@ -208,7 +220,7 @@ namespace Service.Service
                 foreach (var receiptVoucherDetail in receiptVoucherDetails)
                 {
                     Receivable receivable = _receivableService.GetObjectById(receiptVoucherDetail.ReceivableId);
-                    receivable.PendingClearanceAmount += receiptVoucherDetail.Amount;
+                    receivable.PendingClearanceAmount += receiptVoucherDetail.AmountUSD + receiptVoucherDetail.AmountIDR;
                     if (receivable.PendingClearanceAmount != 0 || receivable.RemainingAmount != 0)
                     {
                         receivable.IsCompleted = false;

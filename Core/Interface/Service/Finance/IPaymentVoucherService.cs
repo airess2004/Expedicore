@@ -23,9 +23,9 @@ namespace Core.Interface.Service
         PaymentVoucher SoftDeleteObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService);
         bool DeleteObject(int Id);
         PaymentVoucher ConfirmObject(PaymentVoucher paymentVoucher, DateTime ConfirmationDate, IPaymentVoucherDetailService _paymentVoucherDetailService,
-                                     ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService);
+                                     ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService,IPaymentRequestService _paymentRequestService);
         PaymentVoucher UnconfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
-                                       ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService);
+                                       ICashBankService _cashBankService, IPayableService _payableService, ICashMutationService _cashMutationService,IPaymentRequestService _paymentRequestService);
         PaymentVoucher ReconcileObject(PaymentVoucher paymentVoucher, DateTime ReconciliationDate, IPaymentVoucherDetailService _paymentVoucherDetailService,
                                        ICashMutationService _cashMutationService, ICashBankService _cashBankService, IPayableService _payableService);
         PaymentVoucher UnreconcileObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,

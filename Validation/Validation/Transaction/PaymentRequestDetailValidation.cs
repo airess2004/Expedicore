@@ -14,7 +14,7 @@ namespace Validation.Validation
         public PaymentRequestDetail VvalidPaymentRequest(PaymentRequestDetail paymentRequestDetail, IPaymentRequestService _paymentRequestService)
         {
             PaymentRequest existPaymentRequest = _paymentRequestService.GetObjectById(paymentRequestDetail.PaymentRequestId);
-            if (existPaymentRequest != null)
+            if (existPaymentRequest == null)
             {
                 paymentRequestDetail.Errors.Add("Generic", "Invalid PaymentRequest");
             }

@@ -4,11 +4,11 @@ C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Expedico.pdb
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Core.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Data.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\EntityFramework.dll
+C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Service.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Core.pdb
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Data.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Service.pdb
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\EntityFramework.xml
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\obj\Debug\Expedico.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\obj\Debug\Expedico.exe
 C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\obj\Debug\Expedico.pdb
-C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Service.dll
-C:\Users\Willy\Documents\GitHub\Expedicore\Expedico\bin\Debug\Service.pdb

@@ -12,17 +12,18 @@ namespace Core.DomainModel
        public int PRNo { get; set; }
        public int MasterCode { get; set; }  
        public string DebetCredit	{ get; set; }
-       public int ShipmentOrderID { get; set; }
+       public int ShipmentOrderId { get; set; }
        public int OfficeId { get; set; }
        public int CurrencyId { get; set; }  
        public string Reference { get; set; }
        public int PRStatus { get; set; }
        public DateTime PaymentRequestDate { get; set; }
-       public Nullable<bool> IsGeneralPR { get; set; } 
+       public string JenisPaymentRequest { get; set; } 
        public Nullable<int> ContactId { get; set; }
        public Nullable<int> ContactTypeId { get; set; }
        public Nullable<int> PersonalId { get; set; }
-       public Nullable<decimal> Payment { get; set; }
+       public Nullable<decimal> PaymentIDR { get; set; }
+       public Nullable<decimal> PaymentUSD { get; set; }
        public string PRContraStatus { get; set; }
        public Nullable<int> PRContraNo { get; set; }
        public Nullable<bool> Paid { get; set; }
@@ -35,7 +36,7 @@ namespace Core.DomainModel
        public Nullable<DateTime> ExRateDate { get; set; }
        public Nullable<int> ExRateId { get; set; }
        public int Printing { get; set; }
-       public Nullable<DateTime> PrintedOn { get; set; }
+       public Nullable<DateTime> PrintedAt { get; set; }
 
        public bool IsDeleted { get; set; }
        public DateTime CreatedAt { get; set; }

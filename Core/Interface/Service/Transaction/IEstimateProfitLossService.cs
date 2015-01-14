@@ -16,5 +16,10 @@ namespace Core.Interface.Service
         EstimateProfitLoss CreateObject(EstimateProfitLoss estimateprofitloss, IShipmentOrderService _shipmentOrderService);
         EstimateProfitLoss UpdateObject(EstimateProfitLoss estimateprofitloss, IShipmentOrderService _shipmentOrderService);
         EstimateProfitLoss SoftDeleteObject(EstimateProfitLoss estimateprofitloss, IEstimateProfitLossDetailService _estimateProfitLossDetailService);
+        EstimateProfitLoss CalculateTotalUSDIDR(int eplId, IEstimateProfitLossDetailService _estimateProfitLossDetailService);
+        EstimateProfitLoss ConfirmObject(EstimateProfitLoss estimateProfitLoss, DateTime confirmationDate, IEstimateProfitLossDetailService _estimateProfitLossDetailService);
+        EstimateProfitLoss UnconfirmObject(EstimateProfitLoss estimateProfitLoss, DateTime confirmationDate,
+            IEstimateProfitLossDetailService _estimateProfitLossDetailService, IInvoiceDetailService _invoiceDetailService,
+            IPaymentRequestDetailService _paymentRequestDetailService);
     }
 }

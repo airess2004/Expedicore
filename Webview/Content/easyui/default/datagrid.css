@@ -1,5 +1,5 @@
 .datagrid .panel-body {
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 }
 .datagrid-view {

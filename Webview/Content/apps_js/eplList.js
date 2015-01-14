@@ -12,31 +12,31 @@
         var id = $('#jobtype option:selected').text();
         var value = $('#jobtype').val();
 
-        $("#list_epl").setGridParam({ url: base_url + 'epl/GetEPLList', postData: { filters: null, JobId: value }, page: 'last' }).trigger("reloadGrid");
+        $("#list_epl").setGridParam({ url: base_url + 'EstimateProfitLoss/GetList', postData: { filters: null, JobId: value }, page: 'last' }).trigger("reloadGrid");
     }
 
     /*================================================ EPL List ================================================*/
     jQuery("#list_epl").jqGrid({
-        url: base_url + 'epl/GetEPLList',
+        url: base_url + 'EstimateProfitLoss/GetList',
         postData: { 'JobId': function () { return $("#jobtype").val(); } },
         datatype: "json",
-        colNames: ['Del', 'Shipment', 'ETD/ETA', 'Principle By', 'Estimate in USD', 'Estimate in IDR',
-				'Est Shipper USD', 'Est Shipper IDR', 'Est Agent USD', 'Est Agent IDR', 'Close', 'Printing', 'Print Date', 'Entry Date', 'User'],
-        colModel: [{ name: 'deleted', index: 'deleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
-				  { name: 'shipmentno', index: 'shipmentno', width: 130, align: "center" },
-				  { name: 'etd', index: 'etdeta', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
-				  { name: 'jobowner', index: 'jobowner', width: 100, align: "center" },
-				  { name: 'estimateusd', index: 'a.SumUSD', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
-				  { name: 'estimateidr', index: 'a.SumIDR', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
-				  { name: 'estimateusdshipper', index: 'EstUSDShipCons', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
-				  { name: 'estimateidrshipper', index: 'EstIDRShipCons', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
-				  { name: 'estimateusdagent', index: 'EstUSDAgent', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
-				  { name: 'estimateidragent', index: 'EstIDRAgent', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
-				  { name: 'datecloseepl', index: 'DateCloseEPL', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
-				  { name: 'printing', index: 'printing', width: 60 },
-				  { name: 'printedon', index: 'printedon', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
-				  { name: 'entrydate', index: 'createdon', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
-				  { name: 'usercode', index: 'CreatedByName', width: 100 }
+        colNames: ['Del', 'Confirmed','Shipment', 'ETD/ETA', 'Total Est. USD', 'Total Est. IDR', 'Total Income USD', 'Total Cost USD',
+				'Total Income IDR', 'Total Cost IDR', 'Close', 'Printing', 'Print Date', 'Entry Date', 'User'],
+        colModel: [{ name: 'deleted', index: 'IsDeleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
+                  { name: 'confirmed', index: 'IsConfirmed', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } ,formatter : 'select'},
+                  { name: 'shipmentno', index: 'ShipmentOrderCode', width: 130, align: "center" },
+				  { name: 'etd', index: 'ETDETA', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+				  { name: 'estimateusd', index: 'TotalUSD', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
+				  { name: 'estimateusd', index: 'TotalIDR', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
+				  { name: 'estimateusd', index: 'TotalIncomeUSD', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
+				  { name: 'estimateidr', index: 'TotalCostUSD', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
+				  { name: 'estimateusdagent', index: 'TotalCostIDR', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
+				  { name: 'estimateidragent', index: 'TotalIncomeIDR', width: 130, align: "right", formatter: 'currency', formatoptions: { decimalSeparator: ".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix: "", defaultValue: '0.00' } },
+				  { name: 'datecloseepl', index: 'DateClose', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+				  { name: 'printing', index: 'Printing', width: 60 },
+				  { name: 'printedon', index: 'PrintDate', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+				  { name: 'entrydate', index: 'CreatedAt', width: 100, align: "center", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+				  { name: 'usercode', index: 'CreatedBy', width: 100 }
         ],
         page: 'last', // last page
         pager: jQuery('#pager_list_epl'),
@@ -46,7 +46,7 @@
         imgpath: 'themes/start/images',
         viewrecords: true,
         shrinkToFit: false,
-        sortname: "shipmentno",
+        sortname: "ShipmentOrderCode",
         sortorder: "asc",
         width: $("#epl_toolbar").width(),
         height: $(window).height() - 120,
@@ -100,7 +100,7 @@
 
         var id = $('#jobtype option:selected').text();
         var value = $('#jobtype').val();
-        window.location = base_url + "estimateprofitloss/detail?JobId=" + value;
+        window.location = base_url + "EstimateProfitLoss/detail?JobId=" + value;
 
     });
 
@@ -119,7 +119,7 @@
 
             // On Edit
             if (buttonID == "epl_btn_edit") {
-                window.location = base_url + "epl/detail?Id=" + eplid + "&JobId=" + value;
+                window.location = base_url + "EstimateProfitLoss/detail?Id=" + eplid + "&JobId=" + value;
             }
             else {
                 DeleteEPL(eplid);
@@ -137,7 +137,7 @@
                 $.ajax({
                     contentType: "application/json",
                     type: 'POST',
-                    url: base_url + "epl/Delete",
+                    url: base_url + "EstimateProfitLoss/Delete",
                     data: JSON.stringify({
                         EPLId: eplid
                     }),
@@ -164,7 +164,7 @@
                 if (r) {
 
                     $.ajax({
-                        url: base_url + "EPL/UnDelete",
+                        url: base_url + "EstimateProfitLoss/UnDelete",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify({ EPLId: id }),
@@ -260,5 +260,85 @@
             $.messager.alert('Information', 'Please Select Data...!!', 'info');
         }
     });
+
+    //Confirm EPL
+    $('#btn_confirm').click(function () {
+        var id = jQuery("#list_epl").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#list_epl").jqGrid('getRowData', id);
+            $.messager.confirm('Confirm', 'Are you sure you want to confirm record?', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: base_url + "EstimateProfitLoss/Confirm",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            Id: id,
+                        }),
+                        success: function (result) {
+                            if (JSON.stringify(result.Errors) != '{}') {
+                                for (var key in result.Errors) {
+                                    if (key != null && key != undefined && key != 'Generic') {
+                                        $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                        $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                    }
+                                    else {
+                                        $.messager.alert('Warning', result.Errors[key], 'warning');
+                                    }
+                                }
+                            }
+                            else {
+                                ReloadGrid();
+                                $("#delete_confirm_div").dialog('close');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+    // END Confirm 
+
+    //Unconfirm EPL
+    $('#btn_unconfirm').click(function () {
+        var id = jQuery("#list_epl").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#list_epl").jqGrid('getRowData', id);
+            $.messager.confirm('Confirm', 'Are you sure you want to unconfirm record?', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: base_url + "EstimateProfitLoss/Unconfirm",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            Id: id,
+                        }),
+                        success: function (result) {
+                            if (JSON.stringify(result.Errors) != '{}') {
+                                for (var key in result.Errors) {
+                                    if (key != null && key != undefined && key != 'Generic') {
+                                        $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                        $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                    }
+                                    else {
+                                        $.messager.alert('Warning', result.Errors[key], 'warning');
+                                    }
+                                }
+                            }
+                            else {
+                                ReloadGrid();
+                                $("#delete_confirm_div").dialog('close');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+    // END Unconfirm EPL
 
 }); //END DOCUMENT READY

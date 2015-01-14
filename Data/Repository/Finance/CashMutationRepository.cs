@@ -19,7 +19,7 @@ namespace Data.Repository
 
         public IQueryable<CashMutation> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public IList<CashMutation> GetAll()

@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<CityLocation> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public CityLocation GetObjectById(int Id)

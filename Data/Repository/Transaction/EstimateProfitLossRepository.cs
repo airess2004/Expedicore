@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<EstimateProfitLoss> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public EstimateProfitLoss GetObjectById(int Id)

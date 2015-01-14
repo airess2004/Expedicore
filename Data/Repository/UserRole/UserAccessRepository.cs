@@ -19,7 +19,7 @@ namespace Data.Repository
 
         public IQueryable<AccessUser> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public IQueryable<AccessUser> GetQueryableObjectsByAccountUserId(int AccountUserId)

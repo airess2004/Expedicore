@@ -18,5 +18,7 @@ namespace Core.Interface.Service
         PaymentRequest ConfirmObject(PaymentRequest paymentRequest, DateTime confirmationDate, IPaymentRequestDetailService _paymentRequestDetailService, IPayableService _payableService);
         PaymentRequest UnconfirmObject(PaymentRequest paymentRequest, IPaymentRequestDetailService _paymentRequestDetailService, IPayableService _payableService, IPaymentVoucherDetailService _paymentVoucherDetailService);
         PaymentRequest CalculateTotalPaymentRequest(PaymentRequest paymentRequest, IPaymentRequestDetailService _paymentRequestDetailService);
+        PaymentRequest Paid(PaymentRequest paymentRequest);
+        PaymentRequest Unpaid(PaymentRequest paymentRequest);
     }
 }

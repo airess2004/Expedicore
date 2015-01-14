@@ -12,7 +12,7 @@ namespace Core.Interface.Repository
         IList<Payable> GetAll();
         IList<Payable> GetAllByMonthCreated();
         IList<Payable> GetObjectsByContactId(int contactId);
-        Payable GetObjectBySource(string PayableSource, int PayableSourceId); 
+        Payable GetObjectBySource(string PayableSource, int PayableSourceId,int PayableSourceDetailId); 
         Payable GetObjectById(int Id);
         Payable CreateObject(Payable payable);
         Payable UpdateObject(Payable payable);

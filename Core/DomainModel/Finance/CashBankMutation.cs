@@ -15,6 +15,7 @@ namespace Core.DomainModel
         public int TargetCashBankId { get; set; }
         public int Amount { get; set; }
         public string Code { get; set; }
+        public DateTime MutationDate { get; set; }
 
         public bool IsConfirmed { get; set; }
         public Nullable<DateTime> ConfirmationDate { get; set; }

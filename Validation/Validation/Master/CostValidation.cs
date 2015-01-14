@@ -24,21 +24,21 @@ namespace Validation.Validation
             return cost;
         }
        
-        public Cost VRemarks(Cost cost)
-        {
-            if (String.IsNullOrEmpty(cost.Remarks) || cost.Remarks.Trim() == "")
-            {
-                cost.Errors.Add("Remarks", "Tidak boleh kosong");
-            }
-            return cost;
-        }
+        //public Cost VRemarks(Cost cost)
+        //{
+        //    if (String.IsNullOrEmpty(cost.Remarks) || cost.Remarks.Trim() == "")
+        //    {
+        //        cost.Errors.Add("Remarks", "Tidak boleh kosong");
+        //    }
+        //    return cost;
+        //}
 
         public Cost VCreateObject(Cost cost, ICostService _costService)
         {
             VName(cost, _costService);
             if (!isValid(cost)) { return cost; }
-            VRemarks(cost);
-            if (!isValid(cost)) { return cost; }
+            //VRemarks(cost);
+            //if (!isValid(cost)) { return cost; }
             return cost;
         }
 
@@ -48,8 +48,8 @@ namespace Validation.Validation
             if (!isValid(cost)) { return cost; }
             VName(cost, _costService);
             if (!isValid(cost)) { return cost; }
-            VRemarks(cost);
-            if (!isValid(cost)) { return cost; }
+            //VRemarks(cost);
+            //if (!isValid(cost)) { return cost; }
             return cost;
         }
 

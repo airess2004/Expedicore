@@ -110,7 +110,7 @@ namespace Core.DomainModel
         public string CFName { get; set; } 
         public Nullable<int> SSLineId { get; set; } 
         public Nullable<int> IATAId { get; set; } 
-        public Nullable<int> BrokerId { get; set; } 
+        public Nullable<int> EMKLId { get; set; } 
         public Nullable<int> DepoId { get; set; } 
         public string VesselFlight { get; set; }
         public Nullable<bool> JobClosed { get; set; } 
@@ -118,8 +118,9 @@ namespace Core.DomainModel
 
         // PPJK
         public string InvoiceNo { get; set; }
-        public string JobOrderPTP { get; set; }
+        public string JobOrderPTP { get; set; } // PO No untuk PPJK
         public string JobOrderCustomer { get; set; }
+        public Nullable<DateTime> TA { get; set; } // TA untuk PPJK
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -146,10 +147,15 @@ namespace Core.DomainModel
         public virtual CityLocation DeliveryPlace { get; set; }
         public virtual Airport DepartureAirPort { get; set; }
         public virtual Airport DestinationAirPort { get; set; }
+        public virtual Contact SSLine { get; set; }
+        public virtual Contact EMKL { get; set; }
+        public virtual Contact Depo { get; set; }
+            
         public virtual ICollection<ShipmentAdvice> ShipmentAdvice { get; set; }
         public virtual ICollection<ShipmentInstruction> ShipmentInstruction { get; set; }
         public virtual ICollection<DeliveryOrder> DeliveryOrder { get; set; }
-        public virtual ICollection<NoticeOfArrival> NoticeOfArrival { get; set; }
+        public virtual ICollection<NoticeOfArrival> NoticeOfArrival { get; set; } 
+        public virtual ICollection<ShipmentOrderDocument> ShipmentOrderDocument { get; set; }
 
         public virtual ICollection<ShipmentOrderRouting> ShipmentOrderRoutings { get; set; }
         public virtual ICollection<SeaContainer> SeaContainers { get; set; }

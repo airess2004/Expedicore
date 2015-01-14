@@ -9,7 +9,7 @@ using Core.Interface.Service;
 using Core.Interface.Validation;
 using Data.Repository;
 
-namespace Service.Service
+namespace Service
 {
     public class CashBankService : ICashBankService
     {
@@ -51,7 +51,7 @@ namespace Service.Service
             cashBank.Errors = new Dictionary<string, string>();
             if (_validator.ValidCreateObject(cashBank, this))
             {
-                // Create Leaf Cash Bank Account
+                cashBank.MasterCode = _repository.GetLastMasterCode(cashBank.OfficeId) + 1;
                 _repository.CreateObject(cashBank);
             }
             return cashBank;

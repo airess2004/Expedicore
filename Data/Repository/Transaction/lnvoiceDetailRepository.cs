@@ -62,6 +62,8 @@ namespace Data.Repository
 
         public InvoiceDetail SoftDeleteObject(InvoiceDetail model)
         {
+            model.IsDeleted = true;
+            model.DeletedAt = DateTime.Now;
             Update(model);
             return model;
         }

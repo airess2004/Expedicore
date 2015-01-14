@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Data.Entity;
+using System.Data.Objects.SqlClient;
 namespace Service
 {
     public class SeaContainerService : ISeaContainerService 
@@ -36,25 +37,56 @@ namespace Service
             return _repository.GetObjectByShipmentOrderId(Id);
         }
 
-        public SeaContainer CreateUpdateObject(SeaContainer seacontainer)
+        public SeaContainer CreateUpdateObject(SeaContainer seaContainer,IShipmentOrderService _shipmentOrderService)
         {
-            SeaContainer newseacontainer = this.GetObjectByShipmentOrderId(seacontainer.ShipmentOrderId);
-
-            if (newseacontainer == null)
+            SeaContainer existSeaContainer = GetQueryable().Where(x => x.ShipmentOrderId == seaContainer.ShipmentOrderId && x.Id == seaContainer.Id
+                                                                  ).FirstOrDefault();
+            if (existSeaContainer == null)
             {
-                seacontainer = this.CreateObject(seacontainer);
+                SeaContainer newSeaContainer = new SeaContainer {
+                    ShipmentOrderId = seaContainer.ShipmentOrderId,
+                    OfficeId = seaContainer.OfficeId,
+                    CBM = seaContainer.CBM,
+                    Commodity = seaContainer.Commodity,
+                    ContainerNo = seaContainer.ContainerNo,
+                    GrossWeight = seaContainer.GrossWeight,
+                    NetWeight = seaContainer.NetWeight,
+                    NoOfPieces = seaContainer.NoOfPieces,
+                    PackagingCode = seaContainer.PackagingCode,
+                    PartOf = seaContainer.PartOf,
+                    SealNo = seaContainer.SealNo,
+                    Size = seaContainer.Size,
+                    Type = seaContainer.Type,
+                    CreatedById = seaContainer.CreatedById,
+                    CreatedAt = DateTime.Now,
+                };
+                seaContainer = CreateObject(seaContainer,_shipmentOrderService);
             }
             else
             {
-                seacontainer = this.UpdateObject(seacontainer);
+                existSeaContainer.CBM = seaContainer.CBM;
+                existSeaContainer.Commodity = seaContainer.Commodity;
+                existSeaContainer.ContainerNo = seaContainer.ContainerNo;
+                existSeaContainer.GrossWeight = seaContainer.GrossWeight;
+                existSeaContainer.NetWeight = seaContainer.NetWeight;
+                existSeaContainer.NoOfPieces = seaContainer.NoOfPieces;
+                existSeaContainer.PackagingCode = seaContainer.PackagingCode;
+                existSeaContainer.PartOf = seaContainer.PartOf;
+                existSeaContainer.SealNo = seaContainer.SealNo;
+                existSeaContainer.Size = seaContainer.Size;
+                existSeaContainer.Type = seaContainer.Type;
+                existSeaContainer.UpdatedById = seaContainer.UpdatedById;
+                existSeaContainer.UpdatedAt = DateTime.Now;
+                existSeaContainer.Errors = new Dictionary<String, String>();
+                seaContainer = UpdateObject(existSeaContainer);
             }
-            return seacontainer;
+            return seaContainer;
         }
 
-        public SeaContainer CreateObject(SeaContainer seacontainer)
+        public SeaContainer CreateObject(SeaContainer seacontainer,IShipmentOrderService _shipmentOrderService)
         {
             seacontainer.Errors = new Dictionary<String, String>();
-            if (isValid(_validator.VCreateObject(seacontainer,this)))
+            if (isValid(_validator.VCreateObject(seacontainer, this, _shipmentOrderService)))
             {
                 seacontainer = _repository.CreateObject(seacontainer);
             }

@@ -1,5 +1,5 @@
 C:\Users\Willy\Documents\GitHub\Expedicore\Nspec\bin\Debug\Nspec.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Nspec\bin\Debug\Nspec.pdb
-C:\Users\Willy\Documents\GitHub\Expedicore\Nspec\obj\Debug\Nspec.csprojResolveAssemblyReference.cache
 C:\Users\Willy\Documents\GitHub\Expedicore\Nspec\obj\Debug\Nspec.dll
 C:\Users\Willy\Documents\GitHub\Expedicore\Nspec\obj\Debug\Nspec.pdb
+C:\Users\Willy\Documents\GitHub\Expedicore\Nspec\obj\Debug\Nspec.csprojResolveAssemblyReference.cache

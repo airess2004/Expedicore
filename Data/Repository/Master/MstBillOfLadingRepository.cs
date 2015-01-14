@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<MstBillOfLading> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public MstBillOfLading GetObjectById(int Id)

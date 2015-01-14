@@ -57,7 +57,7 @@ namespace Validation.Validation
 
         public EstimateProfitLossDetail VvalidContact(EstimateProfitLossDetail estimateprofitlossdetail, IContactService _contactService)
         {
-            Contact cost = _contactService.GetObjectById(estimateprofitlossdetail.CustomerId);
+            Contact cost = _contactService.GetObjectById(estimateprofitlossdetail.ContactId);
             if (cost == null) 
             {
                 estimateprofitlossdetail.Errors.Add("Generic", "Invalid Customer");

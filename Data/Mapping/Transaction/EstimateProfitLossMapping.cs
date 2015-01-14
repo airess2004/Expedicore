@@ -21,6 +21,10 @@ namespace Data.Mapping
                 .WithMany()
                 .HasForeignKey(u => u.OfficeId)
                 .WillCascadeOnDelete(false);
+            //HasRequired(u => u.ExchangeRate)
+            //    .WithMany()
+            //    .HasForeignKey(u => u.ExchangeRateId)
+            //    .WillCascadeOnDelete(false);
             HasRequired(u => u.ShipmentOrder)
                .WithMany()
                .HasForeignKey(u => u.ShipmentOrderId)

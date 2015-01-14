@@ -36,7 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Repository\Transaction\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ExpedicoEntities.cs" />
@@ -76,6 +75,7 @@
     <Compile Include="Mapping\Transaction\CashAdvanceDetailMapping.cs" />
     <Compile Include="Mapping\Transaction\CashAdvanceMapping.cs" />
     <Compile Include="Mapping\Transaction\CashSettlementMapping.cs" />
+    <Compile Include="Mapping\Transaction\ShipmentOrderDocumentMapping.cs" />
     <Compile Include="Mapping\Transaction\TelexReleaseMapping.cs" />
     <Compile Include="Mapping\Transaction\PaymentRequestDetailMapping.cs" />
     <Compile Include="Mapping\Transaction\PaymentRequestMapping.cs" />
@@ -135,6 +135,7 @@
     <Compile Include="Repository\Transaction\CashAdvanceDetailRepository.cs" />
     <Compile Include="Repository\Transaction\CashAdvanceRepository.cs" />
     <Compile Include="Repository\Transaction\CashSettlementRepository.cs" />
+    <Compile Include="Repository\Transaction\ShipmentOrderDocumentRepository.cs" />
     <Compile Include="Repository\Transaction\EstimateProfitLossDetailRepository.cs" />
     <Compile Include="Repository\Transaction\EstimateProfitLossRepository.cs" />
     <Compile Include="Repository\Transaction\lnvoiceDetailRepository.cs" />

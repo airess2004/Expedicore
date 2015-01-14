@@ -97,6 +97,65 @@ namespace WebView.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public dynamic GetLookUp(string _search, long nd, int rows, int? page, string sidx, string sord, string filters = "")
+        { 
+            // Construct where statement
+            int officeid = _accountUserService.GetObjectById(AuthenticationModel.GetUserId()).OfficeId;
+            string strWhere = GeneralFunction.ConstructWhere(filters);
+            string filter = null;
+            GeneralFunction.ConstructWhereInLinq(strWhere, out filter);
+            if (filter == "") filter = "true";
+
+            // Get Data
+            var q = _vesselService.GetQueryable().Where(x => x.OfficeId == officeid && x.IsDeleted == false);
+
+            var query = (from model in q
+                         select new
+                         {
+                             model.Id,
+                             model.MasterCode,
+                             model.Name,
+                             model.Abbrevation,
+                         }).Where(filter).OrderBy(sidx + " " + sord); //.ToList();
+
+            var list = query.AsEnumerable();
+
+            var pageIndex = Convert.ToInt32(page) - 1;
+            var pageSize = rows;
+            var totalRecords = query.Count();
+            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+            // default last page
+            if (totalPages > 0)
+            {
+                if (!page.HasValue)
+                {
+                    pageIndex = totalPages - 1;
+                    page = totalPages;
+                }
+            }
+
+            list = list.Skip(pageIndex * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                total = totalPages,
+                page = page,
+                records = totalRecords,
+                rows = (
+                    from model in list
+                    select new
+                    {
+                        id = model.Id,
+                        cell = new object[] {
+                            model.MasterCode,
+                            model.Name,
+                            model.Abbrevation,
+                        }
+                    }).ToArray()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
         public dynamic GetInfo(int Id)
         {
             Vessel model = new Vessel();

@@ -21,6 +21,10 @@ namespace Data.Mapping
                 .WithMany()
                 .HasForeignKey(u => u.OfficeId)
                 .WillCascadeOnDelete(false);
+            HasRequired(u => u.Employee)
+                .WithMany()
+                .HasForeignKey(u => u.EmployeeId)
+                .WillCascadeOnDelete(false);
             HasRequired(u => u.CreatedBy)
                .WithMany()
                .HasForeignKey(u => u.CreatedById)

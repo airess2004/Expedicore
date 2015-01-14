@@ -22,6 +22,10 @@ namespace Data.Mapping
                 .WithMany()
                 .HasForeignKey(u => u.CostId)
                 .WillCascadeOnDelete(false);
+            HasRequired(u => u.Contact)
+                .WithMany()
+                .HasForeignKey(u => u.ContactId)
+                .WillCascadeOnDelete(false);
             HasRequired(u => u.Office) 
                 .WithMany()
                 .HasForeignKey(u => u.OfficeId)

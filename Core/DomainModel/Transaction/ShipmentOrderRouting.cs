@@ -19,8 +19,8 @@ namespace Core.DomainModel
         public Nullable<int> PortId { get; set; }
         public Nullable<int> FlightId { get; set; }
         public string FlightNo { get; set; }
-        public Nullable<int> AirportFrom { get; set; }
-        public Nullable<int> AirportTo { get; set; }
+        public Nullable<int> AirportFromId { get; set; }
+        public Nullable<int> AirportToId { get; set; }
         public Nullable<DateTime> ETD { get; set; }
         public string VesselType { get; set; }
 
@@ -34,6 +34,12 @@ namespace Core.DomainModel
         public Dictionary<string, string> Errors { get; set; }
 
         public virtual Office Office { get; set; }
+        public virtual CityLocation City { get; set; }
+        public virtual Port Port { get; set; }
+        public virtual Airline Flight { get; set; }
+        public virtual Airport AirPortForm { get; set; }
+        public virtual Airport AirPortTo { get; set; }
+         
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }
         public virtual ShipmentOrder ShipmentOrder { get; set; }

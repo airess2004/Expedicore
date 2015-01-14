@@ -26,8 +26,10 @@ namespace Core.DomainModel
         public Nullable<int> InvoiceStatus { get; set; }
         public DateTime InvoiceDate { get; set; }
         public int CurrencyId { get; set; }
-        public Nullable<decimal> Payment{ get; set; }
-        public Nullable<decimal> TotalVat{ get; set; }
+        public Nullable<decimal> PaymentUSD { get; set; }
+        public Nullable<decimal> PaymentIDR { get; set; }
+        public Nullable<decimal> TotalVatUSD { get; set; }
+        public Nullable<decimal> TotalVatIDR { get; set; }
         public Nullable<decimal> Rate{ get; set; }
         public Nullable<DateTime> ExRateDate{ get; set; }
         public Nullable<int> Period{ get; set; }

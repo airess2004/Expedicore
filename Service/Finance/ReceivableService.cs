@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Service.Service
+namespace Service
 {
     public class ReceivableService : IReceivableService
     {
@@ -41,9 +41,9 @@ namespace Service.Service
             return _repository.GetObjectsByContactId(contactId);
         }
 
-        public Receivable GetObjectBySource(string ReceivableSource, int ReceivableSourceId)
+        public Receivable GetObjectBySource(string ReceivableSource, int ReceivableSourceId, int ReceivableSourceDetailId)
         {
-            return _repository.GetObjectBySource(ReceivableSource, ReceivableSourceId);
+            return _repository.GetObjectBySource(ReceivableSource, ReceivableSourceId,ReceivableSourceDetailId);
         }
 
         public Receivable GetObjectById(int Id)
@@ -57,13 +57,15 @@ namespace Service.Service
             return (_validator.ValidCreateObject(receivable, this) ? _repository.CreateObject(receivable) : receivable);
         }
 
-        public Receivable CreateObject(int contactId, string receivableSource, int receivableSourceId, int currencyId, decimal amount, decimal Rate,DateTime dueDate)
+        public Receivable CreateObject(int officeId,int contactId, string receivableSource, int receivableSourceId, int receivableSourceDetailId, int currencyId, decimal amount, decimal Rate,DateTime dueDate)
         {
             Receivable receivable = new Receivable
             {
+                OfficeId = officeId,
                 ContactId = contactId,
                 ReceivableSource = receivableSource,
                 ReceivableSourceId = receivableSourceId,
+                ReceivableSourceDetailId = receivableSourceDetailId,
                 CurrencyId = currencyId,
                 Amount = amount,
                 RemainingAmount = amount,

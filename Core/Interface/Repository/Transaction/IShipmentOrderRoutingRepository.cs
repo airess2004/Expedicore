@@ -16,5 +16,6 @@ namespace Core.Interface.Repository
        ShipmentOrderRouting UpdateObject(ShipmentOrderRouting model);
        ShipmentOrderRouting SoftDeleteObject(ShipmentOrderRouting model);
        bool DeleteObject(int Id);
+       int GetLastMasterCode(int officeId);
     }
 }

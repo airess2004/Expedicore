@@ -22,6 +22,17 @@ namespace Validation.Validation
             return cashAdvance;
         }
 
+        public CashAdvance VConfirmObject(CashAdvance cashAdvance, ICashAdvanceService _cashAdvanceService)
+        {
+            return cashAdvance; 
+        }
+
+
+        public CashAdvance VUnconfirmObject(CashAdvance cashAdvance, ICashAdvanceService _cashAdvanceService)
+        {
+            return cashAdvance;
+        }
+
         public bool isValid(CashAdvance obj)
         { 
             bool isValid = !obj.Errors.Any();

@@ -20,23 +20,23 @@
         var id = $('#jobtype option:selected').text();
         var value = $('#jobtype').val();
 
-        $("#list_invoice").setGridParam({ url: base_url + 'Invoice/GetInvoiceList', postData: { filters: null, jobId: value }, page: 'last' }).trigger("reloadGrid");
+        $("#list_invoice").setGridParam({ url: base_url + 'Invoice/GetList', postData: { filters: null, jobId: value }, page: 'last' }).trigger("reloadGrid");
     }
 
     /*================================================ List ================================================*/
     jQuery("#list_invoice").jqGrid({
-        url: base_url + 'Invoice/GetInvoiceList',
+        url: base_url + 'Invoice/GetList',
         postData: { 'jobId': function () { return $("#jobtype").val(); } },
         datatype: "json",
-        colNames: ['Del', 'Type', 'Invoice No', 'Paid', 'Shipment No', 'Principle By', 'Status', 'D/C', 'Cancel D/C Number',
+        colNames: ['Del', 'Confirmed','Type', 'Invoice No', 'Paid', 'Shipment No', 'Status', 'D/C', 'Cancel D/C Number',
 				'Customer', 'Amount USD', 'Amount IDR', 'Due Date', 'Print Date', 'Rate', 'Date Rate', 'Entry Date', 'Prepared By', 'Print', 'Date Deleted',
                 'Date Paid', 'Vat USD', 'Vat IDR', '', '', '', '', 'ie', 'bd', 'so'],
-        colModel: [{ name: 'deleted', index: 'deleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
-				 { name: 'type', index: 'InvoiceType', width: 50, align: "center", stype: 'select', editoptions: { value: ":All;G:General;I:Invoice" } },
-				   { name: 'invoicesno', index: 'invoicesno', width: 80, align: "center" },
-				  { name: 'paid', index: 'paid', width: 50, align: "center", stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
+        colModel: [{ name: 'deleted', index: 'IsDeleted', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
+                  { name: 'Confirmed', index: 'IsConfirmed', width: 60, align: "center", sortable: false, stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } ,formatter: 'select'},
+                  { name: 'type', index: 'JenisInvoice', width: 80, align: "center", stype: 'select', editoptions: { value: ":All;G:General;I:Invoice" } },
+				  { name: 'invoicesno', index: 'invoicesno', width: 80, align: "center" },
+				  { name: 'paid', index: 'Paid', width: 50, align: "center", stype: 'select', editoptions: { value: ":All;true:Yes;false:No" } },
 				  { name: 'shipmentno', index: 'shipmentno', width: 130, align: "center" },
-				  { name: 'jobowner', index: 'jobowner', width: 100, align: "center" },
 				  { name: 'job', index: 'invoicestatus', width: 50, align: "center" },
 				  { name: 'debetcredit', index: 'debetcredit', width: 50, align: "center" },
 				  { name: 'canceldcnumber', index: 'linkto', width: 150 },
@@ -70,7 +70,7 @@
         imgpath: 'themes/start/images',
         viewrecords: true,
         shrinkToFit: false,
-        sortname: "invoicesno",
+        sortname: "id",
         sortorder: "asc",
         width: $("#invoice_toolbar").width(),
         height: $(window).height() - 120,
@@ -145,18 +145,21 @@
             var invoice = null;
             $.ajax({
                 dataType: "json",
-                url: base_url + "Invoice/GetInvoiceInfo?Id=" + id + "&JobId=" + jobValue,
+                url: base_url + "Invoice/GetInfo?Id=" + id + "&JobId=" + jobValue,
                 success: function (result) {
-                    if (!result.isValid)
-                        $.messager.alert('Information', result.message, 'info', function () {
-                            window.location = base_url + "Invoice";
-                        });
-                    if (result.objJob == null)
-                        $.messager.alert('Information', "Object is null", 'info', function () {
-                            window.location = base_url + "Invoice";
-                        });
+                    if (JSON.stringify(result.Errors) != '{}') {
+                        for (var key in result.Errors) {
+                            if (key != null && key != undefined && key != 'Generic') {
+                                $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            }
+                            else {
+                                $.messager.alert('Warning', result.Errors[key], 'warning');
+                            }
+                        }
+                    }
                     else {
-                        invoice = result.objJob;
+                        invoice = result;
 
                         // Except Cancellation Printing
                         if (invoice.Deleted == true && !(buttonID == "invoice_btn_print" && invoice.LinkTo.substr(0, 6).toLowerCase() == 'cancel')) {
@@ -203,8 +206,8 @@
 
                             // On Print Mode
                             if (buttonID == "invoice_btn_print") {
-                                PrintInvoice('seaexport', id, invoice.debetcredit, invoice.companycode, invoice.intcompany);
-                                //window.open(base_url + "Print_Forms/PrintInvoices.aspx?InvoicesNo=" + invoicesno + "&DebetCredit=" + debetcredit + "&ShipmentNo=" + shipmentno);
+                                PrintInvoice('seaexport', id, invoice.DebetCredit, invoice.companycode, invoice.intcompany);
+
                             }
                         }
                         else {
@@ -221,8 +224,8 @@
                             }
                                 // On Print Mode
                             else if (buttonID == "invoice_btn_print") {
-                                PrintInvoice('seaexport', id, invoice.debetcredit, invoice.companycode, invoice.intcompany);
-                                //window.open(base_url + "Print_Forms/PrintInvoices.aspx?InvoicesNo=" + invoicesno + "&DebetCredit=" + debetcredit + "&ShipmentNo=" + shipmentno);
+                                PrintInvoice('seaexport', id, invoice.DebetCredit, invoice.companycode, invoice.intcompany);
+
                             }
                             else {
                                 // invoice_se.js
@@ -237,6 +240,14 @@
             $.messager.alert('Information', 'Please Select Data...!!', 'info');
         }
     });
+
+    function PrintInvoice(job, invoicesno, debetcredit, companycode, intcompany) {
+
+        // bcr semarang "BC 18", jkt 27, sby 1, bali 23
+            $('#dialogPrintFixedDraft').dialog('open');
+            $("#btnDialogPrintFixedDraftOk").data('invoicesno', invoicesno).data('debetcredit', debetcredit);
+            $("#btnDialogPrintFixedDraftNo").data('invoicesno', invoicesno).data('debetcredit', debetcredit);
+    }
 
     $("#btnDialogEditOk").click(function () {
         var jobText = $('#jobtype option:selected').text();
@@ -291,80 +302,44 @@
             type: 'POST',
             url: base_url + "Invoice/Delete",
             data: JSON.stringify({
-                InvoiceId: invoiceId
+                Id: invoiceId
             }),
             success: function (result) {
-                if (result.isValid) {
-                    $.messager.alert('Information', result.message, 'info', function () {
-                        ReloadGrid();
-                    });
+                if (JSON.stringify(result.Errors) != '{}') {
+                    for (var key in result.Errors) {
+                        if (key != null && key != undefined && key != 'Generic') {
+                            $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                            $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                        }
+                        else {
+                            $.messager.alert('Warning', result.Errors[key], 'warning');
+                        }
+                    }
                 }
-                else {
-                    $.messager.alert('Warning', result.message, 'warning');
+                else
+                {
+                    ReloadGrid();
                 }
-
-
             }
         });
     }
 
     // PRINT
 
-    var bo = "";
     var fd = "";
-    function PrintInvoice(job, invoicesno, debetcredit, companycode, intcompany) {
-
-        // bcr semarang "BC 18", jkt 27, sby 1, bali 23
-        if ((intcompany == "BC" && companycode == 18) || (intcompany == "BC" && companycode == 1) || (intcompany == "BC" && companycode == 27) ||
-            (intcompany == "BC" && companycode == 23)) {
-
-            $('#dialogPrint').dialog('open');
-
-            $("#btnDialogPrintFixedDraftOk").data('invoicesno', invoicesno).data('debetcredit', debetcredit);
-            $("#btnDialogPrintFixedDraftNo").data('invoicesno', invoicesno).data('debetcredit', debetcredit);
-        }
-        else {
-            $('#dialogPrintFixedDraft').dialog('open');
-
-            $("#btnDialogPrintFixedDraftOk").data('invoicesno', invoicesno).data('debetcredit', debetcredit);
-            $("#btnDialogPrintFixedDraftNo").data('invoicesno', invoicesno).data('debetcredit', debetcredit);
-        }
-    }
-
-    $("#btnDialogPrintOk").click(function () {
-        $('#dialogPrint').dialog('close');
-
-        bo = "b";
-
-        $('#dialogPrintFixedDraft').dialog('open');
-    });
-
-    $("#btnDialogPrintNo").click(function () {
-        $('#dialogPrint').dialog('close');
-
-        bo = "o";
-
-        $('#dialogPrintFixedDraft').dialog('open');
-    });
 
     $("#btnDialogPrintFixedDraftOk").click(function () {
         $('#dialogPrintFixedDraft').dialog('close');
-
         fd = "f";
         var InvoicesNo = $(this).data('invoicesno');
-        var DC = $(this).data('debetcredit');
-
-        window.open(base_url + "Invoice/PrintInvoices?Id=" + InvoicesNo + "&bo=" + bo + "&fd=" + fd);
+        window.open(base_url + "Invoice/Print?Id=" + InvoicesNo + "&fd=" + fd);
     });
 
     $("#btnDialogPrintFixedDraftNo").click(function () {
         $('#dialogPrintFixedDraft').dialog('close');
-
         fd = "d";
         var InvoicesNo = $(this).data('invoicesno');
-        var DC = $(this).data('debetcredit');
-
-        window.open(base_url + "Invoice/PrintInvoices?Id=" + InvoicesNo + "&bo=" + bo + "&fd=" + fd);
+        window.open(base_url + "Invoice/Print?Id=" + InvoicesNo + "&fd=" + fd);
     });
 
     // END PRINT
@@ -430,5 +405,84 @@
     });
     // END RePrint Approval
 
+    //Confirm Invoice
+    $('#btn_confirm').click(function () {
+        var id = jQuery("#list_invoice").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#list_invoice").jqGrid('getRowData', id);
+            $.messager.confirm('Confirm', 'Are you sure you want to confirm record?', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: base_url + "Invoice/Confirm",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            Id: id,
+                        }),
+                        success: function (result) {
+                            if (JSON.stringify(result.Errors) != '{}') {
+                                for (var key in result.Errors) {
+                                    if (key != null && key != undefined && key != 'Generic') {
+                                        $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                        $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                    }
+                                    else {
+                                        $.messager.alert('Warning', result.Errors[key], 'warning');
+                                    }
+                                }
+                            }
+                            else {
+                                ReloadGrid();
+                                $("#delete_confirm_div").dialog('close');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+    // END Confirm Invoice
+
+    //Unconfirm Invoice
+    $('#btn_unconfirm').click(function () {
+        var id = jQuery("#list_invoice").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#list_invoice").jqGrid('getRowData', id);
+            $.messager.confirm('Confirm', 'Are you sure you want to unconfirm record?', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: base_url + "Invoice/Unconfirm",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            Id: id,
+                        }),
+                        success: function (result) {
+                            if (JSON.stringify(result.Errors) != '{}') {
+                                for (var key in result.Errors) {
+                                    if (key != null && key != undefined && key != 'Generic') {
+                                        $('input[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                        $('textarea[name=' + key + ']').addClass('errormessage').after('<span class="errormessage">**' + result.Errors[key] + '</span>');
+                                    }
+                                    else {
+                                        $.messager.alert('Warning', result.Errors[key], 'warning');
+                                    }
+                                }
+                            }
+                            else {
+                                ReloadGrid();
+                                $("#delete_confirm_div").dialog('close');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        }
+    });
+    // END Unconfirm Invoice
 
 }); //END DOCUMENT READY

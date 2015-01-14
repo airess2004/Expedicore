@@ -14,13 +14,13 @@ namespace Validation.Validation
     {
         public Invoice VCurrency(Invoice invoice)
         {
-            if (invoice.CurrencyId != MasterConstant.Currency.IDR || invoice.CurrencyId != MasterConstant.Currency.USD)
+            if (invoice.CurrencyId != MasterConstant.Currency.IDR && invoice.CurrencyId != MasterConstant.Currency.USD)
             {
                 invoice.Errors.Add("CurrencyId", "Invalid Currency");
             }
             return invoice;
         }
-
+        
         public Invoice VIsDeleted(Invoice invoice)
         { 
             if (invoice.IsDeleted == true)
@@ -38,10 +38,19 @@ namespace Validation.Validation
             }
             return invoice;
         }
+         
+        public Invoice VIsNotPrinted(Invoice invoice)
+        {
+            if (invoice.Printing < 1 || invoice.Printing == null)
+            {
+                invoice.Errors.Add("Generic", "Invoice Is Not Printed");
+            }
+            return invoice;
+        }
 
         public Invoice VIsConfirmed(Invoice invoice)
         { 
-            if (invoice.IsConfirmed == false)
+            if (invoice.IsConfirmed == true)
             {
                 invoice.Errors.Add("Generic", "Invoice Is Confirmed");
             }
@@ -51,7 +60,7 @@ namespace Validation.Validation
         public Invoice VvalidInvoiceUpdate(Invoice invoice, IInvoiceService _invoiceService)
         { 
             Invoice existInvoice = _invoiceService.GetObjectById(invoice.Id);
-            if (existInvoice != null)
+            if (existInvoice == null)
             {
                 invoice.Errors.Add("Generic", "Invalid Invoice");
             }
@@ -89,7 +98,7 @@ namespace Validation.Validation
         public Invoice VvalidInvoiceDelete(Invoice invoice, IInvoiceService _invoiceService)
         {
             Invoice existInvoice = _invoiceService.GetObjectById(invoice.Id);
-            if (existInvoice != null)
+            if (existInvoice == null)
             {
                 invoice.Errors.Add("Generic", "Invalid Invoice");
             }
@@ -112,7 +121,7 @@ namespace Validation.Validation
         public Invoice VvalidShipmentOrder(Invoice invoice, IShipmentOrderService _shipmentOrderService)
         { 
             ShipmentOrder shipmentOrder =  _shipmentOrderService.GetObjectById(invoice.ShipmentOrderId);
-            if (shipmentOrder != null)
+            if (shipmentOrder == null)
             {
                 invoice.Errors.Add("ShipmentOrder", "Invalid ShipmentOrder");
             }
@@ -136,13 +145,18 @@ namespace Validation.Validation
             return invoice;
         }
 
-        public Invoice VReceivableHasNoOtherAssociation(Invoice invoice,IReceivableService _receivableService,IReceiptVoucherDetailService _receiptVoucherDetailService)
+        public Invoice VReceivableHasNoOtherAssociation(Invoice invoice,IReceivableService _receivableService,IReceiptVoucherDetailService _receiptVoucherDetailService,IInvoiceDetailService _invoiceDetailService)
         {
-            Receivable receivable = _receivableService.GetObjectBySource(MasterConstant.SourceDocument.Invoice, invoice.Id);
-            ReceiptVoucherDetail receiptVoucherDetail = _receiptVoucherDetailService.GetObjectsByReceivableId(receivable.Id).FirstOrDefault();
-            if (receiptVoucherDetail != null)
+            List<InvoiceDetail> invoiceDetail = _invoiceDetailService.GetQueryable().Where(x => x.InvoiceId == invoice.Id && x.IsDeleted == false).ToList();
+            foreach (var item in invoiceDetail)
             {
-                invoice.Errors.Add("Generic", "Sales Invoice Sudah di Buat ReceiptVoucher : " + receiptVoucherDetail.ReceiptVoucherId);
+                Receivable receivable = _receivableService.GetObjectBySource(MasterConstant.SourceDocument.Invoice, invoice.Id,item.Id);
+                ReceiptVoucherDetail receiptVoucherDetail = _receiptVoucherDetailService.GetObjectsByReceivableId(receivable.Id).FirstOrDefault();
+                if (receiptVoucherDetail != null)
+                {
+                    invoice.Errors.Add("Generic", "Sales Invoice Sudah di Buat ReceiptVoucher : " + receiptVoucherDetail.ReceiptVoucherId);
+                    return invoice;
+                }
             }
             return invoice;
         }
@@ -171,6 +185,10 @@ namespace Validation.Validation
         {
             VvalidInvoiceDelete(invoice, _invoiceService);
             if (!isValid(invoice)) { return invoice; }
+            VIsConfirmed(invoice);
+            if (!isValid(invoice)) { return invoice; }
+            VIsDeleted(invoice);
+            if (!isValid(invoice)) { return invoice; }
             return invoice;
         }
 
@@ -182,17 +200,28 @@ namespace Validation.Validation
             if (!isValid(invoice)) { return invoice; }
             VhasInvoiceDetail(invoice, _invoiceDetailService);
             if (!isValid(invoice)) { return invoice; }
+            VIsNotPrinted(invoice);
+            if (!isValid(invoice)) { return invoice; }
             return invoice;
         }
 
         public Invoice VUnConfirmObject(Invoice invoice,IReceivableService _receivableService,
-            IReceiptVoucherDetailService _receiptVoucherDetailService)
+            IReceiptVoucherDetailService _receiptVoucherDetailService,IInvoiceDetailService _invoiceDetailService)
         {
             VIsUnConfirmed(invoice);
             if (!isValid(invoice)) { return invoice; }
             VIsDeleted(invoice);
             if (!isValid(invoice)) { return invoice; }
-            VReceivableHasNoOtherAssociation(invoice, _receivableService, _receiptVoucherDetailService);
+            VReceivableHasNoOtherAssociation(invoice, _receivableService, _receiptVoucherDetailService,_invoiceDetailService);
+            if (!isValid(invoice)) { return invoice; }
+            return invoice;
+        }
+         
+        public Invoice VPrint(Invoice invoice)
+        {
+            VIsConfirmed(invoice);
+            if (!isValid(invoice)) { return invoice; }
+            VIsDeleted(invoice);
             if (!isValid(invoice)) { return invoice; }
             return invoice;
         }

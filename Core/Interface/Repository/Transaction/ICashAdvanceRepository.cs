@@ -13,7 +13,9 @@ namespace Core.Interface.Repository
        CashAdvance CreateObject(CashAdvance model);
        CashAdvance UpdateObject(CashAdvance model);
        CashAdvance SoftDeleteObject(CashAdvance model);
-       bool DeleteObject(int Id);
+       bool DeleteObject(int Id); 
        int GetCashAdvanceNo(int officeId);
+       CashAdvance ConfirmObject(CashAdvance model);
+       CashAdvance UnconfirmObject(CashAdvance model);
     }
 }

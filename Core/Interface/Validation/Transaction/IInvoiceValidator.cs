@@ -14,6 +14,8 @@ namespace Core.Interface.Validation
         Invoice VUpdateObject(Invoice invoice, IInvoiceService _invoiceService, IShipmentOrderService _shipmentOrderService);
         Invoice VSoftDeleteObject(Invoice invoice, IInvoiceService _invoiceService);
         Invoice VConfirmObject(Invoice invoice, IInvoiceDetailService _invoiceDetailService);
-        Invoice VUnConfirmObject(Invoice invoice, IReceivableService _receivableService, IReceiptVoucherDetailService _receiptVoucherDetailService);
+        Invoice VUnConfirmObject(Invoice invoice, IReceivableService _receivableService,
+            IReceiptVoucherDetailService _receiptVoucherDetailService, IInvoiceDetailService _invoiceDetailService);
+        Invoice VPrint(Invoice invoice);
     }
 }

@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<ShipmentInstruction> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public ShipmentInstruction GetObjectById(int Id)

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Service.Service
+namespace Service
 {
     public class PayableService : IPayableService
     {
@@ -41,9 +41,9 @@ namespace Service.Service
             return _repository.GetObjectsByContactId(contactId);
         }
 
-        public Payable GetObjectBySource(string PayableSource, int PayableSourceId)
+        public Payable GetObjectBySource(string PayableSource, int PayableSourceId, int PayableSourceDetailId)
         {
-            return _repository.GetObjectBySource(PayableSource, PayableSourceId);
+            return _repository.GetObjectBySource(PayableSource, PayableSourceId,PayableSourceDetailId);
         }
 
         public Payable GetObjectById(int Id)
@@ -57,13 +57,15 @@ namespace Service.Service
             return (_validator.ValidCreateObject(payable, this) ? _repository.CreateObject(payable) : payable);
         }
 
-        public Payable CreateObject(int contactId, string payableSource, int payableSourceId,int currencyId, decimal amount,decimal rate, DateTime dueDate)
+        public Payable CreateObject(int officeId,int contactId, string payableSource, int payableSourceId,int payableSourceDetailId,int currencyId, decimal amount,decimal rate, DateTime dueDate)
         {
             Payable payable = new Payable
             {
+                OfficeId = officeId,
                 ContactId = contactId,
                 PayableSource = payableSource,
                 PayableSourceId = payableSourceId,
+                PayableSourceDetailId = payableSourceDetailId,
                 CurrencyId = currencyId,
                 Amount = amount,
                 RemainingAmount = amount,

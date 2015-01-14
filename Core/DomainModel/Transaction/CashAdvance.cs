@@ -17,8 +17,8 @@ namespace Core.DomainModel
          public Nullable<DateTime> ApprovedAt { get; set; }
          public Nullable<int> EmployeeId { get; set; }
          public string CashAdvanceTo { get; set; }
-         public Nullable<decimal> CashAdvanceIDR { get; set; }
-         public Nullable<decimal> CashAdvanceUSD { get; set; } 
+         public decimal CashAdvanceIDR { get; set; }
+         public decimal CashAdvanceUSD { get; set; } 
          public Nullable<bool> Paid { get; set; }
          public Nullable<DateTime> PaidOn { get; set; }
          public Nullable<Decimal> Rate { get; set; }
@@ -34,9 +34,9 @@ namespace Core.DomainModel
          public Nullable<DateTime> DeletedAt { get; set; }
          public bool IsConfirmed { get; set; }
          public Nullable<DateTime> ConfirmationDate { get; set; }
-
-
-         public virtual Office Office { get; set; }
+         
+        public virtual Office Office { get; set; }
+        public virtual Employee Employee { get; set; }
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; } 
         public virtual ICollection<CashAdvanceDetail> CashAdvanceDetails { get; set; }

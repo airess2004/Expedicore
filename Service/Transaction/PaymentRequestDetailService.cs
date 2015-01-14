@@ -38,6 +38,7 @@ namespace Service
             if (isValid(_validator.VCreateObject(prDetail,_paymentRequestService)))
             {
                 PaymentRequestDetail newPRDetail = new PaymentRequestDetail();
+                newPRDetail.Errors = new Dictionary<string, string>();
                 newPRDetail.CostId = prDetail.CostId;
                 newPRDetail.Amount = prDetail.Amount;
                 newPRDetail.AmountCrr = prDetail.AmountCrr;
@@ -51,8 +52,8 @@ namespace Service
                 newPRDetail.PaymentRequestId = prDetail.PaymentRequestId;
                 newPRDetail.Quantity = prDetail.Quantity;
                 newPRDetail.Type = prDetail.Type;
-                newPRDetail.EstimateProfitLossDetailId = prDetail.EstimateProfitLossDetailId;
-                newPRDetail = _repository.CreateObject(newPRDetail);
+                newPRDetail.EPLDetailId = prDetail.EPLDetailId;
+                prDetail = _repository.CreateObject(newPRDetail);
 
                 PaymentRequest paymentRequest = _paymentRequestService.GetObjectById(newPRDetail.PaymentRequestId);
                 _paymentRequestService.CalculateTotalPaymentRequest(paymentRequest, this);

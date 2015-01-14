@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Service.Service
+namespace Service
 {
     public class CashBankMutationService : ICashBankMutationService
     {

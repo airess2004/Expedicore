@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <setParameter name="IIS Web Application Name" value="Default Web Site/Webview_deploy" />
-  <setParameter name="DefaultConnection-Web.config Connection String" value="Data Source=.\SQLEXPRESS;Initial Catalog=ExpedicoPPJK;Persist Security Info=True;User ID=sa;Password=123" />
-  <setParameter name="ExpedicoPPJK-Web.config Connection String" value="Data Source=.\SQLEXPRESS;Initial Catalog=ExpedicoPPJK;Persist Security Info=True;User ID=sa;Password=123" />
+  <setParameter name="DefaultConnection-Web.config Connection String" value="Data Source=.\SQLEXPRESS;Initial Catalog=ExpedicoPPJK;Persist Security Info=True;User ID=sa;Password=Ssd123" />
+  <setParameter name="ExpedicoPPJK-Web.config Connection String" value="Data Source=.\SQLEXPRESS;Initial Catalog=ExpedicoPPJK;Persist Security Info=True;User ID=sa;Password=Ssd123" />
 </parameters>

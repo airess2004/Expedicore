@@ -20,7 +20,9 @@
             <a id="so_btn_confirm" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Confirm</a>
             <a id="so_btn_unconfirm" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Unconfirm</a>
             <a id="so_btn_find" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'">Find</a>
+            <a id="btn_print" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">Print Data</a>
         </div>
+     
         <div id="freighttype" style="float: right; background: #dc381f; color: #fff; height: 25px; padding: 0 10px; font-size: 12px;">
             <label style="font-size: 14px; font-weight: bold">Job:</label>
             <select id="jobtype">
@@ -31,6 +33,16 @@
             </select>
         </div>
     </div>
+       <div id="toolbar4" class="form_toolbar">
+            <a id="btn_document" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Document</a>
+            <a id="btn_SPPB" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">SPPB</a>
+            <a id="btn_DOKORI" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">DOK ORI</a>
+            <a id="btn_STRIPPING" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">STRIPPING</a>
+            <a id="btn_SP2" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">SP2</a>
+            <a id="btn_H3" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">H+3</a>
+            <a id="btn_PBM" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">PBM</a>
+            <a id="btn_MUAT" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">MUAT</a>
+        </div>
     <div style="clear: both"></div>
     <div id="shipment_panel">
         <table id="list_shipment" class="scroll list_master" cellpadding="0" cellspacing="0"></table>
@@ -45,6 +57,7 @@
             <a id="find_shipmentorder_btn_report_excel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-excel'">Report Excel</a>
             <a id="find_shipmentorder_btn_close" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
         </div>
+
         <fieldset class="ui-corner-all" style="margin: 10px 0">
             <table cellspacing="0" cellpadding="0" width="100%">
                 <tr>
@@ -99,4 +112,125 @@
         </div>
     </div>
     <!-- END Find Shipment Order -->
+
+    <!-- Dialog Box -->
+    <div id="form_div" class="easyui-dialog" style="text-align: left; padding:0px 0px 10px" data-options="modal:true"  
+        title=".:  @ViewBag.Title :.">
+
+        <div id="form_toolbar" class="form_toolbar">
+            <a id="form_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+
+        <div style="overflow: auto">
+            <form id="frm">
+               @* <fieldset class="ui-widget-content ui-corner-all input_form_div">*@
+                       
+                    <table id = "tablefrm" width="100%" border="0" cellpadding="5" cellspacing="5" class="input_form_tbl">
+                        <tr nowrap>
+                            <td width="139" nowrap style="width: 100px">
+                                <label>ID</label></td>
+                            <td width="550" colspan="5">
+                                <input id="id" type="text" size="10" disabled="disabled"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                             <label>ShipmentOrderNo</label>
+                            </td>
+                            <td colspan="5" >
+                               <input id="Code" type="text" size="10" disabled="disabled"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="tabledetail_div">
+                        <div id="toolbardetail" class="grid_toolbar">
+                            <a id="btn_add_new_detail" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">Add New</a>
+                            <a id="btn_edit_detail" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'">Edit</a>
+                            <a id="btn_del_detail" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Delete</a>
+                        </div>
+                        <table id="listdetail" class="scroll" cellpadding="0" cellspacing="0"></table>
+                        <div id="pagerdetail" class="scroll" style="text-align: center;"></div>
+                    </div>
+               @* </fieldset>*@
+            </form>
+        </div>
+    </div>
+<!-- End Dialog Box -->
+
+
+     <!-- Dialog Box  Item-->
+    <div id="item_div" class="easyui-dialog" style="text-align: left;padding:0px 0px 10px"
+        data-options="modal:true" title=".: Input Document :.">
+
+        <div id="item_toolbar" class="form_toolbar">
+            <a id="item_btn_submit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Submit</a>
+            <a id="item_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+        <div id="item_info">
+              <table  width="100%" border="0" cellpadding="5" cellspacing="5" class="input_form_tbl">
+                  <tr>
+                      <td>
+                            <label>Document Name</label></td>
+                            <td colspan="3"><label>
+                              <input id="DocumentName" name="DocumentName" type="text" size ="15"/>
+                            </label></td>
+                        </tr>
+                   <tr>
+                        <td>
+                            <label>Description</label></td>
+                            <td colspan="3"><label>
+                              <textarea name="Description" id="Description" cols="60" rows="3"></textarea>
+                            </label></td>
+                        </tr>
+                  <tr>
+                      <td>
+                          Date 
+                      </td>
+                      <td>
+                        <input id="submitdate" class="editable easyui-datebox" title="mm/dd/yyyy" type="text" size="10" maxlength="20"
+                        value="@DateTime.Today.ToString("MM/dd/yyyy")" />
+                      </td>
+                  </tr>
+              </table>
+          
+        </div>
+    </div>
+
+    <!-- Dialog Box Confirm-->
+    <div id="confirm_div" class="easyui-dialog" style="text-align: left;padding:0px 0px 10px;width :300px"
+        data-options="modal:true" title=".: Remarks Date :.">
+
+        <div id="confirm_toolbar" class="form_toolbar">
+            <a id="confirm_btn_submit" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">Submit</a>
+            <a id="confirm_btn_cancel" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'">Close</a>
+        </div>
+        <div id="confirm_info">
+              <table  width="100%" border="0" cellpadding="5" cellspacing="5" class="input_form_tbl">
+                  <tr hidden>
+                      <td></td>
+                      <td>
+                             <input id="idconfirm" type="text" size="10" type="hidden" />
+                      </td>
+                  </tr>
+                  <tr>
+                            <td>
+                             <label>Shipment</label>
+                            </td>
+                            <td>
+                               <input id="NoJobCode" name="NoJobCode" type="text" size="10" disabled="disabled"/>
+                            </td>
+                        </tr>
+                  <tr>
+                      <td>
+                           <input id="Job" name="Job" type="text" size="12" disabled="disabled"/>
+                      </td>
+                      <td>
+                            <input id="TimeCheck" class="editable easyui-datebox" title="mm/dd/yyyy" type="text" size="10" maxlength="20"
+                        value="@DateTime.Today.ToString("MM/dd/yyyy")" />
+                      </td>
+                  </tr>
+              </table>
+        </div>
+    </div>
+<!-- End Dialog Box Confirm-->
+<!-- End Dialog Box Item-->
 </div>

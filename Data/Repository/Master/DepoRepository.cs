@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Depo> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Depo GetObjectById(int Id)

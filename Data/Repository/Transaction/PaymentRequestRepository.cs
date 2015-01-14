@@ -21,12 +21,12 @@ namespace Data.Repository
 
         public IQueryable<PaymentRequest> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public PaymentRequest GetObjectByShipmentOrderId(int Id)
         {
-            PaymentRequest data = Find(x => x.ShipmentOrderID == Id && !x.IsDeleted);
+            PaymentRequest data = Find(x => x.ShipmentOrderId == Id && !x.IsDeleted);
             if (data != null) { data.Errors = new Dictionary<string, string>(); }
             return data;
         }
@@ -54,7 +54,7 @@ namespace Data.Repository
 
         public int GetLastPRStatus(int officeId, int shipmentId)
         {
-            PaymentRequest data = FindAll(b => b.OfficeId == officeId && b.ShipmentOrderID == shipmentId).OrderByDescending(x => x.PRStatus).FirstOrDefault();
+            PaymentRequest data = FindAll(b => b.OfficeId == officeId && b.ShipmentOrderId == shipmentId).OrderByDescending(x => x.PRStatus).FirstOrDefault();
             if (data != null)
             {
                 return data.PRStatus;

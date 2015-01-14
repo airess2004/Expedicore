@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using Core.Interface.Validation;
 
-namespace Service.Service
+namespace Service
 {
     public class CashMutationService : ICashMutationService
     {
@@ -71,12 +71,13 @@ namespace Service.Service
         {
             CashMutation cashMutation = new CashMutation();
             cashMutation.CashBankId = cashBank.Id;
-            cashMutation.Amount = Math.Abs(paymentVoucher.TotalAmount);
+            cashMutation.Amount = Math.Abs(paymentVoucher.TotalAmountUSD + paymentVoucher.TotalAmountIDR);
             cashMutation.MutationDate = paymentVoucher.IsGBCH ? (DateTime) paymentVoucher.ReconciliationDate.GetValueOrDefault() : (DateTime) paymentVoucher.ConfirmationDate.GetValueOrDefault();
             cashMutation.SourceDocumentType = MasterConstant.SourceDocument.PaymentVoucher;
             cashMutation.SourceDocumentId = paymentVoucher.Id;
             cashMutation.SourceDocumentCode = paymentVoucher.Code;
             cashMutation.Status = MasterConstant.MutationStatus.Deduction;
+            cashMutation.OfficeId = paymentVoucher.OfficeId;
             return _repository.CreateObject(cashMutation);
         }
 
@@ -94,12 +95,13 @@ namespace Service.Service
         {
             CashMutation cashMutation = new CashMutation();
             cashMutation.CashBankId = cashBank.Id;
-            cashMutation.Amount = Math.Abs(receiptVoucher.TotalAmount);
+            cashMutation.Amount = Math.Abs(receiptVoucher.TotalAmountIDR + receiptVoucher.TotalAmountUSD);
             cashMutation.MutationDate = receiptVoucher.IsGBCH ? (DateTime) receiptVoucher.ReconciliationDate.GetValueOrDefault() : (DateTime) receiptVoucher.ConfirmationDate.GetValueOrDefault();
             cashMutation.SourceDocumentType = MasterConstant.SourceDocument.ReceiptVoucher;
             cashMutation.SourceDocumentId = receiptVoucher.Id;
             cashMutation.SourceDocumentCode = receiptVoucher.Code;
             cashMutation.Status = MasterConstant.MutationStatus.Addition;
+            cashMutation.OfficeId = receiptVoucher.OfficeId;
             return _repository.CreateObject(cashMutation);
         }
 
@@ -122,6 +124,7 @@ namespace Service.Service
             cashMutation.SourceDocumentType = MasterConstant.SourceDocument.CashBankAdjustment;
             cashMutation.SourceDocumentId = cashBankAdjustment.Id;
             cashMutation.SourceDocumentCode = cashBankAdjustment.Code;
+            cashMutation.OfficeId = cashBankAdjustment.OfficeId;
             cashMutation.Status = (cashBankAdjustment.Amount >= 0) ? MasterConstant.MutationStatus.Addition : MasterConstant.MutationStatus.Deduction;
             return _repository.CreateObject(cashMutation);
         }
@@ -148,6 +151,7 @@ namespace Service.Service
             sourceCashMutation.SourceDocumentId = cashBankMutation.Id;
             sourceCashMutation.SourceDocumentCode = cashBankMutation.Code;
             sourceCashMutation.Status = MasterConstant.MutationStatus.Deduction;
+            sourceCashMutation.OfficeId = cashBankMutation.OfficeId;
             _repository.CreateObject(sourceCashMutation);
 
             CashMutation targetCashMutation = new CashMutation();
@@ -158,6 +162,7 @@ namespace Service.Service
             targetCashMutation.SourceDocumentId = cashBankMutation.Id;
             targetCashMutation.SourceDocumentCode = cashBankMutation.Code;
             targetCashMutation.Status = MasterConstant.MutationStatus.Addition;
+            targetCashMutation.OfficeId = cashBankMutation.OfficeId;
             _repository.CreateObject(targetCashMutation);
 
             results.Add(sourceCashMutation);

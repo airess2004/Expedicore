@@ -66,6 +66,18 @@ namespace Data.Mapping
                .WithMany()
                .HasForeignKey(u => u.DestinationAirPortId)
                .WillCascadeOnDelete(false);
+            HasOptional(u => u.SSLine)
+              .WithMany()
+              .HasForeignKey(u => u.SSLineId)
+              .WillCascadeOnDelete(false);
+            HasOptional(u => u.EMKL)
+              .WithMany()
+              .HasForeignKey(u => u.EMKLId)
+              .WillCascadeOnDelete(false);
+            HasOptional(u => u.Depo)
+              .WithMany()
+              .HasForeignKey(u => u.DepoId)
+              .WillCascadeOnDelete(false);
             HasMany(u => u.ShipmentAdvice)
                .WithRequired(u => u.ShipmentOrder)
               .HasForeignKey(u => u.ShipmentOrderId);
@@ -84,6 +96,9 @@ namespace Data.Mapping
             HasMany(u => u.ShipmentOrderRoutings)
                .WithRequired(u => u.ShipmentOrder)
                .HasForeignKey(u => u.ShipmentOrderId);
+            HasMany(u => u.ShipmentOrderDocument)
+              .WithRequired(u => u.ShipmentOrder)
+              .HasForeignKey(u => u.ShipmentOrderId);
             HasRequired(u => u.CreatedBy)
                .WithMany()
                .HasForeignKey(u => u.CreatedById)

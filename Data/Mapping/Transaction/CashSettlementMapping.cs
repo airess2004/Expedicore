@@ -30,6 +30,10 @@ namespace Data.Mapping
                .WithMany()
                .HasForeignKey(u => u.UpdatedById)
                .WillCascadeOnDelete(false);
+            HasOptional(u => u.Employee)
+               .WithMany()
+               .HasForeignKey(u => u.EmployeeId)
+               .WillCascadeOnDelete(false);
             Ignore(u => u.Errors);
         }
     }

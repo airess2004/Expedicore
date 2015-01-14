@@ -25,6 +25,7 @@ namespace Webview
         private IAccessUserService _userAccessService;
         private IOfficeService _officeService;
         private Office office; 
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -62,7 +63,7 @@ namespace Webview
                 userAccount = _userAccountService.CreateObject(Constant.UserType.Admin, "sysadmin", "Administrator", "Administrator", true,1);
             }
 
-            //_userAccessService.CreateDefaultAccess(userAccount.Id, _userMenuService, _userAccountService);
+            _userAccessService.CreateDefaultAccess(userAccount.Id, _userMenuService, _userAccountService);
 
         }
     }

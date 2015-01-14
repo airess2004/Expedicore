@@ -77,6 +77,7 @@
     <Compile Include="DomainModel\Transaction\CashAdvance.cs" />
     <Compile Include="DomainModel\Transaction\CashAdvanceDetail.cs" />
     <Compile Include="DomainModel\Transaction\CashSettlement.cs" />
+    <Compile Include="DomainModel\Transaction\ShipmentOrderDocument.cs" />
     <Compile Include="DomainModel\Transaction\PaymentRequest.cs" />
     <Compile Include="DomainModel\Transaction\PaymentRequestDetail.cs" />
     <Compile Include="DomainModel\Transaction\TemporaryPaymentJob.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Interface\Repository\Master\IAirportRepository.cs" />
     <Compile Include="Interface\Repository\Master\IAirlineRepository.cs" />
     <Compile Include="Interface\Repository\Master\IRepository.cs" />
+    <Compile Include="Interface\Repository\Transaction\IShipmentOrderDocumentRepository.cs" />
     <Compile Include="Interface\Repository\Transaction\IBillOfLadingRepository.cs" />
     <Compile Include="Interface\Repository\Transaction\ICashAdvanceDetailRepository.cs" />
     <Compile Include="Interface\Repository\Transaction\ICashAdvanceRepository.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Interface\Service\Master\ICityLocationService.cs" />
     <Compile Include="Interface\Service\Master\ICountryLocationService.cs" />
     <Compile Include="Interface\Service\Master\IAirlineService.cs" />
+    <Compile Include="Interface\Service\Transaction\IShipmentOrderDocumentService.cs" />
     <Compile Include="Interface\Service\Transaction\IBillOfLadingService.cs" />
     <Compile Include="Interface\Service\Transaction\ICashAdvanceDetailService.cs" />
     <Compile Include="Interface\Service\Transaction\ICashAdvanceService.cs" />
@@ -247,6 +250,7 @@
     <Compile Include="Interface\Validation\Master\ICityLocationValidator.cs" />
     <Compile Include="Interface\Validation\Master\IContinentValidator.cs" />
     <Compile Include="Interface\Validation\Master\IAirlineValidator.cs" />
+    <Compile Include="Interface\Validation\Transaction\IShipmentOrderDocumentValidator.cs" />
     <Compile Include="Interface\Validation\Transaction\IBillOfLadingValidator.cs" />
     <Compile Include="Interface\Validation\Transaction\ICashAdvanceDetailValidator.cs" />
     <Compile Include="Interface\Validation\Transaction\ICashAdvanceValidator.cs" />

@@ -25,7 +25,7 @@ namespace Core.DomainModel
          public bool  Paid	{ get; set; }
          public Nullable<DateTime>  PaidOn	{ get; set; }
          public Nullable<bool>  PaidPV	{ get; set; }
-         public Nullable<int> EstimateProfitLossDetailId { get; set; }
+         public Nullable<int> EPLDetailId { get; set; }
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }

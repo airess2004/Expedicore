@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Service.Service
+namespace Service
 {
     public class CashBankAdjustmentService : ICashBankAdjustmentService
     {
@@ -48,7 +48,11 @@ namespace Service.Service
         public CashBankAdjustment CreateObject(CashBankAdjustment cashBankAdjustment, ICashBankService _cashBankService)
         {
             cashBankAdjustment.Errors = new Dictionary<String, String>();
-            return (cashBankAdjustment = _validator.ValidCreateObject(cashBankAdjustment, _cashBankService) ? _repository.CreateObject(cashBankAdjustment) : cashBankAdjustment);
+            if (_validator.ValidCreateObject(cashBankAdjustment, _cashBankService))
+            {
+                 _repository.CreateObject(cashBankAdjustment);
+            }
+            return cashBankAdjustment;
         }
 
         public CashBankAdjustment CreateObject(int CashBankId, DateTime adjustmentDate, ICashBankService _cashBankService)

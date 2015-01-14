@@ -16,6 +16,7 @@ namespace Core.Interface.Repository
        EstimateProfitLossDetail SoftDeleteObject(EstimateProfitLossDetail model);
        EstimateProfitLossDetail UnconfirmObject(EstimateProfitLossDetail model);
        EstimateProfitLossDetail ConfirmObject(EstimateProfitLossDetail model);
+
        bool DeleteObject(int Id);
     }
 }

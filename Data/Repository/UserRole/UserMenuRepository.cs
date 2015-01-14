@@ -19,7 +19,7 @@ namespace Data.Repository
 
         public IQueryable<MenuUser> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public IList<MenuUser> GetAll()

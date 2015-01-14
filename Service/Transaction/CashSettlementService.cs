@@ -71,8 +71,8 @@ namespace Service
                 newCashSettlement.SettlementUSD = cashSettlement.SettlementUSD;
                 newCashSettlement.SettlementIDR = cashSettlement.SettlementIDR;
                 newCashSettlement.Rate = cashSettlement.Rate;
-                newCashSettlement.EmployeeId = newCashSettlement.EmployeeId;
-                newCashSettlement.CashAdvanceId = newCashSettlement.CashAdvanceId;
+                newCashSettlement.EmployeeId = cashSettlement.EmployeeId;
+                newCashSettlement.CashAdvanceId = cashSettlement.CashAdvanceId;
                 newCashSettlement.SettlementNo = _repository.GetCashSettlementNo(cashSettlement.OfficeId) + 1;
                 newCashSettlement.Reference = this.GenerateCashBondReference(newCashSettlement);
                 newCashSettlement = _repository.CreateObject(newCashSettlement);

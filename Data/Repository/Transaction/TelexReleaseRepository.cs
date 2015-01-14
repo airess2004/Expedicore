@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<TelexRelease> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public TelexRelease GetObjectById(int Id)

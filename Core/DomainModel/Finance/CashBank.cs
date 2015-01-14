@@ -13,7 +13,7 @@ namespace Core.DomainModel
         public int OfficeId { get; set; }
         public decimal Amount { get; set; }
         public int MasterCode { get; set; }
-         
+        public int CurrencyId { get; set; }         
         public bool IsBank { get; set; }
 
         public bool IsDeleted { get; set; }

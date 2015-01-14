@@ -47,7 +47,8 @@ namespace Core.Constant
         public class Cost
         {
             public const int Sea = 1;
-            public const int Air = 2; 
+            public const int Air = 2;
+            public const int PPJK = 3;
         }
 
         public class MStBillOfLading
@@ -99,8 +100,26 @@ namespace Core.Constant
 
         public class Currency
         { 
-            public const int USD = 1;
-            public const int IDR = 0;
+            public const int USD = 0;
+            public const int IDR = 1;
+        }
+
+        public class Print
+        {
+            public const string Fixed = "f";
+            public const string Draft = "d";
+        }
+         
+        public class Remarks
+        {
+            public const string SPPB = "SPPB";
+            public const string BuatSP2 = "BUAT SP2";
+            public const string DokOri = "DOK ORI";
+            public const string Stripping = "STRIPPING";
+            public const string H3 = "H+3";
+            public const string PBM = "PBM";
+            public const string Muat = "MUAT";
+            public const string Kirim = "KIRIM";
         }
     }
 }

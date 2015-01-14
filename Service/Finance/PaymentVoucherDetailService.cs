@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Service.Service
+namespace Service
 {
     public class PaymentVoucherDetailService : IPaymentVoucherDetailService
     {
@@ -72,7 +72,7 @@ namespace Service.Service
             {
                 PaymentVoucherId = paymentVoucherId,
                 PayableId = payableId,
-                Amount = amount,
+                AmountUSD = amount,
                 Description = description,
             };
             return this.CreateObject(paymentVoucherDetail, _paymentVoucherService, _cashBankService, _payableService);
@@ -106,7 +106,7 @@ namespace Service.Service
         }
 
         public PaymentVoucherDetail ConfirmObject(PaymentVoucherDetail paymentVoucherDetail, DateTime ConfirmationDate,
-                                                  IPaymentVoucherService _paymentVoucherService, IPayableService _payableService)
+                                                  IPaymentVoucherService _paymentVoucherService, IPayableService _payableService,IPaymentRequestService _paymentRequestService)
         {
             paymentVoucherDetail.ConfirmationDate = ConfirmationDate;
             if (_validator.ValidConfirmObject(paymentVoucherDetail, _payableService))
@@ -114,8 +114,8 @@ namespace Service.Service
                 PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
                 Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
 
-                if (paymentVoucher.IsGBCH) { payable.PendingClearanceAmount += paymentVoucherDetail.Amount; }
-                payable.RemainingAmount -= paymentVoucherDetail.Amount;
+                if (paymentVoucher.IsGBCH) { payable.PendingClearanceAmount += paymentVoucherDetail.AmountUSD + paymentVoucherDetail.AmountIDR; }
+                payable.RemainingAmount -= paymentVoucherDetail.AmountUSD + paymentVoucherDetail.AmountIDR;
                 if (payable.RemainingAmount == 0 && payable.PendingClearanceAmount == 0)
                 {
                     payable.IsCompleted = true;
@@ -123,26 +123,44 @@ namespace Service.Service
                 }
                 _payableService.UpdateObject(payable);
 
+                if (_payableService.GetQueryable().Where(x => x.PayableSourceId == payable.PayableSourceId
+                   && x.IsCompleted == true && x.IsDeleted == false).Count() ==
+                   _payableService.GetQueryable().Where(x => x.PayableSourceId == payable.PayableSourceId
+                   && x.IsDeleted == false).Count())
+                {
+                    PaymentRequest paymentRequest = _paymentRequestService.GetObjectById(payable.PayableSourceId);
+                    _paymentRequestService.Paid(paymentRequest);
+                }
+
+
                 paymentVoucherDetail = _repository.ConfirmObject(paymentVoucherDetail);
             }
             return paymentVoucherDetail;
         }
 
-        public PaymentVoucherDetail UnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPayableService _payableService)
+        public PaymentVoucherDetail UnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPayableService _payableService,IPaymentRequestService _paymentRequestService)
         {
             if (_validator.ValidUnconfirmObject(paymentVoucherDetail))
             {
                 PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
                 Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
 
-                if (paymentVoucher.IsGBCH) { payable.PendingClearanceAmount -= paymentVoucherDetail.Amount; }
-                payable.RemainingAmount += paymentVoucherDetail.Amount;
+                if (paymentVoucher.IsGBCH) { payable.PendingClearanceAmount -= paymentVoucherDetail.AmountUSD + paymentVoucherDetail.AmountIDR; }
+                payable.RemainingAmount += paymentVoucherDetail.AmountUSD + paymentVoucherDetail.AmountIDR;
                 if (payable.RemainingAmount != 0 || payable.PendingClearanceAmount != 0)
                 {
                     payable.IsCompleted = false;
                     payable.CompletionDate = null;
                 }
                 _payableService.UpdateObject(payable);
+
+                if (_payableService.GetQueryable().Where(x => x.PayableSourceId == payable.PayableSourceId
+                && x.IsCompleted == false && x.IsDeleted == false).FirstOrDefault() != null)
+                {
+                    PaymentRequest paymentRequest = _paymentRequestService.GetObjectById(payable.PayableSourceId);
+                    _paymentRequestService.Unpaid(paymentRequest);
+                }
+
 
                 paymentVoucherDetail = _repository.UnconfirmObject(paymentVoucherDetail);
             }

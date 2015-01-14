@@ -47,7 +47,7 @@ namespace WebView.Controllers
             if (filter == "") filter = "true";
 
             // Get Data
-            var q = _employeeService.GetQueryable().Include("EmployeeGroup");
+            var q = _employeeService.GetQueryable();
 
             var query = (from model in q
                          select new

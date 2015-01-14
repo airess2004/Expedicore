@@ -52,6 +52,7 @@ namespace Service
             if (isValid(_validator.VCreateObject(invDetail, _invoiceService)))
             {
                 InvoiceDetail newInvDetail = new InvoiceDetail();
+                newInvDetail.Errors = new Dictionary<string, string>();
                 newInvDetail.CostId = invDetail.CostId;
                 newInvDetail.Amount = invDetail.Amount;
                 newInvDetail.AmountCrr = invDetail.AmountCrr;
@@ -70,9 +71,9 @@ namespace Service
                 newInvDetail.AmountVat = (invDetail.Amount * invDetail.PercentVat) / 100;
                 newInvDetail.PercentVat = invDetail.PercentVat;
                 newInvDetail.EPLDetailId = invDetail.EPLDetailId;
-                newInvDetail = _repository.CreateObject(newInvDetail);
+                invDetail = _repository.CreateObject(newInvDetail);
                 Invoice invoice = _invoiceService.GetObjectById(newInvDetail.InvoiceId);
-                invoice = _invoiceService.CalculateTotalInvoice(invoice, this);
+                invoice = _invoiceService.CalculateTotalUSDIDR(invoice.Id,this);
             }
             return invDetail;
         }
@@ -85,7 +86,7 @@ namespace Service
                 invoiceDetail.AmountVat = (invoiceDetail.Amount * invoiceDetail.PercentVat) / 100;
                 invoiceDetail = _repository.UpdateObject(invoiceDetail);
                 Invoice invoice = _invoiceService.GetObjectById(invoiceDetail.InvoiceId);
-                invoice = _invoiceService.CalculateTotalInvoice(invoice, this);
+                invoice = _invoiceService.CalculateTotalUSDIDR(invoice.Id, this);
             }
             return invoiceDetail;
         }
@@ -96,7 +97,7 @@ namespace Service
             {
                 invoiceDetail = _repository.SoftDeleteObject(invoiceDetail);
                 Invoice invoice = _invoiceService.GetObjectById(invoiceDetail.InvoiceId);
-                invoice = _invoiceService.CalculateTotalInvoice(invoice, this);
+                invoice = _invoiceService.CalculateTotalUSDIDR(invoice.Id, this);
             }
             return invoiceDetail;
         }

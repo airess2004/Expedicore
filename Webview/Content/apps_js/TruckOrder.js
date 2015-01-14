@@ -41,6 +41,7 @@
     $("#lookup_div_depo").dialog('close');
     $("#lookup_div_truck").dialog('close');
     $("#lookup_div_contact").dialog('close');
+    $("#lookup_div_shipmentorder").dialog('close');
     $("#confirm_div").dialog('close');
 
 
@@ -324,8 +325,9 @@
             url: submitURL,
             data: JSON.stringify({
                 Id: id, Name: $("#Name").val(),
+                NoJob: $('#ShipmentOrder').val(),
+                ShipmentOrderId :  $('#ShipmentOrderId').val(),
                 GroupEmployeeId: $("#EmployeeGroupId").val(),
-                NoJob:  $('#NoJob').val(),
                 NoContainer:$('#NoContainer').val(),
                 Party: $('#Party').val(),
                 InvoiceNo:$('#InvoiceNo').val(),
@@ -689,7 +691,7 @@
 
     // -------------------------------------------------------Look Up contact-------------------------------------------------------
     $('#btnContact').click(function () {
-        var lookUpURL = base_url + 'MstContact/GetList';
+        var lookUpURL = base_url + 'MstContact/GetLookUp';
         var lookupGrid = $('#lookup_table_contact');
         lookupGrid.setGridParam({
             url: lookUpURL
@@ -701,15 +703,17 @@
         url: base_url,
         datatype: "json",
         mtype: 'GET',
-        colNames: ['Id', 'Name'],
-        colModel: [
-                  { name: 'id', index: 'id', width: 80, align: 'right' },
-                  { name: 'name', index: 'name', width: 200 }],
+        colNames: ['Code', 'Contact Status', 'Contact Name', 'Contact As', 'Address'],
+        colModel: [{ name: 'code', index: 'MasterCode', width: 80, align: 'right' },
+                  { name: 'status', index: 'ContactStatus', width: 200 },
+                  { name: 'name', index: 'ContactName', width: 200 },
+                  { name: 'as', index: 'ContactAs', width: 200 },
+                  { name: 'address', index: 'ContactAddress', width: 200 }],
         page: '1',
         pager: $('#lookup_pager_contact'),
         rowNum: 20,
         rowList: [20, 30, 60],
-        sortname: 'id',
+        sortname: 'MasterCode',
         viewrecords: true,
         scrollrows: true,
         shrinkToFit: false,
@@ -731,7 +735,7 @@
         if (id) {
             var ret = jQuery("#lookup_table_contact").jqGrid('getRowData', id);
 
-            $('#ContactId').val(ret.id).data("kode", id);
+            $('#ContactId').val(id).data("kode", id);
             $('#Contact').val(ret.name);
 
             $('#lookup_div_contact').dialog('close');
@@ -742,6 +746,78 @@
 
 
     // ---------------------------------------------End Lookup contact----------------------------------------------------------------
+
+    // -------------------------------------------------------Look Up shipmentorder-------------------------------------------------------
+    $('#btnShipmentOrder').click(function () {
+        var lookUpURL = base_url + 'ShipmentOrder/GetLookUp';
+        var lookupGrid = $('#lookup_table_shipmentorder');
+        lookupGrid.setGridParam({
+            url: lookUpURL
+        }).trigger("reloadGrid");
+        $('#lookup_div_shipmentorder').dialog('open');
+    });
+
+    jQuery("#lookup_table_shipmentorder").jqGrid({
+        url: base_url,
+        datatype: "json",
+        mtype: 'GET',
+        colNames: ['Shipment Order', 'ETD', 'Consignee', 'Agent', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+        colModel: [{ name: 'shipmentorderno', index: 'ShipmentOrderId', width: 130, align: "center" },
+                  { name: 'etd', index: 'ETD', width: 80, align: "right", formatter: 'date', formatoptions: { srcformat: "Y-m-d", newformat: "M d, Y" } },
+                  { name: 'shippername', index: 'ConsigneeName' },
+                  { name: 'agentname', index: 'AgentName' },
+                  { name: 'jobnumber', index: 'jobnumber', hidden: true },
+                  { name: 'subjobno', index: 'subjobno', hidden: true },
+                  { name: 'shipperid', index: 'shipperid', hidden: true },
+                  { name: 'shippercode', index: 'shippercode', hidden: true },
+                  { name: 'agentid', index: 'agentid', hidden: true },
+                  { name: 'agentcode', index: 'agentcode', hidden: true },
+                  { name: 'shipperaddress', index: 'shipperaddress', hidden: true },
+                  { name: 'agentaddress', index: 'agentaddress', hidden: true },
+                  { name: 'jobcode', index: 'jobcode', hidden: true },
+                  { name: 'rate', index: 'rate', hidden: true },
+                  { name: 'daterate', index: 'daterate', hidden: true },
+                  { name: 'typeepl', index: 'typeepl', hidden: true },
+                  { name: 'containersizelist', index: 'containersizelist', hidden: true }
+        ],
+        page: '1',
+        pager: $('#lookup_pager_shipmentorder'),
+        rowNum: 20,
+        rowList: [20, 30, 60],
+        sortname: 'ShipmentOrderId',
+        viewrecords: true,
+        scrollrows: true,
+        shrinkToFit: false,
+        sortorder: "ASC",
+        width: $("#lookup_div_shipmentorder").width() - 10,
+        height: $("#lookup_div_shipmentorder").height() - 110,
+    });
+    $("#lookup_table_shipmentorder").jqGrid('navGrid', '#lookup_toolbar_shipmentorder', { del: false, add: false, edit: false, search: false })
+           .jqGrid('filterToolbar', { stringResult: true, searchOnEnter: true });
+
+    // Cancel or CLose
+    $('#lookup_btn_cancel_shipmentorder').click(function () {
+        $('#lookup_div_shipmentorder').dialog('close');
+    });
+
+    // ADD or Select Data
+    $('#lookup_btn_add_shipmentorder').click(function () {
+        var id = jQuery("#lookup_table_shipmentorder").jqGrid('getGridParam', 'selrow');
+        if (id) {
+            var ret = jQuery("#lookup_table_shipmentorder").jqGrid('getRowData', id);
+
+            $('#ShipmentOrderId').val(id).data("kode", id);
+            $('#ShipmentOrder').val(ret.shipmentorderno);
+
+            $('#lookup_div_shipmentorder').dialog('close');
+        } else {
+            $.messager.alert('Information', 'Please Select Data...!!', 'info');
+        };
+    });
+
+
+    // ---------------------------------------------End Lookup shipmentorder----------------------------------------------------------------
+
     // -------------------------------------------------------Look Up depo-------------------------------------------------------
     $('#btnDepo').click(function () {
         var lookUpURL = base_url + 'MstDepo/GetList';

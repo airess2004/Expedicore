@@ -56,6 +56,23 @@ namespace Service
             return reference;
         }
 
+        public CashAdvance CalculateTotalAmount(CashAdvance cashAdvance, ICashAdvanceDetailService _cashAdvanceDetailService)
+        {
+            IList<CashAdvanceDetail> cashAdvanceDetails = _cashAdvanceDetailService.GetQueryable().Where(x=>x.CashAdvanceId == cashAdvance.Id && x.IsDeleted ==false).ToList();
+            decimal totalIDR = 0;
+            decimal totalUSD = 0;
+
+            foreach (CashAdvanceDetail detail in cashAdvanceDetails)
+            {
+                totalIDR += detail.AmountIDR;
+                totalUSD += detail.AmountUSD;
+            }
+            cashAdvance.CashAdvanceIDR = totalIDR;
+            cashAdvance.CashAdvanceUSD = totalUSD;
+            cashAdvance = _repository.UpdateObject(cashAdvance);
+            return cashAdvance;
+        }
+
         public CashAdvance CreateObject(CashAdvance cashAdvance,IShipmentOrderService _shipmentOrderService,IContactService _contactService)
         {
             cashAdvance.Errors = new Dictionary<String, String>();
@@ -71,7 +88,8 @@ namespace Service
                 newCashAdvance.CashAdvanceTo = cashAdvance.CashAdvanceTo;
                 newCashAdvance.CashAdvanceNo = _repository.GetCashAdvanceNo(cashAdvance.OfficeId) + 1;
                 newCashAdvance.Reference = this.GenerateCashBondReference(newCashAdvance);
-                newCashAdvance = _repository.CreateObject(newCashAdvance);
+                newCashAdvance.Errors = new Dictionary<String, String>();
+                cashAdvance = _repository.CreateObject(newCashAdvance);
             }
             return cashAdvance;
         }
@@ -94,7 +112,7 @@ namespace Service
                                                                        Where(x => x.CashAdvanceId == cashAdvance.Id).ToList();
             foreach(var item in estimateProfitLossDetail)
             {
-                _cashAdvanceDetailService.SoftDeleteObject(item);
+                _cashAdvanceDetailService.SoftDeleteObject(item,this);
             }
             return cashAdvance;
         }
@@ -105,5 +123,39 @@ namespace Service
             bool isValid = !obj.Errors.Any();
             return isValid;
         }
+
+        public CashAdvance ConfirmObject(CashAdvance cashAdvance, DateTime ConfirmationDate,ICashAdvanceDetailService _cashAdvanceDetailService)
+        {
+            cashAdvance.ConfirmationDate = ConfirmationDate;
+             if (isValid(_validator.VConfirmObject(cashAdvance,this)))
+            {
+                IList<CashAdvanceDetail> details = _cashAdvanceDetailService.GetQueryable().Where(x=>x.CashAdvanceId == cashAdvance.Id && x.IsDeleted ==false).ToList();
+                foreach (var detail in details)
+                {
+                    detail.Errors = new Dictionary<string, string>();
+                    _cashAdvanceDetailService.ConfirmObject(detail, ConfirmationDate);
+                }
+
+                _repository.ConfirmObject(cashAdvance);
+            }
+            return cashAdvance;
+        }
+
+        public CashAdvance UnconfirmObject(CashAdvance cashAdvance, ICashAdvanceDetailService _cashAdvanceDetailService)
+        {
+            if (isValid(_validator.VUnconfirmObject(cashAdvance, this)))
+            {
+                IList<CashAdvanceDetail> details = _cashAdvanceDetailService.GetQueryable().Where(x => x.CashAdvanceId == cashAdvance.Id && x.IsDeleted == false).ToList();
+                foreach (var detail in details)
+                {
+                    detail.Errors = new Dictionary<string, string>();
+                    _cashAdvanceDetailService.UnconfirmObject(detail);
+                }
+
+                _repository.UnconfirmObject(cashAdvance);
+            }
+            return cashAdvance;
+        }
+
     }
 }

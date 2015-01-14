@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Continent> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Continent GetObjectById(int Id)

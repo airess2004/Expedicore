@@ -36,6 +36,25 @@ namespace Service
         {
             return _repository.GetObjectByEstimateProfitLossId(Id);
         }
+         
+        public EstimateProfitLossDetail ValidateEPL(int Id,IPaymentRequestDetailService _paymentRequestDetailService,IInvoiceDetailService _invoiceDetailService)
+        {
+            EstimateProfitLossDetail epld = new EstimateProfitLossDetail();
+            epld.Errors = new Dictionary<string, string>();
+            PaymentRequestDetail prd = _paymentRequestDetailService.GetQueryable().Where(x => x.EPLDetailId == Id && x.IsDeleted == false).FirstOrDefault();
+            if (prd != null)
+            {
+                epld.Errors.Add("Generic", "Account has been used by Some Payment Request");
+                return epld;
+            }
+            InvoiceDetail invd = _invoiceDetailService.GetQueryable().Where(x => x.EPLDetailId == Id && x.IsDeleted == false).FirstOrDefault();
+            if (invd != null)
+            {
+                epld.Errors.Add("Generic", "Account has been used by Some Invoice");
+                return epld;
+            }
+            return epld;
+        }
 
         public EstimateProfitLossDetail CreateObject(EstimateProfitLossDetail estimateprofitlossdetail,IShipmentOrderService _shipmentOrderService
             ,ISeaContainerService _seaContainerService,IEstimateProfitLossService _estimateProfitLossService,IContactService _contactService,ICostService _costService)
@@ -46,17 +65,19 @@ namespace Service
                 EstimateProfitLossDetail newEPLDetail  = new EstimateProfitLossDetail();
                 newEPLDetail.CostId = estimateprofitlossdetail.CostId;
                 newEPLDetail.AmountCrr = estimateprofitlossdetail.AmountCrr.Value;
-                newEPLDetail.Amount = estimateprofitlossdetail.Amount;
+                newEPLDetail.AmountUSD = estimateprofitlossdetail.AmountUSD;
+                newEPLDetail.AmountIDR = estimateprofitlossdetail.AmountIDR;
+                newEPLDetail.IsSplitIncCost = estimateprofitlossdetail.IsSplitIncCost;
                 newEPLDetail.CodingQuantity = estimateprofitlossdetail.CodingQuantity;
                 newEPLDetail.OfficeId = estimateprofitlossdetail.OfficeId;
                 newEPLDetail.CreatedById = estimateprofitlossdetail.CreatedById;
                 newEPLDetail.CreatedAt = DateTime.Now;
-                newEPLDetail.CustomerId = estimateprofitlossdetail.CustomerId;
+                newEPLDetail.ContactId = estimateprofitlossdetail.ContactId;
                 newEPLDetail.CustomerTypeId = estimateprofitlossdetail.CustomerTypeId;
                 newEPLDetail.DataFrom = false;
                 newEPLDetail.Description = String.IsNullOrEmpty(estimateprofitlossdetail.Description) ? "" : estimateprofitlossdetail.Description.ToUpper();
                 newEPLDetail.EstimateProfitLossId = estimateprofitlossdetail.EstimateProfitLossId;
-                newEPLDetail.IsIncome = true;
+                newEPLDetail.IsIncome = estimateprofitlossdetail.IsIncome;
                 newEPLDetail.PerQty = estimateprofitlossdetail.PerQty;
                 newEPLDetail.Quantity = estimateprofitlossdetail.Quantity;
                 newEPLDetail.Sign = estimateprofitlossdetail.Sign;
@@ -79,7 +100,7 @@ namespace Service
                     }
                 }
 
-                estimateprofitlossdetail = _repository.CreateObject(newEPLDetail);
+                newEPLDetail = _repository.CreateObject(newEPLDetail);
 
                 if (epl != null)
                 {
@@ -99,9 +120,7 @@ namespace Service
                         }
                     }
                 }
-                
-
-               
+                _estimateProfitLossService.CalculateTotalUSDIDR(estimateprofitlossdetail.EstimateProfitLossId, this);
             }
             return estimateprofitlossdetail;
         }
@@ -174,12 +193,12 @@ namespace Service
                                         EstimateProfitLossDetail newEPLDetail = new EstimateProfitLossDetail();
                                         newEPLDetail.CostId = itemED.CostId;
                                         newEPLDetail.AmountCrr = itemED.AmountCrr;
-                                        newEPLDetail.Amount = amount;
+                                        newEPLDetail.AmountUSD = amount;
                                         newEPLDetail.CodingQuantity = itemED.CodingQuantity;
                                         newEPLDetail.OfficeId = estimateProfitLossDetail.OfficeId;
                                         newEPLDetail.CreatedById = estimateProfitLossDetail.CreatedById;
                                         newEPLDetail.CreatedAt = DateTime.Now;
-                                        newEPLDetail.CustomerId = itemED.CustomerId;
+                                        newEPLDetail.ContactId = itemED.ContactId;
                                         newEPLDetail.CustomerTypeId = itemED.CustomerTypeId;
                                         newEPLDetail.DataFrom = true;
                                         newEPLDetail.Description = itemED.Description;
@@ -266,10 +285,10 @@ namespace Service
                 var epl = _estimateProfitLossService.GetObjectById(eplId);
                 if (epl != null)
                 {
-                    epl.EstUSDShipCons = shipperUSD;
-                    epl.EstIDRShipCons = shipperIDR;
-                    epl.EstUSDAgent = agentUSD;
-                    epl.EstIDRAgent = agentIDR;
+                    epl.TotalIncomeUSD = shipperUSD;
+                    epl.TotalIncomeIDR = shipperIDR;
+                    epl.TotalCostUSD = agentUSD;
+                    epl.TotalCostIDR = agentIDR;
                     _estimateProfitLossService.UpdateObject(epl,_shipmentOrderService);
                 }
         }
@@ -299,10 +318,10 @@ namespace Service
                 var epl = _estimateProfitLossService.GetObjectById(eplId);
                 if (epl != null)
                 {
-                    epl.EstUSDShipCons = consigneeUSD;
-                    epl.EstIDRShipCons = consigneeIDR;
-                    epl.EstUSDAgent = agentUSD;
-                    epl.EstIDRAgent = agentIDR;
+                    epl.TotalIncomeUSD = consigneeUSD;
+                    epl.TotalIncomeIDR = consigneeIDR;
+                    epl.TotalCostUSD = agentUSD;
+                    epl.TotalCostIDR = agentIDR;
                     _estimateProfitLossService.UpdateObject(epl,_shipmentOrderService);
 
                 }
@@ -334,10 +353,10 @@ namespace Service
 
                 if (epl != null)
                 {
-                    epl.EstUSDShipCons = shipperUSD;
-                    epl.EstIDRShipCons = shipperIDR;
-                    epl.EstUSDAgent = agentUSD;
-                    epl.EstIDRAgent = agentIDR;
+                    epl.TotalIncomeUSD = shipperUSD;
+                    epl.TotalIncomeIDR = shipperIDR;
+                    epl.TotalCostUSD = agentUSD;
+                    epl.TotalCostIDR = agentIDR;
                     _estimateProfitLossService.UpdateObject(epl,_shipmentOrderService);
 
                 }
@@ -369,10 +388,10 @@ namespace Service
 
                 if (epl != null)
                 {
-                    epl.EstUSDShipCons = consigneeUSD;
-                    epl.EstIDRShipCons = consigneeIDR;
-                    epl.EstUSDAgent = agentUSD;
-                    epl.EstIDRAgent = agentIDR;
+                    epl.TotalIncomeUSD = consigneeUSD;
+                    epl.TotalIncomeIDR = consigneeIDR;
+                    epl.TotalCostUSD = agentUSD;
+                    epl.TotalCostIDR = agentIDR;
                     _estimateProfitLossService.UpdateObject(epl,_shipmentOrderService);
 
                 }
@@ -408,10 +427,10 @@ namespace Service
 
                 if (epl != null)
                 {
-                    epl.EstUSDShipCons = shipconsUSD;
-                    epl.EstIDRShipCons = shipconsIDR;
-                    epl.EstUSDAgent = agentUSD;
-                    epl.EstIDRAgent = agentIDR;
+                    epl.TotalIncomeUSD = shipconsUSD;
+                    epl.TotalIncomeIDR = shipconsIDR;
+                    epl.TotalCostUSD = agentUSD;
+                    epl.TotalCostIDR = agentIDR;
                     _estimateProfitLossService.UpdateObject(epl,_shipmentOrderService);
 
                 }
@@ -421,7 +440,7 @@ namespace Service
         {
             var incShipperUSD = (from e in GetQueryable().Where(x=> x.Id == eplId).ToList()
                                  where e.IsIncome == true && e.CustomerTypeId == MasterConstant.ContactType.Shipper && e.AmountCrr == MasterConstant.Currency.USD
-                                 select e.Amount).Sum();
+                                 select e.AmountUSD).Sum();
             if (!incShipperUSD.HasValue)
                 return 0;
             return incShipperUSD.Value;
@@ -431,7 +450,7 @@ namespace Service
         {
             var incShipperIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                  where e.IsIncome == true && e.CustomerTypeId == MasterConstant.ContactType.Shipper && e.AmountCrr == MasterConstant.Currency.IDR
-                                 select e.Amount).Sum();
+                                 select e.AmountUSD).Sum();
             if (!incShipperIDR.HasValue)
                 return 0;
             return incShipperIDR.Value;
@@ -447,7 +466,7 @@ namespace Service
             foreach (var item in incAgentUSDList)
             {
                 int CostId = item.CostId;
-                decimal amountUSD = item.Amount.HasValue ? item.Amount.Value : 0;
+                decimal amountUSD = item.AmountUSD.HasValue ? item.AmountUSD.Value : 0;
                 // NOT Selling Rate && Buying Rate
                 if (CostId != 3 && CostId != 4)
                 {
@@ -475,7 +494,7 @@ namespace Service
             foreach (var item in incAgentIDRList)
             {
                 int CostId = item.CostId;
-                decimal amountIDR = item.Amount.HasValue ? item.Amount.Value : 0;
+                decimal amountIDR = item.AmountUSD.HasValue ? item.AmountUSD.Value : 0;
                 // NOT Selling Rate && Buying Rate
                 if (CostId != 3 && CostId != 4)
                 {
@@ -497,7 +516,7 @@ namespace Service
         {
             var incConsigneeUSD = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                    where e.IsIncome == true && e.CustomerTypeId == MasterConstant.ContactType.Consignee && e.AmountCrr == MasterConstant.Currency.USD
-                                   select e.Amount).Sum();
+                                   select e.AmountUSD).Sum();
             if (!incConsigneeUSD.HasValue)
                 return 0;
             return incConsigneeUSD.Value;
@@ -507,7 +526,7 @@ namespace Service
         {
             var incConsigneeIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                    where e.IsIncome == true && e.CustomerTypeId == MasterConstant.ContactType.Consignee && e.AmountCrr == MasterConstant.Currency.IDR
-                                   select e.Amount).Sum();
+                                   select e.AmountUSD).Sum();
             if (!incConsigneeIDR.HasValue)
                 return 0;
             return incConsigneeIDR.Value;
@@ -523,7 +542,7 @@ namespace Service
             foreach (var item in costAgentUSDList)
             {
                 int CostId = item.CostId;
-                decimal amountUSD = item.Amount.HasValue ? item.Amount.Value : 0;
+                decimal amountUSD = item.AmountUSD.HasValue ? item.AmountUSD.Value : 0;
                 // NOT Selling Rate && Buying Rate
                 if (CostId != 3 && CostId != 4)
                 {
@@ -551,7 +570,7 @@ namespace Service
             foreach (var item in costAgentIDRList)
             {
                 int CostId = item.CostId;
-                decimal amountIDR = item.Amount.HasValue ? item.Amount.Value : 0;
+                decimal amountIDR = item.AmountUSD.HasValue ? item.AmountUSD.Value : 0;
                 // NOT Selling Rate && Buying Rate
                 if (CostId != 3 && CostId != 4)
                 {
@@ -573,7 +592,7 @@ namespace Service
         {
             var costSSLineUSD = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                  where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.SSLine && e.AmountCrr == MasterConstant.Currency.USD
-                                 select e.Amount).Sum();
+                                 select e.AmountUSD).Sum();
             if (!costSSLineUSD.HasValue)
                 return 0;
             return costSSLineUSD.Value;
@@ -583,7 +602,7 @@ namespace Service
         {
             var costSSLineIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                  where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.SSLine && e.AmountCrr == MasterConstant.Currency.IDR
-                                 select e.Amount).Sum();
+                                 select e.AmountUSD).Sum();
             if (!costSSLineIDR.HasValue)
                 return 0;
             return costSSLineIDR.Value;
@@ -593,7 +612,7 @@ namespace Service
         {
             var costIATAUSD = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.IATA && e.AmountCrr == MasterConstant.Currency.USD
-                               select e.Amount).Sum();
+                               select e.AmountUSD).Sum();
             if (!costIATAUSD.HasValue)
                 return 0;
             return costIATAUSD.Value;
@@ -603,7 +622,7 @@ namespace Service
         {
             var costIATAIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.IATA && e.AmountCrr == MasterConstant.Currency.IDR
-                               select e.Amount).Sum();
+                               select e.AmountUSD).Sum();
             if (!costIATAIDR.HasValue)
                 return 0;
             return costIATAIDR.Value;
@@ -613,7 +632,7 @@ namespace Service
         {
             var costEMKLUSD = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.EMKL && e.AmountCrr == MasterConstant.Currency.USD
-                               select e.Amount).Sum();
+                               select e.AmountUSD).Sum();
             if (!costEMKLUSD.HasValue)
                 return 0;
             return costEMKLUSD.Value;
@@ -623,7 +642,7 @@ namespace Service
         {
             var costEMKLIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.EMKL && e.AmountCrr == MasterConstant.Currency.IDR
-                               select e.Amount).Sum();
+                               select e.AmountUSD).Sum();
             if (!costEMKLIDR.HasValue)
                 return 0;
             return costEMKLIDR.Value;
@@ -633,7 +652,7 @@ namespace Service
         {
             var costDepoUSD = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.Depo && e.AmountCrr == MasterConstant.Currency.USD
-                               select e.Amount).Sum();
+                               select e.AmountUSD).Sum();
             if (!costDepoUSD.HasValue)
                 return 0;
             return costDepoUSD.Value;
@@ -643,7 +662,7 @@ namespace Service
         {
             var costDepoIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.Depo && e.AmountCrr == MasterConstant.Currency.IDR
-                               select e.Amount).Sum();
+                               select e.AmountUSD).Sum();
             if (!costDepoIDR.HasValue)
                 return 0;
             return costDepoIDR.Value;
@@ -653,7 +672,7 @@ namespace Service
         {
             var costRebateShipperUSD = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                         where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.RebateShipper && e.AmountCrr == MasterConstant.Currency.USD
-                                        select e.Amount).Sum();
+                                        select e.AmountUSD).Sum();
             if (!costRebateShipperUSD.HasValue)
                 return 0;
             return costRebateShipperUSD.Value;
@@ -663,7 +682,7 @@ namespace Service
         {
             var costRebateShipperIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                         where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.RebateShipper && e.AmountCrr == MasterConstant.Currency.IDR
-                                        select e.Amount).Sum();
+                                        select e.AmountUSD).Sum();
             if (!costRebateShipperIDR.HasValue)
                 return 0;
             return costRebateShipperIDR.Value;
@@ -673,7 +692,7 @@ namespace Service
         {
             var costRebateConsigneeUSD = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                           where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.RebateConsignee && e.AmountCrr == MasterConstant.Currency.USD
-                                          select e.Amount).Sum();
+                                          select e.AmountUSD).Sum();
             if (!costRebateConsigneeUSD.HasValue)
                 return 0;
             return costRebateConsigneeUSD.Value;
@@ -683,7 +702,7 @@ namespace Service
         {
             var costRebateConsigneeIDR = (from e in GetQueryable().Where(x => x.Id == eplId).ToList()
                                           where e.IsIncome == false && e.CustomerTypeId == MasterConstant.ContactType.RebateConsignee && e.AmountCrr == MasterConstant.Currency.IDR
-                                          select e.Amount).Sum();
+                                          select e.AmountUSD).Sum();
             if (!costRebateConsigneeIDR.HasValue)
                 return 0;
             return costRebateConsigneeIDR.Value;

@@ -14,9 +14,9 @@ namespace Core.DomainModel
         public int OfficeId { get; set; }
         public int MasterCode { get; set; }
         public string Description { get; set; }
-        public Nullable<decimal> AmountUSD { get; set; }
-        public Nullable<decimal> AmountIDR { get; set; }
-        public Nullable<int> PaymentRequestDetailId { get; set; }
+        public decimal AmountUSD { get; set; } 
+        public decimal AmountIDR { get; set; }
+        public Nullable<int> PayableId { get; set; }
         public Nullable<int> ShipmentOrderId { get; set; }
         public string ShipmentNo { get; set; }
 
@@ -32,7 +32,7 @@ namespace Core.DomainModel
         public virtual AccountUser CreatedBy { get; set; }
         public virtual AccountUser UpdatedBy { get; set; }
         public virtual ShipmentOrder ShipmentOrder { get; set; } 
-        public virtual PaymentRequestDetail PaymentRequestDetail { get; set; }
+        public virtual Payable Payable { get; set; }
         public virtual CashAdvance CashAdvance { get; set; }
         public virtual Office Office { get; set; }
         public Dictionary<String, String> Errors { get; set; }

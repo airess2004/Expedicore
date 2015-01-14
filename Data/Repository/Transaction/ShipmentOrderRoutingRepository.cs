@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<ShipmentOrderRouting> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public ShipmentOrderRouting GetObjectById(int Id)
@@ -45,7 +45,18 @@ namespace Data.Repository
             return data;
         }
 
-
+        public int GetLastMasterCode(int officeId)
+        {
+            ShipmentOrderRouting data = FindAll(x => x.OfficeId == officeId).OrderByDescending(x => x.MasterCode).FirstOrDefault();
+            if (data != null)
+            {
+                return data.MasterCode;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         public ShipmentOrderRouting CreateObject(ShipmentOrderRouting model)
         {

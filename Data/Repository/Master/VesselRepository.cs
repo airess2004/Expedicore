@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IQueryable<Vessel> GetQueryable()
         {
-            return FindAll(x => !x.IsDeleted);
+            return FindAll();
         }
 
         public Vessel GetObjectById(int Id)
